@@ -1,6 +1,8 @@
 
 import { useState } from "react";
 import "./EvidenceGame.css";
+import { EvidenceCard } from "./components/EvidenceCard";
+
 import {
   DragDropProvider,
   useDraggable,
@@ -333,55 +335,16 @@ export default function EvidenceGame({ onBack }: EvidenceGameProps) {
               uns die einzelnen Hinweise an.
             </p>
 
-            <div className="explanation-list">
-              {clues.map((clue) => {
-                const isCorrect =
-                  assignments[clue.id] === clue.correctZone;
-
-                return (
-                  <article
-                    key={clue.id}
-                    className="explanation-card"
-                  >
-                    <div className="explanation-heading">
-                      {isCorrect ? (
-                        <CheckCircle color="green" />
-                      ) : (
-                        <AlertCircle color="#d97706" />
-                      )}
-
-                      <div>
-                        <strong>{clue.title}</strong>
-                        <small>
-                          Deine Zuordnung:{" "}
-                          {assignments[clue.id] === "relevant"
-                            ? "Relevant"
-                            : "Nicht unmittelbar relevant"}
-                        </small>
-                      </div>
-                    </div>
-
-                    <div>
-                      <strong>
-                        Richtige Einordnung:{" "}
-                        {clue.correctZone === "relevant"
-                          ? "Relevant"
-                          : "Nicht unmittelbar relevant"}
-                      </strong>
-
-                      <p>{clue.explanation}</p>
-                    </div>
-
-                    {!isCorrect && (
-                      <p className="correction">
-                        Deine ursprüngliche Einordnung war
-                        nicht korrekt. Nutze die Erklärung,
-                        um deine Einschätzung zu überprüfen.
-                      </p>
-                    )}
-                  </article>
-                );
-              })}
+            <div className="evidence-collection">
+              {clues.map((clue, index) => (
+                <EvidenceCard
+                  key={clue.id}
+                  number={index + 1}
+                  title={clue.title}
+                  description={clue.description}
+                  explanation={clue.explanation}
+                />
+              ))}
             </div>
 
             <div className="learning-summary">
