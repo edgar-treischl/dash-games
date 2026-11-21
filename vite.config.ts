@@ -4,12 +4,12 @@ import federation from '@originjs/vite-plugin-federation';
 
 export default defineConfig({
   // IMPORTANT for GitHub Pages deployment
-  base: '/react-mfe-template/',
+  base: '/dash-games/',
 
   plugins: [
     react(),
     federation({
-      name: 'react-mfe-template',
+      name: 'dash-games',
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/App.tsx',
