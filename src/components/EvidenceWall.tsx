@@ -1,47 +1,99 @@
 
-import { useState } from "react";
-import { ArrowLeft, Lightbulb } from "lucide-react";
-import { evidence } from "../data/evidence";
-import { useGameStore } from "../store/gameStore";
+import { ArrowLeft, Lightbulb, FileText } from "lucide-react";
+import { motion } from "motion/react";
+import { DataInvestigation } from "./investigation/DataInvestigation";
 
-type Category = "supports" | "context" | "unclear";
+import { evidence } from "../data/evidence";
+import { cases } from "../data/cases";
+
+import {
+  useGameStore,
+  type EvidenceCategory,
+} from "../store/gameStore";
 
 const categories: {
-  id: Category;
+  id: EvidenceCategory;
   title: string;
   description: string;
 }[] = [
   {
     id: "supports",
     title: "Supports my hypothesis",
-    description: "Evidence relevant to the observed relationship",
+    description:
+      "Evidence that supports your current interpretation.",
   },
   {
     id: "context",
     title: "Additional context",
-    description: "Information that may explain the relationship",
+    description:
+      "Information that may help explain the relationship.",
   },
   {
     id: "unclear",
     title: "Still unclear",
-    description: "Evidence I cannot yet interpret",
+    description:
+      "Evidence that you cannot confidently interpret yet.",
   },
 ];
 
 export function EvidenceWall() {
-  const collected = useGameStore(
-    (state) => state.collectedEvidence
+  const selectedCaseId = useGameStore(
+    (state) => state.selectedCaseId
+  );
+
+  const progress = useGameStore((state) =>
+    state.selectedCaseId
+      ? state.progressByCase[state.selectedCaseId]
+      : undefined
+  );
+
+  const closeEvidenceWall = useGameStore(
+    (state) => state.closeEvidenceWall
   );
 
   const goHome = useGameStore(
     (state) => state.goHome
   );
 
-  const [placements, setPlacements] = useState<
-    Partial<Record<string, Category>>
-  >({});
+  const placeEvidence = useGameStore(
+    (state) => state.placeEvidence
+  );
 
-  const available = evidence.filter(
+  const removeEvidencePlacement = useGameStore(
+    (state) => state.removeEvidencePlacement
+  );
+
+  const updateHypothesis = useGameStore(
+    (state) => state.updateHypothesis
+  );
+
+  const gameCase = cases.find(
+    (item) => item.id === selectedCaseId
+  );
+
+  if (!selectedCaseId || !gameCase || !progress) {
+    return (
+      <main className="headquarters">
+        <button className="back-button" onClick={goHome}>
+          <ArrowLeft size={16} />
+          HEADQUARTERS
+        </button>
+        <p>Investigation not found.</p>
+      </main>
+    );
+  }
+
+  const caseEvidence = evidence.filter(
+    (item) =>
+      item.caseId === selectedCaseId &&
+      gameCase.evidenceIds.includes(item.id)
+  );
+
+  const collected = progress.collectedEvidence;
+
+  const placements = progress.evidencePlacements;
+
+  const available = caseEvidence.filter(
     (item) =>
       collected.includes(item.id) &&
       !placements[item.id]
@@ -49,37 +101,47 @@ export function EvidenceWall() {
 
   function handleDrop(
     event: React.DragEvent<HTMLDivElement>,
-    category: Category
+    category: EvidenceCategory
   ) {
     event.preventDefault();
 
-    const id = event.dataTransfer.getData("evidenceId");
+    const id = event.dataTransfer.getData("text/plain");
 
     if (!collected.includes(id)) return;
 
-    setPlacements((previous) => ({
-      ...previous,
-      [id]: category,
-    }));
+    if (!caseEvidence.some((item) => item.id === id)) {
+      return;
+    }
+
+    placeEvidence(id, category);
   }
 
   function handleDragStart(
     event: React.DragEvent<HTMLDivElement>,
     id: string
   ) {
-    event.dataTransfer.setData("evidenceId", id);
+    event.dataTransfer.setData("text/plain", id);
+    event.dataTransfer.effectAllowed = "move";
   }
 
   return (
-    <main className="headquarters">
-      <button className="back-button" onClick={goHome}>
+    <motion.main
+      className="headquarters"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+    >
+      <button
+        className="back-button"
+        onClick={closeEvidenceWall}
+      >
         <ArrowLeft size={16} />
-        HEADQUARTERS
+        BACK TO EVIDENCE ROOM
       </button>
 
       <header className="evidence-heading">
         <span className="eyebrow">
-          CASE #001 / INVESTIGATION
+          CASE #{gameCase.number} / ANALYSIS
         </span>
 
         <h1>Evidence Wall</h1>
@@ -89,9 +151,41 @@ export function EvidenceWall() {
         </p>
       </header>
 
+      <section className="hypothesis-panel">
+        <div className="wall-title">
+          <Lightbulb size={20} />
+          <span>WORKING HYPOTHESIS</span>
+           <DataInvestigation />
+        </div>
+
+        <label htmlFor="hypothesis">
+          What do you currently think explains the relationship?
+        </label>
+
+
+        <textarea
+          id="hypothesis"
+          value={progress.hypothesis}
+          onChange={(event) =>
+            updateHypothesis(event.target.value)
+          }
+          placeholder="I think ice cream sales and swimming accidents are connected because..."
+          rows={4}
+        />
+
+        <p className="hypothesis-hint">
+          Your hypothesis can change as you discover new evidence.
+        </p>
+      </section>
+
       <section className="wall-layout">
         <aside className="wall-source">
           <h2>Available Evidence</h2>
+
+          <p className="wall-instruction">
+            Drag collected documents into the categories.
+            You can also use the category buttons.
+          </p>
 
           {available.map((item) => (
             <div
@@ -102,6 +196,8 @@ export function EvidenceWall() {
                 handleDragStart(event, item.id)
               }
             >
+              <FileText size={19} />
+
               <span className="eyebrow">
                 {item.category}
               </span>
@@ -109,6 +205,24 @@ export function EvidenceWall() {
               <h3>{item.title}</h3>
 
               <p>{item.description}</p>
+
+              <div className="wall-mobile-actions">
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() =>
+                      placeEvidence(item.id, category.id)
+                    }
+                  >
+                    {category.id === "supports"
+                      ? "SUPPORTS"
+                      : category.id === "context"
+                        ? "CONTEXT"
+                        : "UNCLEAR"}
+                  </button>
+                ))}
+              </div>
             </div>
           ))}
 
@@ -125,56 +239,60 @@ export function EvidenceWall() {
             <span>INVESTIGATOR'S ANALYSIS</span>
           </div>
 
-          {categories.map((category) => (
-            <div
-              key={category.id}
-              className="wall-category"
-              onDragOver={(event) =>
-                event.preventDefault()
-              }
-              onDrop={(event) =>
-                handleDrop(event, category.id)
-              }
-            >
-              <h3>{category.title}</h3>
-              <p>{category.description}</p>
+          {categories.map((category) => {
+            const placedItems = Object.entries(placements)
+              .filter(
+                ([, value]) => value === category.id
+              )
+              .map(([id]) =>
+                caseEvidence.find((item) => item.id === id)
+              )
+              .filter((item) => item !== undefined);
 
-              {Object.entries(placements)
-                .filter(
-                  ([, value]) => value === category.id
-                )
-                .map(([id]) => {
-                  const item = evidence.find(
-                    (entry) => entry.id === id
-                  );
+            return (
+              <div
+                key={category.id}
+                className="wall-category"
+                onDragOver={(event) =>
+                  event.preventDefault()
+                }
+                onDrop={(event) =>
+                  handleDrop(event, category.id)
+                }
+              >
+                <h3>{category.title}</h3>
 
-                  if (!item) return null;
+                <p>{category.description}</p>
 
-                  return (
-                    <div
-                      key={id}
-                      className="placed-evidence"
+                {placedItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="placed-evidence"
+                  >
+                    <strong>{item.title}</strong>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        removeEvidencePlacement(item.id)
+                      }
+                      aria-label={`Remove ${item.title} from category`}
                     >
-                      <strong>{item.title}</strong>
+                      REMOVE
+                    </button>
+                  </div>
+                ))}
 
-                      <button
-                        onClick={() =>
-                          setPlacements((previous) => {
-                            const next = { ...previous };
-                            delete next[id];
-                            return next;
-                          })
-                        }
-                      >
-                        REMOVE
-                      </button>
-                    </div>
-                  );
-                })}
-            </div>
-          ))}
+                {placedItems.length === 0 && (
+                  <span className="wall-drop-hint">
+                    DROP EVIDENCE HERE
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </section>
       </section>
-    </main>
+    </motion.main>
   );
 }

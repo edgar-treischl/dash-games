@@ -376,6 +376,9 @@ button {
 }
 
 .evidence-icon {
+  background: transparent;
+  border: 0;
+  padding: 0;
   color: #d68b48;
   margin-bottom: 20px;
   cursor: pointer;
@@ -543,4 +546,590 @@ button {
   .wall-layout {
     grid-template-columns: 1fr;
   }
+}
+
+
+
+/* =========================================
+   THE CORRELATION FILES
+   EVIDENCE WALL – INVESTIGATION UI
+========================================= */
+
+:root {
+  --noir-bg: #171a1d;
+  --noir-surface: #24282b;
+  --noir-panel: #252a2e;
+  --noir-border: #44494a;
+
+  --noir-paper: #e8e0d1;
+  --noir-muted: #aaa9a2;
+
+  --noir-accent: #d68b48;
+  --noir-accent-dark: #98602f;
+
+  --font-mono: 'DM Mono', monospace;
+  --font-display: 'Playfair Display', serif;
+}
+
+/* =========================================
+   HYPOTHESIS PANEL
+========================================= */
+
+.hypothesis-panel {
+  background: linear-gradient(
+    145deg,
+    #292d30,
+    #202427
+  );
+
+  border: 1px solid #765637;
+  border-radius: 8px;
+
+  padding: 25px;
+  margin: 25px 0 35px;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.hypothesis-panel::before {
+  content: "";
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background: var(--noir-accent);
+}
+
+.hypothesis-panel label {
+  display: block;
+
+  color: var(--noir-paper);
+  font-size: 13px;
+
+  margin-bottom: 12px;
+}
+
+.hypothesis-panel textarea {
+  width: 100%;
+  min-height: 100px;
+
+  resize: vertical;
+
+  background: #171a1d;
+  border: 1px solid #45494a;
+  border-radius: 5px;
+
+  padding: 16px;
+
+  color: var(--noir-paper);
+  font: 14px/1.7 'DM Sans', sans-serif;
+
+  outline: none;
+
+  transition: border-color 180ms ease;
+}
+
+.hypothesis-panel textarea:focus {
+  border-color: var(--noir-accent);
+}
+
+.hypothesis-panel textarea::placeholder {
+  color: #777b7b;
+}
+
+.hypothesis-hint {
+  font: 11px/1.7 var(--font-mono);
+  color: var(--noir-muted);
+  margin-bottom: 0;
+}
+
+/* =========================================
+   EVIDENCE WALL LAYOUT
+========================================= */
+
+.wall-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+
+  gap: 25px;
+  align-items: start;
+
+  margin-top: 30px;
+}
+
+.wall-source {
+  min-width: 0;
+}
+
+.wall-source h2 {
+  font: 22px var(--font-display);
+}
+
+.wall-description {
+  color: var(--noir-muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+/* =========================================
+   EVIDENCE CARDS
+========================================= */
+
+.wall-card {
+  background: var(--noir-paper);
+  color: #252525;
+
+  padding: 19px;
+  margin-bottom: 15px;
+
+  border-radius: 3px;
+
+  border-left: 3px solid var(--noir-accent);
+
+  box-shadow: 0 8px 20px #0004;
+
+  cursor: grab;
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.wall-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px #0006;
+}
+
+.wall-card:active {
+  cursor: grabbing;
+}
+
+.wall-card h3 {
+  font: 20px var(--font-display);
+  margin: 12px 0 8px;
+}
+
+.wall-card p {
+  color: #514c45;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.wall-card label {
+  display: block;
+  margin: 15px 0 7px;
+
+  font: 10px var(--font-mono);
+  color: #765637;
+  text-transform: uppercase;
+}
+
+.wall-card select {
+  width: 100%;
+
+  padding: 10px;
+
+  background: #d9d0c1;
+  border: 1px solid #b7ac9b;
+
+  color: #252525;
+  font: 11px var(--font-mono);
+}
+
+/* =========================================
+   INVESTIGATION CANVAS
+========================================= */
+
+.wall-canvas {
+  background:
+    radial-gradient(#ffffff0a 1px, transparent 1px),
+    #252a2e;
+
+  background-size: 20px 20px;
+
+  border: 1px solid var(--noir-border);
+  border-radius: 8px;
+
+  padding: clamp(16px, 3vw, 28px);
+
+  min-height: 500px;
+
+  box-shadow: inset 0 0 45px #0002;
+}
+
+.wall-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--noir-accent);
+
+  font: 11px var(--font-mono);
+  letter-spacing: 1.3px;
+
+  margin-bottom: 25px;
+}
+
+/* =========================================
+   DROP ZONES
+========================================= */
+
+.wall-category {
+  background: #171a1d66;
+
+  border: 1px dashed #66645d;
+  border-radius: 6px;
+
+  padding: 20px;
+  margin-bottom: 17px;
+
+  min-height: 135px;
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.wall-category:hover {
+  background: #d68b4808;
+  border-color: var(--noir-accent);
+}
+
+.wall-category h3 {
+  font: 19px var(--font-display);
+  margin: 0 0 7px;
+  color: var(--noir-paper);
+}
+
+.wall-category > p {
+  font-size: 11px;
+  color: var(--noir-muted);
+  line-height: 1.6;
+}
+
+/* =========================================
+   PLACED EVIDENCE
+========================================= */
+
+.placed-evidence {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+
+  background: var(--noir-paper);
+  color: #252525;
+
+  padding: 15px;
+  margin-top: 12px;
+
+  border-left: 3px solid var(--noir-accent);
+
+  box-shadow: 0 4px 12px #0003;
+}
+
+.placed-evidence strong {
+  font: 16px var(--font-display);
+}
+
+.placed-evidence p {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #514c45;
+}
+
+.placed-evidence button {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  background: transparent;
+  border: 1px solid #b7ac9b;
+  border-radius: 4px;
+
+  color: var(--noir-accent-dark);
+  cursor: pointer;
+}
+
+.placed-evidence button:hover {
+  background: #d9d0c1;
+}
+
+/* =========================================
+   EMPTY STATES
+========================================= */
+
+.empty-message {
+  color: #777b7b;
+  font: 11px var(--font-mono);
+
+  padding: 12px 0;
+}
+
+.evidence-count {
+  margin-top: 20px;
+  padding-top: 15px;
+
+  border-top: 1px solid #393d3e;
+
+  color: var(--noir-accent);
+  font: 10px var(--font-mono);
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: 4px;
+}
+
+.wall-card:focus-visible {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: 4px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+  .wall-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .wall-source {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .wall-source > .wall-title,
+  .wall-source > .wall-description,
+  .wall-source > .evidence-count,
+  .wall-source > .empty-message {
+    grid-column: 1 / -1;
+  }
+
+  .wall-card {
+    margin: 0;
+  }
+}
+
+@media (max-width: 550px) {
+  .wall-source {
+    grid-template-columns: 1fr;
+  }
+
+  .hypothesis-panel {
+    padding: 20px;
+  }
+
+  .wall-canvas {
+    padding: 14px;
+  }
+
+  .wall-category {
+    padding: 15px;
+  }
+
+  .placed-evidence {
+    padding: 11px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+
+/* EVIDENCE ROOM ACTIONS */
+
+.evidence-room-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.evidence-room-actions .primary-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.evidence-progress {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* HYPOTHESIS PANEL */
+
+.hypothesis-panel {
+  background: #24282b;
+  border: 1px solid #765637;
+  border-radius: 8px;
+  padding: 24px;
+  margin: 20px 0 30px;
+}
+
+.hypothesis-panel label {
+  display: block;
+  color: #e8e0d1;
+  font-size: 13px;
+  margin: 18px 0 12px;
+}
+
+.hypothesis-panel textarea {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+
+  background: #171a1d;
+  border: 1px solid #44494a;
+  border-radius: 4px;
+
+  color: #e8e0d1;
+  padding: 15px;
+
+  font: 13px 'DM Sans', sans-serif;
+  line-height: 1.7;
+}
+
+.hypothesis-panel textarea:focus {
+  outline: 2px solid #d68b48;
+  outline-offset: 2px;
+}
+
+.hypothesis-panel textarea::placeholder {
+  color: #777b7b;
+}
+
+.hypothesis-hint {
+  color: #aaa9a2;
+  font-size: 11px;
+  margin-top: 12px;
+}
+
+/* EVIDENCE WALL */
+
+.wall-instruction {
+  color: #aaa9a2;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.wall-card {
+  cursor: grab;
+  user-select: none;
+}
+
+.wall-card:active {
+  cursor: grabbing;
+}
+
+.wall-drop-hint {
+  display: block;
+  color: #777b7b;
+  font: 9px 'DM Mono', monospace;
+  letter-spacing: 1px;
+  margin-top: 20px;
+}
+
+.wall-mobile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.wall-mobile-actions button {
+  background: #252a2e;
+  border: 1px solid #765637;
+  color: #d68b48;
+  padding: 8px;
+  font: 9px 'DM Mono', monospace;
+  cursor: pointer;
+}
+
+.placed-evidence {
+  border-left: 3px solid #b8793c;
+}
+
+/* ACCESSIBILITY */
+
+button:focus-visible {
+  outline: 2px solid #d68b48;
+  outline-offset: 4px;
+}
+
+@media (min-width: 751px) {
+  .wall-mobile-actions {
+    display: none;
+  }
+}
+
+@media (max-width: 750px) {
+  .wall-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .wall-source,
+  .wall-canvas {
+    min-width: 0;
+  }
+
+  .wall-canvas {
+    padding: 15px;
+  }
+
+  .hypothesis-panel {
+    padding: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+.chart-container {
+  width: 100%;
+  height: 340px;
+  min-height: 340px;
+  position: relative;
 }

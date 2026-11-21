@@ -1,57 +1,295 @@
+
 import { create } from "zustand";
+import {
+  persist,
+  createJSONStorage,
+} from "zustand/middleware";
+
+export type GameScreen =
+  | "headquarters"
+  | "briefing"
+  | "evidence"
+  | "evidence-wall";
+
+export type EvidenceCategory =
+  | "supports"
+  | "context"
+  | "unclear";
+
+export interface CaseProgress {
+  discoveredEvidence: string[];
+  collectedEvidence: string[];
+
+  evidencePlacements: Partial<
+    Record<string, EvidenceCategory>
+  >;
+
+  hypothesis: string;
+}
 
 interface GameState {
   selectedCaseId: string | null;
-  currentScreen: "headquarters" | "briefing" | "evidence" | "evidence-wall"; 
+  currentScreen: GameScreen;
 
-  discoveredEvidence: string[];
-  collectedEvidence: string[];
+  progressByCase: Record<string, CaseProgress>;
 
   openCase: (id: string) => void;
   goHome: () => void;
   startInvestigation: () => void;
+
   discoverEvidence: (id: string) => void;
   collectEvidence: (id: string) => void;
+
   openEvidenceWall: () => void;
+  closeEvidenceWall: () => void;
+
+  placeEvidence: (
+    id: string,
+    category: EvidenceCategory
+  ) => void;
+
+  removeEvidencePlacement: (id: string) => void;
+
+  updateHypothesis: (value: string) => void;
 }
 
-export const useGameStore = create<GameState>((set) => ({
-  selectedCaseId: null,
-  currentScreen: "headquarters",
 
-  discoveredEvidence: ["ice-cream", "accidents"],
+const createInitialProgress = (
+  caseId: string
+): CaseProgress => ({
+  discoveredEvidence:
+    caseId === "summer-mystery"
+      ? ["ice-cream", "accidents"]
+      : [],
+
   collectedEvidence: [],
+  evidencePlacements: {},
+  hypothesis: "",
+});
 
-  openCase: (id) =>
-    set({
-      selectedCaseId: id,
-      currentScreen: "briefing",
-    }),
 
-  goHome: () =>
-    set({
+export const useGameStore = create<GameState>()(
+  persist(
+    (set, get) => ({
       selectedCaseId: null,
       currentScreen: "headquarters",
+
+      progressByCase: {
+        "summer-mystery": createInitialProgress("summer-mystery"),
+      },
+
+      
+openCase: (id) => {
+  set((state) => ({
+    selectedCaseId: id,
+    currentScreen: "briefing",
+
+    progressByCase: {
+      ...state.progressByCase,
+      [id]:
+        state.progressByCase[id] ??
+        createInitialProgress(id),
+    },
+  }));
+},
+
+
+      goHome: () => {
+        set({
+          selectedCaseId: null,
+          currentScreen: "headquarters",
+        });
+      },
+
+      startInvestigation: () => {
+        if (!get().selectedCaseId) return;
+
+        set({ currentScreen: "evidence" });
+      },
+
+      discoverEvidence: (id) => {
+        const caseId = get().selectedCaseId;
+        if (!caseId) return;
+
+        set((state) => {
+          const progress =
+            state.progressByCase[caseId] ??
+            createInitialProgress(caseId);
+
+          if (progress.discoveredEvidence.includes(id)) {
+            return state;
+          }
+
+          return {
+            progressByCase: {
+              ...state.progressByCase,
+              [caseId]: {
+                ...progress,
+                discoveredEvidence: [
+                  ...progress.discoveredEvidence,
+                  id,
+                ],
+              },
+            },
+          };
+        });
+      },
+
+      collectEvidence: (id) => {
+        const caseId = get().selectedCaseId;
+        if (!caseId) return;
+
+        set((state) => {
+          const progress =
+            state.progressByCase[caseId] ??
+            createInitialProgress(caseId);
+
+          if (
+            !progress.discoveredEvidence.includes(id) ||
+            progress.collectedEvidence.includes(id)
+          ) {
+            return state;
+          }
+
+          return {
+            progressByCase: {
+              ...state.progressByCase,
+              [caseId]: {
+                ...progress,
+                collectedEvidence: [
+                  ...progress.collectedEvidence,
+                  id,
+                ],
+              },
+            },
+          };
+        });
+      },
+
+      openEvidenceWall: () => {
+        if (get().currentScreen !== "evidence") return;
+
+        set({ currentScreen: "evidence-wall" });
+      },
+
+      closeEvidenceWall: () => {
+        if (get().currentScreen !== "evidence-wall") return;
+
+        set({ currentScreen: "evidence" });
+      },
+
+      placeEvidence: (id, category) => {
+        const caseId = get().selectedCaseId;
+        if (!caseId) return;
+
+        set((state) => {
+          const progress =
+            state.progressByCase[caseId] ??
+            createInitialProgress(caseId);
+
+          if (!progress.collectedEvidence.includes(id)) {
+            return state;
+          }
+
+          return {
+            progressByCase: {
+              ...state.progressByCase,
+              [caseId]: {
+                ...progress,
+                evidencePlacements: {
+                  ...progress.evidencePlacements,
+                  [id]: category,
+                },
+              },
+            },
+          };
+        });
+      },
+
+      removeEvidencePlacement: (id) => {
+        const caseId = get().selectedCaseId;
+        if (!caseId) return;
+
+        set((state) => {
+          const progress =
+            state.progressByCase[caseId] ??
+            createInitialProgress(caseId);
+
+          const placements = {
+            ...progress.evidencePlacements,
+          };
+
+          delete placements[id];
+
+          return {
+            progressByCase: {
+              ...state.progressByCase,
+              [caseId]: {
+                ...progress,
+                evidencePlacements: placements,
+              },
+            },
+          };
+        });
+      },
+
+      updateHypothesis: (value) => {
+        const caseId = get().selectedCaseId;
+        if (!caseId) return;
+
+        set((state) => {
+          const progress =
+            state.progressByCase[caseId] ??
+            createInitialProgress(caseId);
+
+          return {
+            progressByCase: {
+              ...state.progressByCase,
+              [caseId]: {
+                ...progress,
+                hypothesis: value,
+              },
+            },
+          };
+        });
+      },
     }),
+    {
+      name: "correlation-files-save",
+      version: 2,
+      storage: createJSONStorage(() => localStorage),
 
-  startInvestigation: () =>
-    set({ currentScreen: "evidence" }),
+      migrate: (persistedState) => {
+        const saved = persistedState as Pick<
+          GameState,
+          "selectedCaseId" | "currentScreen" | "progressByCase"
+        >;
+        const progress = saved.progressByCase?.["summer-mystery"];
 
-  discoverEvidence: (id) =>
-    set((state) => ({
-      discoveredEvidence: state.discoveredEvidence.includes(id)
-        ? state.discoveredEvidence
-        : [...state.discoveredEvidence, id],
-    })),
+        if (!progress) return saved;
 
-  collectEvidence: (id) =>
-    set((state) => ({
-      collectedEvidence: state.collectedEvidence.includes(id)
-        ? state.collectedEvidence
-        : [...state.collectedEvidence, id],
-    })),
+        return {
+          ...saved,
+          progressByCase: {
+            ...saved.progressByCase,
+            "summer-mystery": {
+              ...progress,
+              discoveredEvidence: [
+                ...new Set([
+                  ...createInitialProgress("summer-mystery").discoveredEvidence,
+                  ...progress.discoveredEvidence,
+                ]),
+              ],
+            },
+          },
+        };
+      },
 
-    openEvidenceWall: () =>
-  set({ currentScreen: "evidence-wall" }),
-}));
-
+      partialize: (state) => ({
+        selectedCaseId: state.selectedCaseId,
+        currentScreen: state.currentScreen,
+        progressByCase: state.progressByCase,
+      }),
+    }
+  )
+);

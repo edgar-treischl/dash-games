@@ -1,12 +1,13 @@
+
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, FileText, LockKeyhole } from "lucide-react";
 
 import { Headquarters } from "./components/Headquarters";
-import { cases } from "./data/cases";
-import { useGameStore } from "./store/gameStore";
-
 import { EvidenceRoom } from "./components/EvidenceRoom";
 import { EvidenceWall } from "./components/EvidenceWall";
+
+import { cases } from "./data/cases";
+import { useGameStore } from "./store/gameStore";
 
 function Briefing() {
   const selectedCaseId = useGameStore(
@@ -16,14 +17,30 @@ function Briefing() {
   const goHome = useGameStore((state) => state.goHome);
 
   const startInvestigation = useGameStore(
-  (state) => state.startInvestigation
-);
+    (state) => state.startInvestigation
+  );
 
   const gameCase = cases.find(
     (item) => item.id === selectedCaseId
   );
 
-  if (!gameCase) return null;
+  if (!gameCase) {
+    return (
+      <main className="briefing">
+        <button className="back-button" onClick={goHome}>
+          <ArrowLeft size={17} />
+          BACK TO HEADQUARTERS
+        </button>
+
+        <div className="briefing-paper">
+          <h2>CASE NOT FOUND</h2>
+          <p>
+            The selected investigation could not be found.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <motion.main
@@ -49,13 +66,11 @@ function Briefing() {
         </span>
 
         <h1>{gameCase.title}</h1>
-
         <h3>{gameCase.subtitle}</h3>
 
         <div className="paper-divider" />
 
         <h2>THE INCIDENT</h2>
-
         <p>{gameCase.description}</p>
 
         <div className="official-report">
@@ -76,11 +91,11 @@ function Briefing() {
         </p>
 
         <button
-  className="primary-button"
-  onClick={startInvestigation}
->
-  BEGIN INVESTIGATION →
-</button>
+          className="primary-button"
+          onClick={startInvestigation}
+        >
+          BEGIN INVESTIGATION →
+        </button>
       </div>
     </motion.main>
   );
@@ -88,25 +103,28 @@ function Briefing() {
 
 export default function App() {
   const currentScreen = useGameStore(
-  (state) => state.currentScreen
-);
+    (state) => state.currentScreen
+  );
 
-return (
-  <div className="game-shell">
-    <AnimatePresence mode="wait">
-      {currentScreen === "headquarters" ? (
-        <Headquarters key="headquarters" />
-      ) : currentScreen === "briefing" ? (
-        <Briefing key="briefing" />
-      ) : currentScreen === "evidence" ? (
-        <EvidenceRoom key="evidence" />
-      ) : currentScreen === "evidence-wall" ? (
-        <EvidenceWall key="evidence-wall" />
-      ) : (
-        <Headquarters key="fallback" />
-      )}
-    </AnimatePresence>
-  </div>
-);
-  
+  return (
+    <div className="game-shell">
+      <AnimatePresence mode="wait">
+        {currentScreen === "headquarters" && (
+          <Headquarters key="headquarters" />
+        )}
+
+        {currentScreen === "briefing" && (
+          <Briefing key="briefing" />
+        )}
+
+        {currentScreen === "evidence" && (
+          <EvidenceRoom key="evidence" />
+        )}
+
+        {currentScreen === "evidence-wall" && (
+          <EvidenceWall key="evidence-wall" />
+        )}
+      </AnimatePresence>
+    </div>
+  );
 }
