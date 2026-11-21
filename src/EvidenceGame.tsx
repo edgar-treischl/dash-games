@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import "./EvidenceGame.css";
-import { EvidenceCard } from "./components/EvidenceCard";
+import { EvidenceCard } from "./components/old_EvidenceCard";
 
 import {
   DragDropProvider,

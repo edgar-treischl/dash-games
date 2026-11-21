@@ -1,29 +1,112 @@
-import { useState } from 'react'
-import LandingPage from './LandingPage'
-import EvidenceGame from './EvidenceGame'
-import './App.css'
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowLeft, FileText, LockKeyhole } from "lucide-react";
 
-type GameState = 'landing' | 'evidence'
+import { Headquarters } from "./components/Headquarters";
+import { cases } from "./data/cases";
+import { useGameStore } from "./store/gameStore";
 
-function App() {
-  const [gameState, setGameState] = useState<GameState>('landing')
+import { EvidenceRoom } from "./components/EvidenceRoom";
+import { EvidenceWall } from "./components/EvidenceWall";
 
-  const handleStartGame = (gameName: string) => {
-    if (gameName === 'evidence') {
-      setGameState('evidence')
-    }
-  }
+function Briefing() {
+  const selectedCaseId = useGameStore(
+    (state) => state.selectedCaseId
+  );
 
-  const handleBackToLanding = () => {
-    setGameState('landing')
-  }
+  const goHome = useGameStore((state) => state.goHome);
+
+  const startInvestigation = useGameStore(
+  (state) => state.startInvestigation
+);
+
+  const gameCase = cases.find(
+    (item) => item.id === selectedCaseId
+  );
+
+  if (!gameCase) return null;
 
   return (
-    <div className="mfe-template">
-      {gameState === 'landing' && <LandingPage onStartGame={handleStartGame} />}
-      {gameState === 'evidence' && <EvidenceGame onBack={handleBackToLanding} />}
-    </div>
-  )
+    <motion.main
+      className="briefing"
+      initial={{ opacity: 0, x: 25 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -25 }}
+    >
+      <button className="back-button" onClick={goHome}>
+        <ArrowLeft size={17} />
+        BACK TO HEADQUARTERS
+      </button>
+
+      <div className="briefing-paper">
+        <div className="paper-top">
+          <FileText size={22} />
+          <span>CONFIDENTIAL CASE REPORT</span>
+          <LockKeyhole size={17} />
+        </div>
+
+        <span className="eyebrow">
+          INVESTIGATION FILE #{gameCase.number}
+        </span>
+
+        <h1>{gameCase.title}</h1>
+
+        <h3>{gameCase.subtitle}</h3>
+
+        <div className="paper-divider" />
+
+        <h2>THE INCIDENT</h2>
+
+        <p>{gameCase.description}</p>
+
+        <div className="official-report">
+          <span>OFFICIAL REPORT</span>
+          <p>
+            "A suspicious statistical relationship
+            has been identified. Further investigation
+            is required."
+          </p>
+        </div>
+
+        <h2>YOUR ASSIGNMENT</h2>
+
+        <p>
+          Investigate the available evidence.
+          Examine the data and challenge the
+          assumptions behind the official report.
+        </p>
+
+        <button
+  className="primary-button"
+  onClick={startInvestigation}
+>
+  BEGIN INVESTIGATION →
+</button>
+      </div>
+    </motion.main>
+  );
 }
 
-export default App
+export default function App() {
+  const currentScreen = useGameStore(
+  (state) => state.currentScreen
+);
+
+return (
+  <div className="game-shell">
+    <AnimatePresence mode="wait">
+      {currentScreen === "headquarters" ? (
+        <Headquarters key="headquarters" />
+      ) : currentScreen === "briefing" ? (
+        <Briefing key="briefing" />
+      ) : currentScreen === "evidence" ? (
+        <EvidenceRoom key="evidence" />
+      ) : currentScreen === "evidence-wall" ? (
+        <EvidenceWall key="evidence-wall" />
+      ) : (
+        <Headquarters key="fallback" />
+      )}
+    </AnimatePresence>
+  </div>
+);
+  
+}

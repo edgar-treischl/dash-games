@@ -1,0 +1,87 @@
+import { motion } from "motion/react";
+import {
+  Search,
+  FolderOpen,
+  Archive,
+  Fingerprint,
+} from "lucide-react";
+
+import { cases } from "../data/cases";
+import { CaseCard } from "./CaseCard";
+
+export function Headquarters() {
+  return (
+    <motion.main
+      className="headquarters"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <header className="topbar">
+        <div className="brand">
+          <Fingerprint size={27} />
+          <span>THE CORRELATION FILES</span>
+        </div>
+
+        <span className="division">
+          INVESTIGATION DIVISION
+        </span>
+      </header>
+
+      <section className="hero">
+        <div className="hero-copy">
+          <span className="eyebrow">
+            YOUR INVESTIGATION STARTS HERE
+          </span>
+
+          <h1>
+            The truth is
+            <br />
+            <em>in the data.</em>
+          </h1>
+
+          <p>
+            Four suspicious cases. Hidden connections.
+            One mission: find out what the data
+            is really telling you.
+          </p>
+        </div>
+
+        <div className="hero-stamp">
+          <Search size={38} />
+          <span>QUESTION</span>
+          <span>EVERYTHING</span>
+        </div>
+      </section>
+
+      <section className="case-section">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">INVESTIGATION ARCHIVE</span>
+            <h2>Open Case Files</h2>
+          </div>
+
+          <span className="case-count">
+            01 / 04 AVAILABLE
+          </span>
+        </div>
+
+        <div className="case-grid">
+          {cases.map((gameCase, index) => (
+            <CaseCard
+              key={gameCase.id}
+              gameCase={gameCase}
+              index={index}
+            />
+          ))}
+        </div>
+      </section>
+
+      <footer className="bottom-nav">
+        <span><FolderOpen size={15} /> CASE FILES</span>
+        <span><Search size={15} /> INVESTIGATIONS</span>
+        <span><Archive size={15} /> ARCHIVE</span>
+      </footer>
+    </motion.main>
+  );
+}
