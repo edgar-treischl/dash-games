@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import {
   ArrowLeft,
   ArrowUpRight,
+  ChartBar,
   ChartScatter,
   FileSearch,
   FileText,
@@ -20,8 +21,9 @@ export function Headquarters() {
   const goHome = useGameStore((state) => state.goHome);
   const openBriefing = useGameStore((state) => state.openBriefing);
   const startInvestigation = useGameStore((state) => state.startInvestigation);
+  const openVariablePicker = useGameStore((state) => state.openVariablePicker);
   const openEvidenceWall = useGameStore((state) => state.openEvidenceWall);
-  const openDataInvestigation = useGameStore((state) => state.openDataInvestigation);
+  const openEffectExplorer = useGameStore((state) => state.openEffectExplorer);
   const gameCase = cases.find((item) => item.id === selectedCaseId);
 
   if (!gameCase || !progress) {
@@ -102,10 +104,19 @@ export function Headquarters() {
             <ArrowUpRight className="hub-destination-arrow" size={20} />
           </button>
 
-          <button className="hub-destination" onClick={openDataInvestigation}>
+          <button className="hub-destination" onClick={openVariablePicker}>
+            <span className="hub-destination-icon"><ChartBar size={24} /></span>
+            <span className="hub-destination-copy">
+              <strong>Data explorer</strong>
+              <span>Explore individual variables and their patterns.</span>
+            </span>
+            <ArrowUpRight className="hub-destination-arrow" size={20} />
+          </button>
+
+          <button className="hub-destination" onClick={openEffectExplorer}>
             <span className="hub-destination-icon"><ChartScatter size={24} /></span>
             <span className="hub-destination-copy">
-              <strong>Data investigation</strong>
+              <strong>Effect explorer</strong>
               <span>Compare variables and look for patterns.</span>
             </span>
             <ArrowUpRight className="hub-destination-arrow" size={20} />

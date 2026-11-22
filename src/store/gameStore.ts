@@ -10,7 +10,8 @@ export type GameScreen =
   | "headquarters"
   | "briefing"
   | "evidence"
-  | "data-investigation"
+  | "data-explorer"
+  | "effect-explorer"
   | "evidence-wall";
 
 export type EvidenceCategory =
@@ -44,8 +45,9 @@ interface GameState {
   discoverEvidence: (id: string) => void;
   collectEvidence: (id: string) => void;
 
+  openVariablePicker: () => void;
   openEvidenceWall: () => void;
-  openDataInvestigation: () => void;
+  openEffectExplorer: () => void;
 
   placeEvidence: (
     id: string,
@@ -182,10 +184,16 @@ export const useGameStore = create<GameState>()(
         set({ currentScreen: "evidence-wall" });
       },
 
-      openDataInvestigation: () => {
+      openVariablePicker: () => {
         if (!get().selectedCaseId) return;
 
-        set({ currentScreen: "data-investigation" });
+        set({ currentScreen: "data-explorer" });
+      },
+
+      openEffectExplorer: () => {
+        if (!get().selectedCaseId) return;
+
+        set({ currentScreen: "effect-explorer" });
       },
 
       placeEvidence: (id, category) => {

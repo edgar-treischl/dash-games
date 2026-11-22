@@ -6,7 +6,8 @@ import { Headquarters } from "./components/Headquarters";
 import LandingPage from "./LandingPage";
 import { EvidenceRoom } from "./components/EvidenceRoom";
 import { EvidenceWall } from "./components/EvidenceWall";
-import { DataInvestigation } from "./components/investigation/DataInvestigation";
+import { DataExplorer } from "./components/investigation/DataExplorer";
+import { EffectExplorer } from "./components/investigation/EffectExplorer";
 
 import { cases } from "./data/cases";
 import { useGameStore } from "./store/gameStore";
@@ -124,12 +125,16 @@ export default function App() {
           <EvidenceRoom key="evidence" />
         )}
 
+        {currentScreen === "data-explorer" && (
+          <DataExplorer key="data-explorer" />
+        )}
+
         {currentScreen === "evidence-wall" && (
           <EvidenceWall key="evidence-wall" />
         )}
 
-        {currentScreen === "data-investigation" && (
-          <DataInvestigation key="data-investigation" />
+        {currentScreen === "effect-explorer" && (
+          <EffectExplorer key="effect-explorer" />
         )}
       </AnimatePresence>
     </div>
