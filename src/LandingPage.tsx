@@ -17,24 +17,24 @@ export default function LandingPage() {
       <header className="topbar">
         <div className="brand">
           <Fingerprint size={27} />
-          <span>THE CORRELATION FILES</span>
+          <span>THE D-FILES</span>
         </div>
-        <span className="division">INVESTIGATION DIVISION</span>
+        <span className="division">ACTIVE INVESTIGATIONS</span>
       </header>
 
       <section className="hero">
         <div className="hero-copy">
-          <span className="eyebrow">YOUR INVESTIGATION STARTS HERE</span>
+          <span className="eyebrow">THE D-FILES</span>
           <h1>The truth is<br /><em>in the data.</em></h1>
           <p>
-            Four suspicious cases. Hidden connections. One mission: find out
-            what the data is really telling you.
+            Suspicious news. Hidden connections. Your mission: find out
+            what the data is really telling us.
           </p>
         </div>
         <div className="hero-stamp">
-          <Search size={38} />
-          <span>QUESTION</span>
-          <span>EVERYTHING</span>
+          <Search size={32} />
+          <span>Data Literacy</span>
+          <span>by Use Cases</span>
         </div>
       </section>
 
