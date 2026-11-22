@@ -1,49 +1,65 @@
-import { Play, Search } from "lucide-react";
-import "./LandingPage.css";
+import { motion } from "motion/react";
+import { Search, FolderOpen, Archive, Fingerprint } from "lucide-react";
 
-interface LandingPageProps {
-  onStartGame: (gameName: string) => void;
-}
+import { cases } from "./data/cases";
+import { CaseCard } from "./components/CaseCard";
 
-export default function LandingPage({ onStartGame }: LandingPageProps) {
+export default function LandingPage() {
+  const availableCount = cases.filter((gameCase) => gameCase.status === "available").length;
+
   return (
-    <div className="mfe-template__landing">
-      <div className="mfe-template__landing-container">
-        <div className="mfe-template__landing-header">
-          <h1 className="mfe-template__landing-title">
-            Data Literacy Learning Games
-          </h1>
-          <p className="mfe-template__landing-subtitle">
-            Interactive games to develop critical thinking with education data
+    <motion.main
+      className="headquarters"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <header className="topbar">
+        <div className="brand">
+          <Fingerprint size={27} />
+          <span>THE CORRELATION FILES</span>
+        </div>
+        <span className="division">INVESTIGATION DIVISION</span>
+      </header>
+
+      <section className="hero">
+        <div className="hero-copy">
+          <span className="eyebrow">YOUR INVESTIGATION STARTS HERE</span>
+          <h1>The truth is<br /><em>in the data.</em></h1>
+          <p>
+            Four suspicious cases. Hidden connections. One mission: find out
+            what the data is really telling you.
           </p>
         </div>
-
-        <div className="mfe-template__games-grid">
-          <button
-            type="button"
-            className="mfe-template__game-card"
-            onClick={() => onStartGame("evidence")}
-          >
-            <div className="mfe-template__game-card-icon">
-              <Search size={40} />
-            </div>
-            <h2 className="mfe-template__game-card-title">The Missing Context</h2>
-            <p className="mfe-template__game-card-description">
-              Discover why data without context cannot be meaningfully compared.
-            </p>
-            <div className="mfe-template__game-card-action">
-              <Play size={20} />
-              <span>Start Game</span>
-            </div>
-          </button>
+        <div className="hero-stamp">
+          <Search size={38} />
+          <span>QUESTION</span>
+          <span>EVERYTHING</span>
         </div>
+      </section>
 
-        <div className="mfe-template__landing-footer">
-          <p className="mfe-template__footer-text">
-            More challenges coming soon...
-          </p>
+      <section className="case-section">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">INVESTIGATION ARCHIVE</span>
+            <h2>Open Case Files</h2>
+          </div>
+          <span className="case-count">
+            {String(availableCount).padStart(2, "0")} / {String(cases.length).padStart(2, "0")} AVAILABLE
+          </span>
         </div>
-      </div>
-    </div>
+        <div className="case-grid">
+          {cases.map((gameCase, index) => (
+            <CaseCard key={gameCase.id} gameCase={gameCase} index={index} />
+          ))}
+        </div>
+      </section>
+
+      <footer className="bottom-nav">
+        <span><FolderOpen size={15} /> CASE FILES</span>
+        <span><Search size={15} /> INVESTIGATIONS</span>
+        <span><Archive size={15} /> ARCHIVE</span>
+      </footer>
+    </motion.main>
   );
 }

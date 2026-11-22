@@ -1,5 +1,7 @@
 
 import { useState } from "react";
+import { ArrowLeft, ChartScatter } from "lucide-react";
+import { motion } from "motion/react";
 
 import {
   ResponsiveContainer,
@@ -39,6 +41,8 @@ export function DataInvestigation() {
   const selectedCaseId = useGameStore(
     (state) => state.selectedCaseId
   );
+  const goHome = useGameStore((state) => state.goHome);
+  const returnToHeadquarters = useGameStore((state) => state.returnToHeadquarters);
 
   const gameCase = cases.find(
     (item) => item.id === selectedCaseId
@@ -54,8 +58,27 @@ export function DataInvestigation() {
   const [yKey, setYKey] =
     useState<VariableId>("swimmingAccidents");
 
+  if (!gameCase || !selectedCaseId) {
+    return (
+      <main className="headquarters">
+        <button className="back-button" onClick={goHome}>
+          <ArrowLeft size={16} /> BACK TO CASE FILES
+        </button>
+        <p>Investigation not found.</p>
+      </main>
+    );
+  }
+
   if (!dataset) {
-    return null;
+    return (
+      <main className="headquarters">
+        <button className="back-button" onClick={returnToHeadquarters}>
+          <ArrowLeft size={16} /> HEADQUARTERS
+        </button>
+        <h1>Data investigation</h1>
+        <p>No dataset is available for this case yet.</p>
+      </main>
+    );
   }
 
   const chartData = dataset.observations.map(
@@ -67,20 +90,32 @@ export function DataInvestigation() {
   );
 
   return (
-    <section className="data-investigation">
-      <header className="data-heading">
+    <motion.main
+      className="headquarters data-investigation"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -12 }}
+    >
+      <button className="back-button" onClick={returnToHeadquarters}>
+        <ArrowLeft size={16} /> HEADQUARTERS
+      </button>
+      <header className="evidence-heading">
         <span className="eyebrow">
-          STATISTICAL ANALYSIS
+          CASE #{gameCase.number} / STATISTICAL ANALYSIS
         </span>
 
-        <h2>Examine the Relationship</h2>
+        <h1>Data Investigation</h1>
 
         <p>
-          Select two variables and investigate
-          how their values move together.
+          Select two variables and investigate how their values move together.
         </p>
       </header>
 
+      <section className="hypothesis-panel" aria-label="Scatterplot analysis">
+      <div className="wall-title">
+        <ChartScatter size={20} />
+        <span>EXAMINE THE RELATIONSHIP</span>
+      </div>
       <div className="chart-controls">
         <div>
           <label htmlFor="x-variable">
@@ -127,6 +162,9 @@ export function DataInvestigation() {
         </div>
       </div>
 
+      <p className="chart-axis-caption">
+        Vertical axis: {variableLabels[yKey]} ({variableUnits[yKey]})
+      </p>
       <div
         className="chart-container"
         role="img"
@@ -200,7 +238,7 @@ export function DataInvestigation() {
         </ResponsiveContainer>
       </div>
 
-      <div className="chart-observation">
+      <div className="wall-category chart-observation">
         <span className="eyebrow">
           INVESTIGATOR'S NOTE
         </span>
@@ -222,6 +260,7 @@ export function DataInvestigation() {
           OBSERVATIONS: {chartData.length} MONTHS
         </span>
       </div>
-    </section>
+      </section>
+    </motion.main>
   );
 }

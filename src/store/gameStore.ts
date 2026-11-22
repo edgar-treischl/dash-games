@@ -6,9 +6,11 @@ import {
 } from "zustand/middleware";
 
 export type GameScreen =
+  | "landing"
   | "headquarters"
   | "briefing"
   | "evidence"
+  | "data-investigation"
   | "evidence-wall";
 
 export type EvidenceCategory =
@@ -35,13 +37,15 @@ interface GameState {
 
   openCase: (id: string) => void;
   goHome: () => void;
+  returnToHeadquarters: () => void;
+  openBriefing: () => void;
   startInvestigation: () => void;
 
   discoverEvidence: (id: string) => void;
   collectEvidence: (id: string) => void;
 
   openEvidenceWall: () => void;
-  closeEvidenceWall: () => void;
+  openDataInvestigation: () => void;
 
   placeEvidence: (
     id: string,
@@ -72,33 +76,39 @@ export const useGameStore = create<GameState>()(
   persist(
     (set, get) => ({
       selectedCaseId: null,
-      currentScreen: "headquarters",
+      currentScreen: "landing",
 
       progressByCase: {
         "summer-mystery": createInitialProgress("summer-mystery"),
       },
 
-      
-openCase: (id) => {
-  set((state) => ({
-    selectedCaseId: id,
-    currentScreen: "briefing",
-
-    progressByCase: {
-      ...state.progressByCase,
-      [id]:
-        state.progressByCase[id] ??
-        createInitialProgress(id),
-    },
-  }));
-},
+      openCase: (id) => {
+        set((state) => ({
+          selectedCaseId: id,
+          currentScreen: "headquarters",
+          progressByCase: {
+            ...state.progressByCase,
+            [id]: state.progressByCase[id] ?? createInitialProgress(id),
+          },
+        }));
+      },
 
 
       goHome: () => {
         set({
           selectedCaseId: null,
-          currentScreen: "headquarters",
+          currentScreen: "landing",
         });
+      },
+
+      returnToHeadquarters: () => {
+        if (!get().selectedCaseId) return;
+        set({ currentScreen: "headquarters" });
+      },
+
+      openBriefing: () => {
+        if (!get().selectedCaseId) return;
+        set({ currentScreen: "briefing" });
       },
 
       startInvestigation: () => {
@@ -167,15 +177,15 @@ openCase: (id) => {
       },
 
       openEvidenceWall: () => {
-        if (get().currentScreen !== "evidence") return;
+        if (!get().selectedCaseId) return;
 
         set({ currentScreen: "evidence-wall" });
       },
 
-      closeEvidenceWall: () => {
-        if (get().currentScreen !== "evidence-wall") return;
+      openDataInvestigation: () => {
+        if (!get().selectedCaseId) return;
 
-        set({ currentScreen: "evidence" });
+        set({ currentScreen: "data-investigation" });
       },
 
       placeEvidence: (id, category) => {
@@ -256,7 +266,7 @@ openCase: (id) => {
     }),
     {
       name: "correlation-files-save",
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => localStorage),
 
       migrate: (persistedState) => {
@@ -266,10 +276,17 @@ openCase: (id) => {
         >;
         const progress = saved.progressByCase?.["summer-mystery"];
 
-        if (!progress) return saved;
+        const migrated = {
+          ...saved,
+          currentScreen: saved.currentScreen === "headquarters" && !saved.selectedCaseId
+            ? "landing" as const
+            : saved.currentScreen,
+        };
+
+        if (!progress) return migrated;
 
         return {
-          ...saved,
+          ...migrated,
           progressByCase: {
             ...saved.progressByCase,
             "summer-mystery": {

@@ -1,417 +1,318 @@
 
-# 🎮 Data Literacy Game Design Lab
+# Data Science FILES
 
-Ein experimentelles React-Projekt zur Entwicklung spielerischer
-Data-Literacy-Lernangebote für den Bildungsbereich.
+Projekt-Summary & Development Documentation
+1. Projektvision
 
-## 1. Vision
+The DS Files ist ein experimentelles, narratives Game Design Lab für Data Literacy im Bildungsbereich.
 
-Wir entwickeln interaktive Lern-Challenges für:
+Das Spiel verbindet eine atmosphärische Detektivgeschichte mit einzelnen interaktiven Ermittlungsfällen.
 
-- Lehrkräfte
-- Pädagogisches Personal
-- Schulleitungen
-- Bildungsadministration
+Die Spielenden übernehmen die Rolle von Ermittlerinnen und Ermittlern. Sie untersuchen verdächtige Datenaussagen, sammeln Hinweise, analysieren Diagramme und entwickeln eigene Schlussfolgerungen.
 
-Ziel ist es, Data Literacy spielerisch zu vermitteln.
+Das zentrale Lernziel ist, Korrelation und Kausalität unterscheiden zu können und datenbasierte Aussagen kritisch zu hinterfragen.
 
-Die Lernenden sollen lernen:
+2. Zielgruppe
+Lehrkräfte und pädagogisches Personal
+Schulleitungen
+Bildungsadministration
+3. Pädagogische Lernziele
 
-- Daten und Diagramme richtig zu interpretieren
-- Muster und Zusammenhänge zu erkennen
-- Datenbasierte Aussagen kritisch zu hinterfragen
-- Korrelation und Kausalität zu unterscheiden
-- Fehlende Informationen und Kontext zu erkennen
-- Fundierte Schlussfolgerungen aus Daten abzuleiten
+Die Spielenden sollen lernen:
 
-**Wichtig:** Die Lernenden sollen keine eigenen Datenauswertungen
-durchführen. Im Mittelpunkt stehen Interpretation, Bewertung,
-kritisches Denken und Urteilsfähigkeit.
+Daten und Diagramme richtig zu interpretieren.
+Muster und Zusammenhänge zu erkennen.
+Korrelation und Kausalität zu unterscheiden.
+Drittvariablen und Scheinkorrelationen zu erkennen.
+Umgekehrte Kausalität zu verstehen.
+Fehlenden Kontext und Verzerrungen zu identifizieren.
+Datenbasierte Aussagen kritisch zu hinterfragen.
+Fundierte Schlussfolgerungen abzuleiten.
 
-## 2. Projektziel
+Wichtige Einschränkung: Das Spiel fokussiert auf Interpretations- und Urteilskompetenz. Es gibt keine eigenen Datenbereinigungen, Datenanalysen oder Programmieraufgaben.
 
-Wir wollen herausfinden, wie sich klassische Lernaufgaben durch
-Game-Design-Mechaniken in interessante Lernerlebnisse verwandeln lassen.
+4. Game-Design-Konzept
 
-Der Fokus liegt zunächst NICHT auf klassischen Gamification-Elementen wie:
+Das Spiel besteht aus einer übergreifenden Detektivgeschichte und mehreren eigenständig spielbaren Fällen.
 
-- XP
-- Badges
-- Leaderboards
-- Levels
-- Streaks
+Die zentrale Spielwelt ist eine moderne Ermittlungszentrale.
 
-Stattdessen experimentieren wir mit echten Spielmechaniken:
+Die wichtigsten Bereiche:
 
-- Drag & Drop
-- Progressive Disclosure
-- Evidence Collection
-- Discovery Learning
-- Branching Scenarios
-- Decision & Consequence
-- Role Playing
-- Interactive Storytelling
-- Feedback Loops
+Headquarters – Ermittlungszentrale und Fallübersicht.
+Case Files – einzelne Ermittlungsfälle.
+Evidence Room – Dokumente und Hinweise untersuchen.
+Evidence Wall – Hinweise sammeln und kategorisieren.
+Data Investigation – Diagramme und Zusammenhänge untersuchen.
+Investigator Notes – Hypothesen und Erkenntnisse.
+The Verdict – begründete Schlussfolgerungen.
+Case Archive – abgeschlossene Fälle.
+5. Die vier geplanten Ermittlungsfälle
 
-Wir lernen Game Design durch die Entwicklung kleiner,
-funktionierender React-Prototypen.
+CASE 001 – The Summer Mystery
 
-## 3. Technologischer Stack
+Eisverkauf und Badeunfälle steigen gleichzeitig.
 
-### Core
+Lernziele:
 
-| Package | Verwendung |
-|---|---|
-| React | UI und Komponenten |
-| TypeScript | Typisierung |
-| Vite | Development und Build |
-| Zustand | Spielzustände verwalten |
+Korrelation und Kausalität
+Drittvariablen
+Scheinkorrelation
 
-### Interactions & Game Design
+CASE 002 – The Digital Advantage
 
-| Package | Verwendung |
-|---|---|
-| @dnd-kit/react | Drag & Drop |
-| motion | Animationen und Übergänge |
-| lucide-react | Icons |
-| XState (optional) | Komplexe Spielabläufe |
+Schulen mit mehr digitalen Geräten erzielen bessere Ergebnisse.
 
-### Visualisierung
+Lernziele:
 
-| Package | Verwendung |
-|---|---|
-| Recharts | Diagramme |
-| Nivo | Erweiterte Datenvisualisierungen |
-| React Flow | Visuelle Zusammenhänge und Workflows |
+Korrelation und Kausalität
+Störvariablen
+Fehlender Kontext
 
-### Development
+CASE 003 – The Reading Paradox
 
-| Package | Verwendung |
-|---|---|
-| Zod | Validierung von Challenge-Daten |
-| Vitest | Unit Tests |
-| Playwright | End-to-End-Tests |
+Schülerinnen und Schüler, die mehr lesen, erzielen bessere Ergebnisse.
 
-## 4. Roadmap – Game Design Experiments
+Lernziele:
 
-Wir entwickeln die Spielmechaniken schrittweise.
+Umgekehrte Kausalität
+Alternative Erklärungen
 
-### Phase 1 – Drag & Drop / Evidence Collection
+CASE 004 – The Missing Students
 
-**Challenge: The Missing Context**
+Höhere Anwesenheit geht mit besseren Prüfungsergebnissen einher.
 
-Lernziel:
-Verstehen, warum Daten ohne Kontext nicht sinnvoll
-verglichen oder interpretiert werden können.
+Lernziele:
 
-Szenario:
+Kontext
+Verzerrungen
+Mehrere mögliche Erklärungen
+6. Game-Design-Prinzipien
 
-Zwei Schulen weisen unterschiedliche Abbruchquoten auf.
-Der Lernende muss herausfinden, welche zusätzlichen Informationen
-für einen fairen Vergleich relevant sind.
+Keine klassischen Gamification-Elemente wie XP, Badges oder Leaderboards.
 
-Spielmechanik:
+Stattdessen:
 
-- Informationskarten entdecken
-- Karten per Drag & Drop verschieben
-- Hinweise kategorisieren
-- Ergebnisse überprüfen
-- Direktes Feedback erhalten
-
-Technologie:
-
-- React
-- @dnd-kit/react
-- Motion
-
-Lernziele für die Entwicklung:
-
-- Drag & Drop verstehen
-- Sortierbare Karten implementieren
-- Mehrere Drop-Zonen erstellen
-- Visuelles Feedback gestalten
-- Interaktionen mit React State verwalten
-
-**Ergebnis:** Eine funktionierende Evidence-Collection-Challenge.
-
----
-
-### Phase 2 – Progressive Disclosure
-
-**Challenge: The Hidden Evidence**
-
-Lernziel:
-Die Bedeutung zusätzlicher Informationen für die Interpretation
-von Bildungsdaten verstehen.
-
-Spielmechanik:
-
-- Informationen schrittweise freischalten
-- Hinweise aufdecken
-- Erste Einschätzungen treffen
-- Neue Informationen erhalten
-- Ursprüngliche Einschätzungen überprüfen
-
-Technologie:
-
-- React
-- Motion
-- Zustand
-
-Lernziele für die Entwicklung:
-
-- Informationen schrittweise anzeigen
-- Animationen einsetzen
-- Spielzustände verwalten
-- Feedback-Loops gestalten
-- Neugier und Exploration fördern
-
-**Ergebnis:** Eine interaktive Investigation-Challenge.
-
----
-
-### Phase 3 – Branching Scenarios
-
-**Challenge: The Wrong Decision**
-
-Lernziel:
-Erkennen, welche Schlussfolgerungen aus Bildungsdaten
-zulässig sind.
-
-Szenario:
-
-Eine Bildungsadministration muss entscheiden, welche Schule
-als Best-Practice-Beispiel ausgezeichnet werden soll.
-
-Die Entscheidung basiert zunächst auf unvollständigen Informationen.
-
-Spielmechanik:
-
-- Entscheidungen treffen
-- Unterschiedliche Szenariopfade erleben
-- Konsequenzen entdecken
-- Neue Informationen erhalten
-- Entscheidungen gegebenenfalls revidieren
-
-Technologie:
-
-- React
-- Zustand
-- XState (optional)
-- Motion
-
-Lernziele für die Entwicklung:
-
-- Verzweigte Spielabläufe entwickeln
-- Zustandsmaschinen verstehen
-- Entscheidungen und Konsequenzen modellieren
-- Unterschiedliche Endzustände darstellen
-
-**Ergebnis:** Eine interaktive Entscheidungssimulation.
-
----
-
-### Phase 4 – Role Playing
-
-**Challenge: Different Perspectives**
-
-Lernziel:
-Verstehen, dass Daten abhängig von der jeweiligen Rolle
-und Fragestellung unterschiedlich interpretiert werden können.
-
-Szenario:
-
-Die gleichen Bildungsdaten werden aus unterschiedlichen
-Perspektiven betrachtet:
-
-- Lehrkraft
-- Schulleitung
-- Bildungsadministration
-
-Spielmechanik:
-
-- Rollen auswählen
-- Unterschiedliche Aufgaben erhalten
-- Unterschiedliche Perspektiven einnehmen
-- Entscheidungen begründen
-
-Technologie:
-
-- React
-- Zustand
-- Motion
-
-**Ergebnis:** Eine rollenbasierte Data-Literacy-Challenge.
-
----
-
-### Phase 5 – Interactive Investigation Game
-
-**Challenge: The Missing Context – Full Experience**
-
-Wir kombinieren die bisher entwickelten Mechaniken.
-
-Spielablauf:
-
-1. Einführung in ein Bildungsszenario
-2. Erste Einschätzung treffen
-3. Hinweise entdecken
-4. Informationen sammeln
-5. Hinweise kategorisieren
-6. Neue Informationen freischalten
-7. Entscheidung treffen
-8. Konsequenzen erleben
-9. Fachliches Feedback erhalten
-
-Eingesetzte Mechaniken:
-
-- Evidence Collection
-- Drag & Drop
-- Progressive Disclosure
-- Decision & Consequence
-- Branching Scenarios
-- Narrative Learning
-
-**Ergebnis:** Ein vollständiges, spielbares Data-Literacy-Erlebnis.
-
-## 5. Weitere Challenge-Ideen
-
-Nach den ersten Experimenten können weitere Szenarien
-entwickelt werden.
-
-| Challenge | Lernziel | Spielmechanik |
-|---|---|---|
-| Chart Detective | Diagramme interpretieren | Visual Discovery |
-| Fact or Fiction | Aussagen überprüfen | Classification |
-| Spot the Bias | Verzerrungen erkennen | Spot the Difference |
-| Correlation or Causation | Zusammenhänge bewerten | Investigation |
-| The Misleading Chart | Irreführende Visualisierungen erkennen | Error Detection |
-| Data Decision | Schlussfolgerungen ziehen | Decision Simulation |
-| Education Escape Room | Mehrere Kompetenzen kombinieren | Puzzle / Storytelling |
-
-## 6. Projektstruktur (Vorschlag)
-
-```text
-data-literacy-game-lab/
+Drag & Drop
+Evidence Collection
+Progressive Disclosure
+Discovery Learning
+Decision & Consequence
+Branching Scenarios
+Role Playing
+Interactive Storytelling
+Feedback Loops
+
+Die Motivation entsteht durch Neugier, Erkenntnis und die narrative Entwicklung.
+
+Ein wichtiger Grundsatz: Nicht jeder Fall muss eine eindeutige kausale Antwort haben. Manchmal ist die wissenschaftlich angemessene Schlussfolgerung, dass die Daten nicht ausreichen.
+
+7. Visuelles Design
+
+Art Direction: Modern Noir Investigation.
+
+Gestalterische Merkmale:
+
+Dunkles Anthrazit als Hintergrund.
+Cremefarbene Dokumente und Akten.
+Orange als Akzentfarbe.
+Rot für Warnungen und besondere Hinweise.
+Serifenschrift für Überschriften.
+DM Sans für UI-Texte.
+DM Mono für Aktennummern und Daten.
+
+Verwendete Schriftarten:
+
+Playfair Display
+DM Sans
+DM Mono
+
+Farbpalette:
+
+Background: #171A1D
+Surface: #252A2E
+Paper: #E8E0D1
+Accent: #D68B48
+Alert: #9C5148
+
+Die Atmosphäre soll erwachsen, hochwertig, geheimnisvoll und funktional sein.
+
+8. Technologischer Stack
+React
+TypeScript
+Vite
+Zustand für globales State Management
+Motion für Animationen und Übergänge
+Lucide React für Icons
+CSS für Styling
+@dnd-kit/react für geplante Drag-and-Drop-Mechaniken
+Recharts für geplante Datenvisualisierungen
+Optional: XState für komplexere Spielflusssteuerung
+9. Aktuelle Projektstruktur
+text
+src/
+├── components/
+│   ├── CaseCard.tsx
+│   ├── Headquarters.tsx
+│   ├── EvidenceCard.tsx
+│   ├── EvidenceRoom.tsx
+│   └── EvidenceWall.tsx
 │
-├── public/
+├── data/
+│   ├── cases.ts
+│   └── evidence.ts
 │
-├── src/
-│   │
-│   ├── components/
-│   │   ├── GameLayout/
-│   │   ├── EvidenceCard/
-│   │   ├── DropZone/
-│   │   ├── FeedbackPanel/
-│   │   └── ProgressIndicator/
-│   │
-│   ├── challenges/
-│   │   ├── missing-context/
-│   │   │   ├── components/
-│   │   │   ├── data/
-│   │   │   ├── logic/
-│   │   │   └── MissingContextGame.tsx
-│   │   │
-│   │   ├── hidden-evidence/
-│   │   ├── wrong-decision/
-│   │   └── different-perspectives/
-│   │
-│   ├── hooks/
-│   │
-│   ├── stores/
-│   │
-│   ├── types/
-│   │
-│   ├── utils/
-│   │
-│   ├── App.tsx
-│   └── main.tsx
+├── store/
+│   └── gameStore.ts
 │
-├── package.json
-├── tsconfig.json
-└── README.md
-```
+├── App.tsx
+├── index.css
+└── main.tsx
+10. Implementierter Entwicklungsstand
 
-## 7. Designprinzipien
+Prototype 01 – Headquarters
 
-Bei der Entwicklung gelten folgende Grundsätze:
+Implementiert:
 
-### Learning First
+Ermittlungszentrale
+Dark-Noir-Design
+Vier Fallkarten
+Öffnen einer Fallakte
+Animierte Screen-Transitions
+Responsive Layout
 
-Jede Spielmechanik muss einen konkreten Lernzweck erfüllen.
+Prototype 02 – Case Briefing
 
-### Interaction over Decoration
+Implementiert:
 
-Interaktionen sollen das Lernen unterstützen und nicht nur
-visuell interessant sein.
+Narrative Einführung
+Fallbeschreibung
+Official Report
+Ermittlungsauftrag
+Navigation zurück zur Zentrale
+Übergang zur Untersuchung
 
-### Immediate Feedback
+Prototype 03 – Evidence Room
 
-Lernende sollen verstehen, warum eine Entscheidung richtig
-oder falsch beziehungsweise nicht ausreichend begründet ist.
+Implementiert:
 
-### Safe Exploration
+Vier beispielhafte Beweisstücke
+Evidence Cards
+Dokumente öffnen
+Hinweise sammeln
+Freischalten weiterer Hinweise
+Fortschrittsanzeige
 
-Fehler sind Teil des Lernprozesses. Lernende sollen experimentieren
-und ihre Einschätzungen revidieren können.
+Prototype 04 – Evidence Wall
 
-### Professional Context
+Teilweise implementiert:
 
-Szenarien orientieren sich an realistischen Situationen aus
-Schulen, Bildungsorganisationen und Bildungsadministration.
+Verfügbare Hinweise anzeigen
+Hinweise in Kategorien ziehen
+Drei Kategorien:
+Supports my hypothesis
+Additional context
+Still unclear
+Hinweise wieder entfernen
+Erste Drag-and-Drop-Funktion mit nativen HTML-Drag-and-Drop-Events
+11. Aktueller technischer Zustand
 
-### Accessibility
+Das React-Projekt wurde eingerichtet und die bisherigen Screens funktionieren grundsätzlich.
 
-- Tastaturbedienbarkeit
-- Mobile Nutzung
-- Ausreichende Kontraste
-- Verständliche Sprache
-- Drag & Drop immer mit einer alternativen Bedienmöglichkeit
+Packages:
 
-## 8. Definition of Done
+bash
+npm install zustand motion lucide-react
 
-Eine Challenge gilt als fertig, wenn:
 
-- [ ] Das fachliche Lernziel klar definiert ist.
-- [ ] Das Szenario einen realistischen Bildungskontext hat.
-- [ ] Mindestens eine aktive Spielmechanik implementiert ist.
-- [ ] Die Interaktionen zuverlässig funktionieren.
-- [ ] Feedback und Erklärungen integriert sind.
-- [ ] Ein vollständiger Spielablauf möglich ist.
-- [ ] Die Challenge auf mobilen Geräten funktioniert.
-- [ ] Die Interaktionen barrierearm bedienbar sind.
-- [ ] Der fachliche Lerneffekt nachvollziehbar ist.
+Für die geplante Drag-and-Drop-Weiterentwicklung:
 
-## 9. Erfolgskriterien des Projekts
+bash
+npm install @dnd-kit/react
 
-Wir wollen nach Abschluss der Experimente beantworten können:
 
-1. Welche Game-Design-Mechaniken eignen sich besonders
-   für Data-Literacy-Lernangebote?
-2. Welche Interaktionen erzeugen echtes Engagement?
-3. Welche Mechaniken unterstützen das Verständnis komplexer
-   Datenkonzepte?
-4. Wie lassen sich mehrere Mechaniken kombinieren?
-5. Welche Komponenten können später wiederverwendet werden?
+Projekt starten:
 
-## 10. First Steps
+bash
+npm run dev
+12. Aktuell offenes Problem
 
-- [ ] React-Projekt mit Vite und TypeScript aufsetzen.
-- [ ] Motion und dnd-kit installieren.
-- [ ] Game Layout erstellen.
-- [ ] Evidence Cards entwickeln.
-- [ ] Mehrere Drop-Zonen implementieren.
-- [ ] Feedback-Mechanismus integrieren.
-- [ ] The Missing Context spielbar machen.
-- [ ] Progressive Disclosure ergänzen.
-- [ ] Branching Scenarios entwickeln.
-- [ ] Die unterschiedlichen Spielerlebnisse vergleichen.
+Der Button OPEN EVIDENCE WALL im Evidence Room funktioniert noch nicht zuverlässig.
 
----
+Zu überprüfen:
 
-**Leitgedanke:**
+Enthält gameStore.ts die Action openEvidenceWall?
+Ist currentScreen um den Wert evidence-wall erweitert?
+Ist der Button in EvidenceRoom.tsx korrekt mit onClick={openEvidenceWall} verbunden?
+Ist EvidenceWall.tsx in App.tsx importiert?
+Ist der Screen-Wechsel in der AnimatePresence-Navigation korrekt implementiert?
 
-We don't just teach people how to read data.
+Erst dieses Problem beheben, bevor weitere Mechaniken entwickelt werden.
 
-We create experiences that help them discover,
-question and understand data.
+13. Nächste Entwicklungsschritte
+
+Priorität 1 – Stabilisierung
+
+Navigation zwischen allen Screens überprüfen.
+Zustand und Screen-Wechsel konsolidieren.
+Evidence Collection testen.
+Freischaltlogik testen.
+Doppelte oder inkonsistente Zustände vermeiden.
+
+Priorität 2 – Evidence Wall verbessern
+
+Drag & Drop zuverlässiger machen.
+Alternative zur Mausbedienung integrieren.
+Platzierte Hinweise visuell hervorheben.
+Kategorien und Begründungen didaktisch verbessern.
+
+Priorität 3 – Hypothesenbildung
+
+Spielende formulieren Hypothesen.
+Hinweise werden mit Hypothesen verknüpft.
+Feedback zu Interpretationen geben.
+Widersprüchliche Hinweise sichtbar machen.
+
+Priorität 4 – Data Investigation
+
+Interaktive Diagramme mit Recharts.
+Eisverkauf und Badeunfälle visualisieren.
+Temperatur als zusätzliche Variable einblenden.
+Besucherzahlen als weiteren Kontext freischalten.
+
+Priorität 5 – The Verdict
+
+Schlussfolgerungen auswählen.
+Begründungen formulieren.
+Feedback und Reveal entwickeln.
+Fallabschluss implementieren.
+14. Wichtige Entwicklungsprinzipien
+Learning by Building.
+Kleine, eigenständig spielbare Prototypen.
+Erst Spielerfahrung optimieren, dann abstrahieren.
+Komponenten wiederverwendbar gestalten.
+Fachliche und technische Konzepte verständlich erklären.
+Keine unnötige technische Komplexität.
+Responsive und barrierearme Bedienung.
+Jede Interaktion muss einen didaktischen Zweck haben.
+Daten und Szenarien müssen fachlich konsistent sein.
+
+Ziel: Ein praktisches Game-Design-Labor entwickeln, in dem aus klassischen Data-Literacy-Aufgaben interessante, interaktive und narrative Lernerlebnisse werden.
+
+
+
+## Prompt
+
+Du bist mein React-/TypeScript-Entwickler und Game-Design-Sparringspartner. Wir entwickeln gemeinsam The Correlation Files – ein atmosphärisches Detektivspiel zur Vermittlung von Data Literacy, insbesondere Korrelation und Kausalität.
+
+Stack: React, TypeScript, Vite, Zustand, Motion, Lucide React, @dnd-kit/react und Recharts.
+
+Design: Modern Noir Investigation, interaktive Ermittlungsfälle, Evidence Collection, Drag & Drop, Discovery Learning, Progressive Disclosure und Branching Scenarios. Keine klassischen Gamification-Elemente.
+
+Aktueller Stand: Headquarters, Case Briefing, Evidence Room und Evidence Wall sind teilweise implementiert. Die Navigation zur Evidence Wall muss noch stabilisiert werden.
+
+Arbeitsweise: Entwickle mit mir schrittweise funktionierende Prototypen. Erkläre technische Entscheidungen verständlich, nenne immer die Dateipfade und liefere vollständige, kopierbare Codeänderungen. Prüfe bestehenden Code, bevor du Änderungen vorschlägst. Achte auf didaktische Qualität, responsive Gestaltung und Barrierefreiheit.
+
+Nächster Schritt: Stabilisiere die bestehende Navigation und entwickle anschließend die Evidence Wall mit Hypothesenbildung und interaktiver Datenvisualisierung weiter.
+
+Arbeite pragmatisch: First make it work. Then make it meaningful. Then make it beautiful.

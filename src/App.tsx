@@ -3,8 +3,10 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft, FileText, LockKeyhole } from "lucide-react";
 
 import { Headquarters } from "./components/Headquarters";
+import LandingPage from "./LandingPage";
 import { EvidenceRoom } from "./components/EvidenceRoom";
 import { EvidenceWall } from "./components/EvidenceWall";
+import { DataInvestigation } from "./components/investigation/DataInvestigation";
 
 import { cases } from "./data/cases";
 import { useGameStore } from "./store/gameStore";
@@ -15,10 +17,7 @@ function Briefing() {
   );
 
   const goHome = useGameStore((state) => state.goHome);
-
-  const startInvestigation = useGameStore(
-    (state) => state.startInvestigation
-  );
+  const returnToHeadquarters = useGameStore((state) => state.returnToHeadquarters);
 
   const gameCase = cases.find(
     (item) => item.id === selectedCaseId
@@ -29,7 +28,7 @@ function Briefing() {
       <main className="briefing">
         <button className="back-button" onClick={goHome}>
           <ArrowLeft size={17} />
-          BACK TO HEADQUARTERS
+          BACK TO CASE FILES
         </button>
 
         <div className="briefing-paper">
@@ -49,7 +48,7 @@ function Briefing() {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -25 }}
     >
-      <button className="back-button" onClick={goHome}>
+      <button className="back-button" onClick={returnToHeadquarters}>
         <ArrowLeft size={17} />
         BACK TO HEADQUARTERS
       </button>
@@ -92,9 +91,9 @@ function Briefing() {
 
         <button
           className="primary-button"
-          onClick={startInvestigation}
+          onClick={returnToHeadquarters}
         >
-          BEGIN INVESTIGATION →
+          BACK TO HEADQUARTERS
         </button>
       </div>
     </motion.main>
@@ -109,6 +108,10 @@ export default function App() {
   return (
     <div className="game-shell">
       <AnimatePresence mode="wait">
+        {currentScreen === "landing" && (
+          <LandingPage key="landing" />
+        )}
+
         {currentScreen === "headquarters" && (
           <Headquarters key="headquarters" />
         )}
@@ -123,6 +126,10 @@ export default function App() {
 
         {currentScreen === "evidence-wall" && (
           <EvidenceWall key="evidence-wall" />
+        )}
+
+        {currentScreen === "data-investigation" && (
+          <DataInvestigation key="data-investigation" />
         )}
       </AnimatePresence>
     </div>

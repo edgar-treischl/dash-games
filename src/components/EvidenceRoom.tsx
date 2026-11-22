@@ -4,7 +4,6 @@ import {
   ArrowLeft,
   Lock,
   FileSearch,
-  ArrowRight,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -27,10 +26,7 @@ export function EvidenceRoom() {
   );
 
   const goHome = useGameStore((state) => state.goHome);
-  const openEvidenceWall = useGameStore(
-    (state) => state.openEvidenceWall
-  );
-
+  const returnToHeadquarters = useGameStore((state) => state.returnToHeadquarters);
   const discoverEvidence = useGameStore(
     (state) => state.discoverEvidence
   );
@@ -49,7 +45,7 @@ export function EvidenceRoom() {
         <p>Investigation not found.</p>
         <button className="back-button" onClick={goHome}>
           <ArrowLeft size={16} />
-          HEADQUARTERS
+          BACK TO CASE FILES
         </button>
       </main>
     );
@@ -100,7 +96,7 @@ export function EvidenceRoom() {
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.25 }}
     >
-      <button className="back-button" onClick={goHome}>
+      <button className="back-button" onClick={returnToHeadquarters}>
         <ArrowLeft size={16} />
         HEADQUARTERS
       </button>
@@ -127,16 +123,6 @@ export function EvidenceRoom() {
             caseEvidence.some((item) => item.id === id)
           ).length} / {caseEvidence.length}
         </span>
-      </div>
-
-      <div className="evidence-room-actions">
-        <button
-          className="primary-button"
-          onClick={openEvidenceWall}
-        >
-          OPEN EVIDENCE WALL
-          <ArrowRight size={15} />
-        </button>
       </div>
 
       <div className="evidence-grid">

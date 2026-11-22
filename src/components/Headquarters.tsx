@@ -1,18 +1,50 @@
 import { motion } from "motion/react";
 import {
-  Search,
-  FolderOpen,
-  Archive,
+  ArrowLeft,
+  ArrowUpRight,
+  ChartScatter,
+  FileSearch,
+  FileText,
   Fingerprint,
+  LayoutDashboard,
 } from "lucide-react";
 
 import { cases } from "../data/cases";
-import { CaseCard } from "./CaseCard";
+import { useGameStore } from "../store/gameStore";
 
 export function Headquarters() {
+  const selectedCaseId = useGameStore((state) => state.selectedCaseId);
+  const progress = useGameStore((state) =>
+    selectedCaseId ? state.progressByCase[selectedCaseId] : undefined
+  );
+  const goHome = useGameStore((state) => state.goHome);
+  const openBriefing = useGameStore((state) => state.openBriefing);
+  const startInvestigation = useGameStore((state) => state.startInvestigation);
+  const openEvidenceWall = useGameStore((state) => state.openEvidenceWall);
+  const openDataInvestigation = useGameStore((state) => state.openDataInvestigation);
+  const gameCase = cases.find((item) => item.id === selectedCaseId);
+
+  if (!gameCase || !progress) {
+    return (
+      <main className="headquarters">
+        <p>Investigation not found.</p>
+        <button className="back-button" onClick={goHome}>
+          <ArrowLeft size={16} /> BACK TO CASE FILES
+        </button>
+      </main>
+    );
+  }
+
+  const collectedCount = gameCase.evidenceIds.filter((id) =>
+    progress.collectedEvidence.includes(id)
+  ).length;
+  const placedCount = gameCase.evidenceIds.filter((id) =>
+    progress.collectedEvidence.includes(id) && progress.evidencePlacements[id]
+  ).length;
+
   return (
     <motion.main
-      className="headquarters"
+      className="headquarters case-hub"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -22,66 +54,80 @@ export function Headquarters() {
           <Fingerprint size={27} />
           <span>THE CORRELATION FILES</span>
         </div>
-
-        <span className="division">
-          INVESTIGATION DIVISION
-        </span>
+        <span className="division">INVESTIGATION DIVISION</span>
       </header>
 
-      <section className="hero">
-        <div className="hero-copy">
-          <span className="eyebrow">
-            YOUR INVESTIGATION STARTS HERE
-          </span>
+      <button className="back-button hub-back" onClick={goHome}>
+        <ArrowLeft size={16} /> BACK TO CASE FILES
+      </button>
 
-          <h1>
-            The truth is
-            <br />
-            <em>in the data.</em>
-          </h1>
-
-          <p>
-            Four suspicious cases. Hidden connections.
-            One mission: find out what the data
-            is really telling you.
-          </p>
+      <div className="hub-heading">
+        <div>
+          <span className="eyebrow">CASE #{gameCase.number} / HEADQUARTERS</span>
+          <h1>Your investigation desk</h1>
+          <p>Follow the evidence, revisit the report, and make sense of the connections.</p>
         </div>
+        <span className="hub-status">CASE OPEN</span>
+      </div>
 
-        <div className="hero-stamp">
-          <Search size={38} />
-          <span>QUESTION</span>
-          <span>EVERYTHING</span>
-        </div>
-      </section>
+      <div className="hub-desk">
+        <section className="hub-file" aria-labelledby="hub-case-title">
+          <div className="hub-file-top">
+            <span>CASE FILE #{gameCase.number}</span>
+            <FileText size={22} />
+          </div>
+          <p className="hub-file-label">Current investigation</p>
+          <h2 id="hub-case-title">{gameCase.title}</h2>
+          <p className="hub-file-subtitle">{gameCase.subtitle}</p>
+          <div className="hub-file-rule" />
+          <p className="hub-file-description">{gameCase.description}</p>
+          <button className="hub-file-button" onClick={openBriefing}>
+            Read case report <ArrowUpRight size={17} />
+          </button>
+        </section>
 
-      <section className="case-section">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">INVESTIGATION ARCHIVE</span>
-            <h2>Open Case Files</h2>
+        <section className="hub-workspace" aria-label="Investigation workspace">
+          <div className="hub-workspace-heading">
+            <span>YOUR WORKSPACE</span>
+            <span>CASE #{gameCase.number}</span>
           </div>
 
-          <span className="case-count">
-            01 / 04 AVAILABLE
-          </span>
-        </div>
+          <button className="hub-destination" onClick={startInvestigation}>
+            <span className="hub-destination-icon"><FileSearch size={24} /></span>
+            <span className="hub-destination-copy">
+              <strong>Evidence room</strong>
+              <span>Discover and collect the clues.</span>
+              <small>{collectedCount} of {gameCase.evidenceIds.length} evidence collected</small>
+            </span>
+            <ArrowUpRight className="hub-destination-arrow" size={20} />
+          </button>
 
-        <div className="case-grid">
-          {cases.map((gameCase, index) => (
-            <CaseCard
-              key={gameCase.id}
-              gameCase={gameCase}
-              index={index}
-            />
-          ))}
-        </div>
-      </section>
+          <button className="hub-destination" onClick={openDataInvestigation}>
+            <span className="hub-destination-icon"><ChartScatter size={24} /></span>
+            <span className="hub-destination-copy">
+              <strong>Data investigation</strong>
+              <span>Compare variables and look for patterns.</span>
+            </span>
+            <ArrowUpRight className="hub-destination-arrow" size={20} />
+          </button>
 
-      <footer className="bottom-nav">
-        <span><FolderOpen size={15} /> CASE FILES</span>
-        <span><Search size={15} /> INVESTIGATIONS</span>
-        <span><Archive size={15} /> ARCHIVE</span>
-      </footer>
+          <button className="hub-destination" onClick={openEvidenceWall}>
+            <span className="hub-destination-icon"><LayoutDashboard size={24} /></span>
+            <span className="hub-destination-copy">
+              <strong>Evidence wall</strong>
+              <span>Organize your findings and develop a hypothesis.</span>
+              <small>{placedCount} evidence placed</small>
+            </span>
+            <ArrowUpRight className="hub-destination-arrow" size={20} />
+          </button>
+
+          <p className="hub-note">
+            {progress.hypothesis.trim()
+              ? "Your working hypothesis is saved on the evidence wall."
+              : "Your investigation is saved as you go."}
+          </p>
+        </section>
+      </div>
     </motion.main>
   );
 }

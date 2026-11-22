@@ -1,7 +1,6 @@
 
 import { ArrowLeft, Lightbulb, FileText } from "lucide-react";
 import { motion } from "motion/react";
-import { DataInvestigation } from "./investigation/DataInvestigation";
 
 import { evidence } from "../data/evidence";
 import { cases } from "../data/cases";
@@ -47,14 +46,12 @@ export function EvidenceWall() {
       : undefined
   );
 
-  const closeEvidenceWall = useGameStore(
-    (state) => state.closeEvidenceWall
-  );
-
   const goHome = useGameStore(
     (state) => state.goHome
   );
-
+  const returnToHeadquarters = useGameStore(
+    (state) => state.returnToHeadquarters
+  );
   const placeEvidence = useGameStore(
     (state) => state.placeEvidence
   );
@@ -76,7 +73,7 @@ export function EvidenceWall() {
       <main className="headquarters">
         <button className="back-button" onClick={goHome}>
           <ArrowLeft size={16} />
-          HEADQUARTERS
+          BACK TO CASE FILES
         </button>
         <p>Investigation not found.</p>
       </main>
@@ -131,12 +128,8 @@ export function EvidenceWall() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
     >
-      <button
-        className="back-button"
-        onClick={closeEvidenceWall}
-      >
-        <ArrowLeft size={16} />
-        BACK TO EVIDENCE ROOM
+      <button className="back-button" onClick={returnToHeadquarters}>
+        <ArrowLeft size={16} /> HEADQUARTERS
       </button>
 
       <header className="evidence-heading">
@@ -147,7 +140,7 @@ export function EvidenceWall() {
         <h1>Evidence Wall</h1>
 
         <p>
-          Organize the evidence. Examine the connections.
+          Organize the evidence and develop your working hypothesis.
         </p>
       </header>
 
@@ -155,7 +148,6 @@ export function EvidenceWall() {
         <div className="wall-title">
           <Lightbulb size={20} />
           <span>WORKING HYPOTHESIS</span>
-           <DataInvestigation />
         </div>
 
         <label htmlFor="hypothesis">
@@ -228,7 +220,9 @@ export function EvidenceWall() {
 
           {available.length === 0 && (
             <p className="empty-message">
-              All collected evidence has been placed.
+              {collected.length === 0
+                ? "No evidence collected yet. Visit the evidence room to find clues."
+                : "All collected evidence has been placed."}
             </p>
           )}
         </aside>
