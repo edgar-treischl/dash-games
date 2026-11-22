@@ -1,49 +1,13 @@
 import { useState } from "react";
 import { ArrowLeft, ChartScatter } from "lucide-react";
 import { motion } from "motion/react";
-import {
-  CartesianGrid,
-  ResponsiveContainer,
-  Scatter,
-  ScatterChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 
+import { Scatterplot } from "./Scatterplot";
+import { variables, variableLabels, variableUnits, type VariableId } from "./variables";
 import { datasets } from "../../data/datasets";
 import { cases } from "../../data/cases";
 import { useGameStore } from "../../store/gameStore";
 import { pearsonCorrelation } from "./correlation";
-
-type VariableId =
-  | "temperature"
-  | "iceCreamSales"
-  | "swimmingAccidents"
-  | "poolVisitors";
-
-const variableLabels: Record<VariableId, string> = {
-  temperature: "Average Temperature",
-  iceCreamSales: "Ice Cream Sales",
-  swimmingAccidents: "Swimming Accidents",
-  poolVisitors: "Pool Visitors",
-};
-
-const variableUnits: Record<VariableId, string> = {
-  temperature: "°C",
-  iceCreamSales: "units",
-  swimmingAccidents: "incidents",
-  poolVisitors: "visitors",
-};
-
-const variables = Object.keys(variableLabels) as VariableId[];
-const tickStyle = { fill: "var(--noir-muted)", fontSize: 11 };
-const tooltipStyle = {
-  background: "var(--noir-surface)",
-  border: "1px solid var(--noir-accent)",
-  borderRadius: 5,
-  color: "var(--noir-ink)",
-};
 
 export function EffectExplorer() {
   const selectedCaseId = useGameStore((state) => state.selectedCaseId);
@@ -78,13 +42,9 @@ export function EffectExplorer() {
     );
   }
 
-  const chartData = dataset.observations.map((observation) => ({
-    ...observation,
-    x: observation[xKey],
-    y: observation[yKey],
-  }));
+  const chartData = dataset.observations;
   const chartDescription = `${variableLabels[yKey]} against ${variableLabels[xKey]}`;
-  const correlation = pearsonCorrelation(chartData);
+  const correlation = pearsonCorrelation(chartData.map((item) => ({ x: item[xKey], y: item[yKey] })));
 
   return (
     <motion.main
@@ -145,42 +105,16 @@ export function EffectExplorer() {
               <h2>{chartDescription}</h2>
               <p>Vertical axis: {variableLabels[yKey]} ({variableUnits[yKey]})</p>
             </div>
-            <div
-              className="chart-container"
-              role="img"
-              aria-label={`Scatterplot showing ${chartDescription}. The observations are available in the data table below.`}
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <ScatterChart margin={{ top: 20, right: 25, bottom: 25, left: 0 }}>
-                  <CartesianGrid stroke="var(--noir-border)" strokeDasharray="3 3" />
-                  <XAxis
-                    type="number"
-                    dataKey="x"
-                    name={variableLabels[xKey]}
-                    stroke="var(--noir-muted)"
-                    tick={tickStyle}
-                    label={{
-                      value: `${variableLabels[xKey]} (${variableUnits[xKey]})`,
-                      position: "insideBottom",
-                      offset: -12,
-                      fill: "var(--noir-accent)",
-                      fontSize: 11,
-                    }}
-                  />
-                  <YAxis type="number" dataKey="y" name={variableLabels[yKey]} stroke="var(--noir-muted)" tick={tickStyle} width={50} />
-                  <Tooltip
-                    cursor={{ strokeDasharray: "3 3", stroke: "var(--noir-accent)" }}
-                    contentStyle={tooltipStyle}
-                    formatter={(value, name) => [
-                      `${value} ${name === variableLabels[xKey] ? variableUnits[xKey] : variableUnits[yKey]}`,
-                      name,
-                    ]}
-                    labelFormatter={(_, payload) => payload?.[0]?.payload?.month ?? ""}
-                  />
-                  <Scatter name="Monthly observations" data={chartData} fill="var(--noir-accent)" />
-                </ScatterChart>
-              </ResponsiveContainer>
-            </div>
+            <Scatterplot
+              data={chartData}
+              xKey={xKey}
+              yKey={yKey}
+              xLabel={variableLabels[xKey]}
+              yLabel={variableLabels[yKey]}
+              xUnit={variableUnits[xKey]}
+              yUnit={variableUnits[yKey]}
+              ariaLabel={`Scatterplot showing ${chartDescription}. The observations are available in the data table below.`}
+            />
             <p className="chart-months">
               {chartData.length} monthly observations · Each point represents one month
             </p>
