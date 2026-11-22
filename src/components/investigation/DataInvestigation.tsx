@@ -1,21 +1,22 @@
-
 import { useState } from "react";
 import { ArrowLeft, ChartScatter } from "lucide-react";
 import { motion } from "motion/react";
-
 import {
+  Bar,
+  BarChart,
+  CartesianGrid,
   ResponsiveContainer,
-  ScatterChart,
   Scatter,
+  ScatterChart,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
 } from "recharts";
 
 import { datasets } from "../../data/datasets";
 import { cases } from "../../data/cases";
 import { useGameStore } from "../../store/gameStore";
+import { pearsonCorrelation } from "./correlation";
 
 type VariableId =
   | "temperature"
@@ -37,26 +38,26 @@ const variableUnits: Record<VariableId, string> = {
   poolVisitors: "visitors",
 };
 
+const variables = Object.keys(variableLabels) as VariableId[];
+const tickStyle = { fill: "#aaa9a2", fontSize: 11 };
+const tooltipStyle = {
+  background: "#171a1d",
+  border: "1px solid #765637",
+  borderRadius: 5,
+  color: "#e8e0d1",
+};
+
 export function DataInvestigation() {
-  const selectedCaseId = useGameStore(
-    (state) => state.selectedCaseId
-  );
+  const selectedCaseId = useGameStore((state) => state.selectedCaseId);
   const goHome = useGameStore((state) => state.goHome);
   const returnToHeadquarters = useGameStore((state) => state.returnToHeadquarters);
+  const gameCase = cases.find((item) => item.id === selectedCaseId);
+  const dataset = datasets.find((item) => item.id === gameCase?.datasetId);
 
-  const gameCase = cases.find(
-    (item) => item.id === selectedCaseId
-  );
-
-  const dataset = datasets.find(
-    (item) => item.id === gameCase?.datasetId
-  );
-
-  const [xKey, setXKey] =
-    useState<VariableId>("iceCreamSales");
-
-  const [yKey, setYKey] =
-    useState<VariableId>("swimmingAccidents");
+  const [plotType, setPlotType] = useState<"bar" | "scatter">("bar");
+  const [xKey, setXKey] = useState<VariableId>("iceCreamSales");
+  const [yKey, setYKey] = useState<VariableId>("swimmingAccidents");
+  const [barKey, setBarKey] = useState<VariableId>("iceCreamSales");
 
   if (!gameCase || !selectedCaseId) {
     return (
@@ -81,13 +82,15 @@ export function DataInvestigation() {
     );
   }
 
-  const chartData = dataset.observations.map(
-    (observation) => ({
-      ...observation,
-      x: observation[xKey],
-      y: observation[yKey],
-    })
-  );
+  const chartData = dataset.observations.map((observation) => ({
+    ...observation,
+    x: observation[xKey],
+    y: observation[yKey],
+  }));
+  const chartDescription = plotType === "bar"
+    ? `${variableLabels[barKey]} by month`
+    : `${variableLabels[yKey]} against ${variableLabels[xKey]}`;
+  const correlation = plotType === "scatter" ? pearsonCorrelation(chartData) : null;
 
   return (
     <motion.main
@@ -103,163 +106,189 @@ export function DataInvestigation() {
         <span className="eyebrow">
           CASE #{gameCase.number} / STATISTICAL ANALYSIS
         </span>
-
         <h1>Data Investigation</h1>
-
-        <p>
-          Select two variables and investigate how their values move together.
-        </p>
+        <p>Choose what to explore, then select your variables.</p>
       </header>
 
-      <section className="hypothesis-panel" aria-label="Scatterplot analysis">
-      <div className="wall-title">
-        <ChartScatter size={20} />
-        <span>EXAMINE THE RELATIONSHIP</span>
-      </div>
-      <div className="chart-controls">
-        <div>
-          <label htmlFor="x-variable">
-            X-AXIS
-          </label>
-
-          <select
-            id="x-variable"
-            value={xKey}
-            onChange={(event) =>
-              setXKey(event.target.value as VariableId)
-            }
-          >
-            {Object.entries(variableLabels).map(
-              ([id, label]) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              )
-            )}
-          </select>
+      <section className="hypothesis-panel" aria-label="Data explorer">
+        <div className="wall-title">
+          <ChartScatter size={20} />
+          <span>DATA EXPLORER</span>
         </div>
+        <div className="explorer-layout">
+          <aside className="chart-controls" aria-label="Explorer controls">
+            <fieldset className="explorer-choice">
+              <legend>1. What do you want to explore?</legend>
+              <label className="explorer-option">
+                <input
+                  type="radio"
+                  name="exploration-type"
+                  value="bar"
+                  checked={plotType === "bar"}
+                  onChange={() => setPlotType("bar")}
+                />
+                <span>One variable <small>Bar chart by month</small></span>
+              </label>
+              <label className="explorer-option">
+                <input
+                  type="radio"
+                  name="exploration-type"
+                  value="scatter"
+                  checked={plotType === "scatter"}
+                  onChange={() => setPlotType("scatter")}
+                />
+                <span>A relationship <small>Scatterplot</small></span>
+              </label>
+            </fieldset>
 
-        <div>
-          <label htmlFor="y-variable">
-            Y-AXIS
-          </label>
+            <div className="explorer-variables">
+              <h2>2. Choose {plotType === "bar" ? "a variable" : "variables"}</h2>
+              {plotType === "bar" ? (
+                <div>
+                  <label htmlFor="bar-variable">Variable</label>
+                  <select
+                    id="bar-variable"
+                    value={barKey}
+                    onChange={(event) => setBarKey(event.target.value as VariableId)}
+                  >
+                    {variables.map((id) => (
+                      <option key={id} value={id}>{variableLabels[id]}</option>
+                    ))}
+                  </select>
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <label htmlFor="x-variable">Horizontal axis</label>
+                    <select
+                      id="x-variable"
+                      value={xKey}
+                      onChange={(event) => setXKey(event.target.value as VariableId)}
+                    >
+                      {variables.map((id) => (
+                        <option key={id} value={id}>{variableLabels[id]}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="y-variable">Vertical axis</label>
+                    <select
+                      id="y-variable"
+                      value={yKey}
+                      onChange={(event) => setYKey(event.target.value as VariableId)}
+                    >
+                      {variables.map((id) => (
+                        <option key={id} value={id}>{variableLabels[id]}</option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
+            </div>
+          </aside>
 
-          <select
-            id="y-variable"
-            value={yKey}
-            onChange={(event) =>
-              setYKey(event.target.value as VariableId)
-            }
-          >
-            {Object.entries(variableLabels).map(
-              ([id, label]) => (
-                <option key={id} value={id}>
-                  {label}
-                </option>
-              )
+          <div className="explorer-results">
+            <div className="chart-heading">
+              <h2>{chartDescription}</h2>
+              <p>
+                {plotType === "bar"
+                  ? `Vertical axis: ${variableLabels[barKey]} (${variableUnits[barKey]})`
+                  : `Vertical axis: ${variableLabels[yKey]} (${variableUnits[yKey]})`}
+              </p>
+            </div>
+            <div
+              className="chart-container"
+              role="img"
+              aria-label={`${plotType === "bar" ? "Bar chart" : "Scatterplot"} showing ${chartDescription}. The observations are available in the data table below.`}
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                {plotType === "bar" ? (
+                  <BarChart data={chartData} margin={{ top: 20, right: 15, bottom: 10, left: 0 }}>
+                    <CartesianGrid stroke="#44494a" strokeDasharray="3 3" />
+                    <XAxis dataKey="month" stroke="#aaa9a2" tick={tickStyle} />
+                    <YAxis stroke="#aaa9a2" tick={tickStyle} width={50} />
+                    <Tooltip
+                      contentStyle={tooltipStyle}
+                      formatter={(value) => [`${value} ${variableUnits[barKey]}`, variableLabels[barKey]]}
+                    />
+                    <Bar dataKey={barKey} name={variableLabels[barKey]} fill="#d68b48" />
+                  </BarChart>
+                ) : (
+                  <ScatterChart margin={{ top: 20, right: 25, bottom: 25, left: 0 }}>
+                    <CartesianGrid stroke="#44494a" strokeDasharray="3 3" />
+                    <XAxis
+                      type="number"
+                      dataKey="x"
+                      name={variableLabels[xKey]}
+                      stroke="#aaa9a2"
+                      tick={tickStyle}
+                      label={{
+                        value: `${variableLabels[xKey]} (${variableUnits[xKey]})`,
+                        position: "insideBottom",
+                        offset: -12,
+                        fill: "#d68b48",
+                        fontSize: 11,
+                      }}
+                    />
+                    <YAxis type="number" dataKey="y" name={variableLabels[yKey]} stroke="#aaa9a2" tick={tickStyle} width={50} />
+                    <Tooltip
+                      cursor={{ strokeDasharray: "3 3", stroke: "#d68b48" }}
+                      contentStyle={tooltipStyle}
+                      formatter={(value, name) => [
+                        `${value} ${name === variableLabels[xKey] ? variableUnits[xKey] : variableUnits[yKey]}`,
+                        name,
+                      ]}
+                      labelFormatter={(_, payload) => payload?.[0]?.payload?.month ?? ""}
+                    />
+                    <Scatter name="Monthly observations" data={chartData} fill="#d68b48" />
+                  </ScatterChart>
+                )}
+              </ResponsiveContainer>
+            </div>
+            <p className="chart-months">
+              {chartData.length} monthly observations
+              {plotType === "scatter" ? " · Each point represents one month" : ""}
+            </p>
+            {plotType === "scatter" && (
+              <section className="chart-correlation" aria-label="Pearson correlation">
+                <p className="chart-correlation-label">Pearson correlation (r)</p>
+                <p className={correlation === null ? "chart-correlation-unavailable" : "chart-correlation-value"}>
+                  {correlation === null ? "Unavailable" : correlation.toFixed(2)}
+                </p>
+                {correlation === null && (
+                  <p className="chart-correlation-note">
+                    Requires at least two valid observations and variation in both variables.
+                  </p>
+                )}
+              </section>
             )}
-          </select>
+
+            <details className="chart-data">
+              <summary>View observations</summary>
+              <div className="chart-table-scroll">
+                <table>
+                  <caption>{dataset.title}: monthly observations</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Month</th>
+                      {variables.map((id) => (
+                        <th scope="col" key={id}>{variableLabels[id]} ({variableUnits[id]})</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataset.observations.map((observation) => (
+                      <tr key={observation.month}>
+                        <th scope="row">{observation.month}</th>
+                        {variables.map((id) => <td key={id}>{observation[id]}</td>)}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </div>
         </div>
-      </div>
-
-      <p className="chart-axis-caption">
-        Vertical axis: {variableLabels[yKey]} ({variableUnits[yKey]})
-      </p>
-      <div
-        className="chart-container"
-        role="img"
-        aria-label={`Scatterplot showing ${variableLabels[yKey]} against ${variableLabels[xKey]}`}
-      >
-        <ResponsiveContainer width="100%" height="100%">
-          <ScatterChart margin={{
-            top: 20,
-            right: 25,
-            bottom: 25,
-            left: 10,
-          }}>
-            <CartesianGrid
-              stroke="#44494a"
-              strokeDasharray="3 3"
-            />
-
-            <XAxis
-              type="number"
-              dataKey="x"
-              name={variableLabels[xKey]}
-              stroke="#aaa9a2"
-              tick={{ fill: "#aaa9a2", fontSize: 11 }}
-              label={{
-                value: `${variableLabels[xKey]} (${variableUnits[xKey]})`,
-                position: "insideBottom",
-                offset: -12,
-                fill: "#d68b48",
-                fontSize: 11,
-              }}
-            />
-
-            <YAxis
-              type="number"
-              dataKey="y"
-              name={variableLabels[yKey]}
-              stroke="#aaa9a2"
-              tick={{ fill: "#aaa9a2", fontSize: 11 }}
-            />
-
-            <Tooltip
-              cursor={{
-                strokeDasharray: "3 3",
-                stroke: "#d68b48",
-              }}
-              contentStyle={{
-                background: "#171a1d",
-                border: "1px solid #765637",
-                borderRadius: 5,
-                color: "#e8e0d1",
-              }}
-              formatter={(value, name) => [
-                `${value} ${
-                  name === variableLabels[xKey]
-                    ? variableUnits[xKey]
-                    : variableUnits[yKey]
-                }`,
-                name,
-              ]}
-              labelFormatter={(_, payload) =>
-                payload?.[0]?.payload?.month ?? ""
-              }
-            />
-
-            <Scatter
-              name="Monthly observations"
-              data={chartData}
-              fill="#d68b48"
-            />
-          </ScatterChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className="wall-category chart-observation">
-        <span className="eyebrow">
-          INVESTIGATOR'S NOTE
-        </span>
-
-        <p>
-          Each point represents one month.
-          Look for patterns, unusual observations
-          and possible alternative explanations.
-        </p>
-
-        <p>
-          Remember: A visible correlation does not
-          establish a causal relationship.
-        </p>
-      </div>
-
-      <div className="chart-months">
-        <span className="eyebrow">
-          OBSERVATIONS: {chartData.length} MONTHS
-        </span>
-      </div>
       </section>
     </motion.main>
   );

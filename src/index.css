@@ -1315,13 +1315,63 @@ button:focus-visible {
 }
 
 
-.chart-controls {
+.explorer-layout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: minmax(200px, 250px) minmax(0, 1fr);
+  gap: 32px;
+  margin-top: 24px;
 }
 
-.chart-controls label {
+.chart-controls {
+  border-right: 1px solid #44494a;
+  padding-right: 24px;
+}
+
+.explorer-choice {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.explorer-choice legend,
+.explorer-variables h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  color: #e8e0d1;
+  font: 600 15px 'DM Sans', sans-serif;
+}
+
+.chart-controls .explorer-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 12px;
+  color: #e8e0d1;
+  font: 14px 'DM Sans', sans-serif;
+  cursor: pointer;
+}
+
+.explorer-option input {
+  margin: 2px 0 0;
+  accent-color: #d68b48;
+}
+
+.explorer-option small {
+  display: block;
+  margin-top: 4px;
+  color: #aaa9a2;
+  font-size: 12px;
+}
+
+.explorer-variables {
+  margin-top: 28px;
+}
+
+.explorer-variables > div + div {
+  margin-top: 16px;
+}
+
+.explorer-variables label {
   display: block;
   margin: 0 0 8px;
   color: #d68b48;
@@ -1338,8 +1388,18 @@ button:focus-visible {
   font: 14px 'DM Sans', sans-serif;
 }
 
-.chart-axis-caption {
-  margin: 30px 0 0;
+.chart-heading {
+  margin-top: 0;
+}
+
+.chart-heading h2 {
+  margin: 0;
+  color: #e8e0d1;
+  font-size: 19px;
+}
+
+.chart-heading p {
+  margin: 8px 0 0;
   color: #aaa9a2;
   font-size: 13px;
 }
@@ -1351,25 +1411,103 @@ button:focus-visible {
   position: relative;
 }
 
-.chart-observation {
-  margin-top: 24px;
-  min-height: 0;
+.chart-months {
+  margin: 16px 0 0;
+  color: #aaa9a2;
+  font-size: 13px;
 }
 
-.chart-observation p {
-  max-width: 70ch;
+.chart-correlation {
+  margin: 24px 0 0;
+  padding: 20px 24px;
+  border-left: 3px solid #d68b48;
+  background: #252a2e;
+  color: #e8e0d1;
+}
+
+.chart-correlation-label {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.chart-correlation-value {
+  margin: 0;
+  color: #d68b48;
+  font: 400 clamp(36px, 5vw, 48px)/1.1 'DM Mono', monospace;
+}
+
+.chart-correlation-unavailable {
+  margin: 0;
+  color: #d68b48;
+  font: 18px 'DM Mono', monospace;
+}
+
+.chart-correlation-note {
+  max-width: 55ch;
   margin: 10px 0 0;
   color: #c6c3b9;
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
-.chart-months {
-  margin-top: 20px;
+.chart-data {
+  margin-top: 24px;
+  border-top: 1px solid #44494a;
+  padding-top: 18px;
 }
 
-@media (max-width: 550px) {
+.chart-data summary {
+  color: #e8e0d1;
+  cursor: pointer;
+}
+
+.chart-data summary:focus-visible,
+.chart-controls input:focus-visible,
+.chart-controls select:focus-visible {
+  outline: 2px solid #d68b48;
+  outline-offset: 4px;
+}
+
+.chart-table-scroll {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+
+.chart-data table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #e8e0d1;
+  font-size: 13px;
+  text-align: left;
+}
+
+.chart-data caption {
+  padding-bottom: 12px;
+  color: #aaa9a2;
+  text-align: left;
+}
+
+.chart-data th,
+.chart-data td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #44494a;
+  white-space: nowrap;
+}
+
+.chart-data thead th {
+  color: #d68b48;
+  font-weight: 500;
+}
+
+@media (max-width: 750px) {
+  .explorer-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
   .chart-controls {
-    grid-template-columns: 1fr;
+    border-right: 0;
+    border-bottom: 1px solid #44494a;
+    padding: 0 0 24px;
   }
 }
