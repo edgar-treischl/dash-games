@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+
+:root {
+  --noir-bg: #171a1d;
+  --noir-surface: #24282b;
+  --noir-panel: #252a2e;
+  --noir-border: #44494a;
+  --noir-paper: #e8e0d1;
+  --noir-muted: #aaa9a2;
+  --noir-accent: #d68b48;
+  --noir-accent-dark: #98602f;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --font-display: 'Playfair Display', serif;
+
+  font-family: var(--font-sans);
+  color: var(--noir-paper);
+  background: var(--noir-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button {
+  font: inherit;
+}
+
+.game-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 80% 10%, #30302a 0%, transparent 45%),
+    var(--noir-bg);
+}
+
+.headquarters,
+.briefing {
+  max-width: 1280px;
+  margin: auto;
+  padding: 32px 48px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #393d3e;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 13px var(--font-mono);
+  letter-spacing: 2px;
+}
+
+.brand svg {
+  color: var(--noir-accent);
+}
+
+.division,
+.eyebrow,
+.case-count {
+  color: var(--noir-accent);
+  font: 10px var(--font-mono);
+  letter-spacing: 1.5px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0 30px;
+  border: 0;
+  background: none;
+  color: var(--noir-accent);
+  font: 11px var(--font-mono);
+  cursor: pointer;
+}
+
+.primary-button {
+  margin-top: 25px;
+  padding: 17px 25px;
+  border: 0;
+  background: #b8793c;
+  color: var(--noir-bg);
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: var(--noir-accent);
+}
+
+.evidence-heading {
+  padding: 35px 0;
+}
+
+.evidence-heading h1 {
+  margin: 12px 0;
+  font: 48px var(--font-display);
+}
+
+.evidence-heading p {
+  color: var(--noir-muted);
+}
+
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--noir-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 650px) {
+  .headquarters,
+  .briefing {
+    padding: 22px 18px;
+  }
+
+  .division {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
