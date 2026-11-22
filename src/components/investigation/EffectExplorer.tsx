@@ -18,6 +18,7 @@ export function EffectExplorer() {
 
   const [xKey, setXKey] = useState<VariableId>("iceCreamSales");
   const [yKey, setYKey] = useState<VariableId>("swimmingAccidents");
+  const [showRegression, setShowRegression] = useState(false);
 
   if (!gameCase || !selectedCaseId) {
     return (
@@ -97,6 +98,17 @@ export function EffectExplorer() {
                   ))}
                 </select>
               </div>
+              <div className="explorer-regression-toggle">
+                <label htmlFor="show-regression">
+                  <input
+                    id="show-regression"
+                    type="checkbox"
+                    checked={showRegression}
+                    onChange={(e) => setShowRegression(e.target.checked)}
+                  />
+                  Show linear regression with 95% confidence band
+                </label>
+              </div>
             </div>
           </aside>
 
@@ -113,7 +125,12 @@ export function EffectExplorer() {
               yLabel={variableLabels[yKey]}
               xUnit={variableUnits[xKey]}
               yUnit={variableUnits[yKey]}
-              ariaLabel={`Scatterplot showing ${chartDescription}. The observations are available in the data table below.`}
+              showRegression={showRegression}
+              ariaLabel={`Scatterplot showing ${chartDescription}${
+                showRegression
+                  ? " with linear regression line and 95% confidence band"
+                  : ""
+              }. The observations are available in the data table below.`}
             />
             <p className="chart-months">
               {chartData.length} monthly observations · Each point represents one month
