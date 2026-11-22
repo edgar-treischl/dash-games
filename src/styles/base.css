@@ -1,20 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
 
 :root {
-  --noir-bg: #171a1d;
-  --noir-surface: #24282b;
-  --noir-panel: #252a2e;
-  --noir-border: #44494a;
-  --noir-paper: #e8e0d1;
-  --noir-muted: #aaa9a2;
-  --noir-accent: #d68b48;
-  --noir-accent-dark: #98602f;
+  --noir-bg: #ffffff;
+  --noir-surface: #ffffff;
+  --noir-panel: #ffffff;
+  --noir-border: #c5d0d2;
+  --noir-paper: #f7f3e9;
+  --noir-ink: #252a2d;
+  --noir-muted: #59676b;
+  --noir-accent: #0098D4;
+  --noir-accent-dark: #00698e;
+  --noir-accent-hover: #1aa9e0;
   --font-sans: 'DM Sans', sans-serif;
   --font-mono: 'DM Mono', monospace;
   --font-display: 'Playfair Display', serif;
 
   font-family: var(--font-sans);
-  color: var(--noir-paper);
+  color: var(--noir-ink);
   background: var(--noir-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -36,9 +38,7 @@ button {
 
 .game-shell {
   min-height: 100vh;
-  background:
-    radial-gradient(ellipse at 80% 10%, #30302a 0%, transparent 45%),
-    var(--noir-bg);
+  background: var(--noir-bg);
 }
 
 .headquarters,
@@ -53,7 +53,7 @@ button {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 25px;
-  border-bottom: 1px solid #393d3e;
+  border-bottom: 1px solid var(--noir-border);
 }
 
 .brand {
@@ -71,7 +71,7 @@ button {
 .division,
 .eyebrow,
 .case-count {
-  color: var(--noir-accent);
+  color: var(--noir-accent-dark);
   font: 10px var(--font-mono);
   letter-spacing: 1.5px;
 }
@@ -83,7 +83,7 @@ button {
   padding: 15px 0 30px;
   border: 0;
   background: none;
-  color: var(--noir-accent);
+  color: var(--noir-accent-dark);
   font: 11px var(--font-mono);
   cursor: pointer;
 }
@@ -92,15 +92,15 @@ button {
   margin-top: 25px;
   padding: 17px 25px;
   border: 0;
-  background: #b8793c;
-  color: var(--noir-bg);
+  background: var(--noir-accent);
+  color: var(--noir-ink);
   font: 11px var(--font-mono);
   letter-spacing: 1px;
   cursor: pointer;
 }
 
 .primary-button:hover {
-  background: var(--noir-accent);
+  background: var(--noir-accent-hover);
 }
 
 .evidence-heading {

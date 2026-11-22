@@ -30,9 +30,9 @@
   gap: 7px;
   width: 145px;
   height: 145px;
-  border: 1px solid #765637;
+  border: 1px solid var(--noir-accent);
   border-radius: 50%;
-  color: var(--noir-accent);
+  color: var(--noir-accent-dark);
   font: 10px var(--font-mono);
   letter-spacing: 2px;
   transform: rotate(-12deg);
@@ -61,10 +61,10 @@
   flex-direction: column;
   min-height: 245px;
   padding: 23px;
-  border: 1px solid #3a3e40;
+  border: 1px solid var(--noir-border);
   border-radius: 8px;
   background: var(--noir-surface);
-  color: var(--noir-paper);
+  color: var(--noir-ink);
   text-align: left;
   cursor: pointer;
   transition: border-color 200ms;
@@ -84,7 +84,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--noir-accent);
+  color: var(--noir-accent-dark);
   font: 10px var(--font-mono);
   letter-spacing: 1px;
 }
@@ -95,7 +95,7 @@
 }
 
 .case-category {
-  color: var(--noir-accent);
+  color: var(--noir-accent-dark);
   font: 10px var(--font-mono);
   letter-spacing: 1px;
 }
@@ -114,7 +114,7 @@
 .case-card-footer {
   margin-top: auto;
   padding-top: 17px;
-  border-top: 1px solid #3a3e40;
+  border-top: 1px solid var(--noir-border);
 }
 
 .bottom-nav {
@@ -122,7 +122,7 @@
   gap: 30px;
   margin-top: 45px;
   padding-top: 23px;
-  border-top: 1px solid #393d3e;
+  border-top: 1px solid var(--noir-border);
   color: var(--noir-muted);
   font: 10px var(--font-mono);
 }

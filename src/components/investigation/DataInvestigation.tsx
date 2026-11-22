@@ -39,12 +39,12 @@ const variableUnits: Record<VariableId, string> = {
 };
 
 const variables = Object.keys(variableLabels) as VariableId[];
-const tickStyle = { fill: "#aaa9a2", fontSize: 11 };
+const tickStyle = { fill: "var(--noir-muted)", fontSize: 11 };
 const tooltipStyle = {
-  background: "#171a1d",
-  border: "1px solid #765637",
+  background: "var(--noir-surface)",
+  border: "1px solid var(--noir-accent)",
   borderRadius: 5,
-  color: "#e8e0d1",
+  color: "var(--noir-ink)",
 };
 
 export function DataInvestigation() {
@@ -204,35 +204,35 @@ export function DataInvestigation() {
               <ResponsiveContainer width="100%" height="100%">
                 {plotType === "bar" ? (
                   <BarChart data={chartData} margin={{ top: 20, right: 15, bottom: 10, left: 0 }}>
-                    <CartesianGrid stroke="#44494a" strokeDasharray="3 3" />
-                    <XAxis dataKey="month" stroke="#aaa9a2" tick={tickStyle} />
-                    <YAxis stroke="#aaa9a2" tick={tickStyle} width={50} />
+                    <CartesianGrid stroke="var(--noir-border)" strokeDasharray="3 3" />
+                    <XAxis dataKey="month" stroke="var(--noir-muted)" tick={tickStyle} />
+                    <YAxis stroke="var(--noir-muted)" tick={tickStyle} width={50} />
                     <Tooltip
                       contentStyle={tooltipStyle}
                       formatter={(value) => [`${value} ${variableUnits[barKey]}`, variableLabels[barKey]]}
                     />
-                    <Bar dataKey={barKey} name={variableLabels[barKey]} fill="#d68b48" />
+                    <Bar dataKey={barKey} name={variableLabels[barKey]} fill="var(--noir-accent)" />
                   </BarChart>
                 ) : (
                   <ScatterChart margin={{ top: 20, right: 25, bottom: 25, left: 0 }}>
-                    <CartesianGrid stroke="#44494a" strokeDasharray="3 3" />
+                    <CartesianGrid stroke="var(--noir-border)" strokeDasharray="3 3" />
                     <XAxis
                       type="number"
                       dataKey="x"
                       name={variableLabels[xKey]}
-                      stroke="#aaa9a2"
+                      stroke="var(--noir-muted)"
                       tick={tickStyle}
                       label={{
                         value: `${variableLabels[xKey]} (${variableUnits[xKey]})`,
                         position: "insideBottom",
                         offset: -12,
-                        fill: "#d68b48",
+                        fill: "var(--noir-accent)",
                         fontSize: 11,
                       }}
                     />
-                    <YAxis type="number" dataKey="y" name={variableLabels[yKey]} stroke="#aaa9a2" tick={tickStyle} width={50} />
+                    <YAxis type="number" dataKey="y" name={variableLabels[yKey]} stroke="var(--noir-muted)" tick={tickStyle} width={50} />
                     <Tooltip
-                      cursor={{ strokeDasharray: "3 3", stroke: "#d68b48" }}
+                      cursor={{ strokeDasharray: "3 3", stroke: "var(--noir-accent)" }}
                       contentStyle={tooltipStyle}
                       formatter={(value, name) => [
                         `${value} ${name === variableLabels[xKey] ? variableUnits[xKey] : variableUnits[yKey]}`,
@@ -240,7 +240,7 @@ export function DataInvestigation() {
                       ]}
                       labelFormatter={(_, payload) => payload?.[0]?.payload?.month ?? ""}
                     />
-                    <Scatter name="Monthly observations" data={chartData} fill="#d68b48" />
+                    <Scatter name="Monthly observations" data={chartData} fill="var(--noir-accent)" />
                   </ScatterChart>
                 )}
               </ResponsiveContainer>
