@@ -41,6 +41,66 @@
   background: var(--noir-panel);
 }
 
+.hub-tasks {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(26px, 4vw, 40px);
+  border: 1px solid #9a9184;
+  border-top: 6px double #9a9184;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 4px 12px #0002;
+}
+
+.hub-tasks h2 {
+  margin: 0 0 32px;
+  font: 500 clamp(30px, 3vw, 42px)/1.15 var(--font-display);
+  letter-spacing: -0.035em;
+}
+
+.hub-tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hub-task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.hub-task-number {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--noir-accent);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--noir-accent);
+  font: 600 18px var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.hub-task-content {
+  flex: 1;
+}
+
+.hub-task-content h3 {
+  margin: 0 0 8px;
+  font: 500 20px/1.2 var(--font-display);
+}
+
+.hub-task-content p {
+  margin: 0;
+  color: #111;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
 .hub-file {
   display: flex;
   flex-direction: column;

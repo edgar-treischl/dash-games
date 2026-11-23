@@ -5,7 +5,6 @@ import {
   ChartBar,
   ChartScatter,
   FileSearch,
-  FileText,
   Fingerprint,
   LayoutDashboard,
 } from "lucide-react";
@@ -19,7 +18,6 @@ export function Headquarters() {
     selectedCaseId ? state.progressByCase[selectedCaseId] : undefined
   );
   const goHome = useGameStore((state) => state.goHome);
-  const openBriefing = useGameStore((state) => state.openBriefing);
   const startInvestigation = useGameStore((state) => state.startInvestigation);
   const openVariablePicker = useGameStore((state) => state.openVariablePicker);
   const openEvidenceWall = useGameStore((state) => state.openEvidenceWall);
@@ -73,23 +71,42 @@ export function Headquarters() {
       </div>
 
       <div className="hub-desk">
-        <section className="hub-file" aria-labelledby="hub-case-title">
-          <div className="hub-file-top">
-            <span>CASE FILE #{gameCase.number}</span>
-            <FileText size={22} />
+        <section className="hub-tasks" aria-labelledby="hub-case-tasks-title">
+          <h2 id="hub-case-tasks-title">{gameCase.title}</h2>
+
+          <div className="hub-tasks-list">
+            <div className="hub-task-item">
+              <span className="hub-task-number">1</span>
+              <div className="hub-task-content">
+                <h3>Read the case report</h3>
+                <p>Understand the situation and what you need to investigate.</p>
+              </div>
+            </div>
+
+            <div className="hub-task-item">
+              <span className="hub-task-number">2</span>
+              <div className="hub-task-content">
+                <h3>Collect evidence</h3>
+                <p>Visit the evidence room and discover all available clues.</p>
+              </div>
+            </div>
+
+            <div className="hub-task-item">
+              <span className="hub-task-number">3</span>
+              <div className="hub-task-content">
+                <h3>Analyze the data</h3>
+                <p>Use the data explorer and effect explorer to identify patterns.</p>
+              </div>
+            </div>
+
+            <div className="hub-task-item">
+              <span className="hub-task-number">4</span>
+              <div className="hub-task-content">
+                <h3>Build your hypothesis</h3>
+                <p>Organize your findings on the evidence wall and form conclusions.</p>
+              </div>
+            </div>
           </div>
-          <p className="hub-file-label">Current investigation</p>
-          <h2 id="hub-case-title">{gameCase.title}</h2>
-          <p className="hub-file-subtitle">{gameCase.subtitle}</p>
-          <h3>DEINE AUFGABE</h3>
-          <p>
-          Aufgabenbeschreibung. Must come from Meta data.
-          </p>
-          <div className="hub-file-rule" />
-          <p className="hub-file-description">{gameCase.description}</p>
-          <button className="hub-file-button" onClick={openBriefing}>
-            Read case report <ArrowUpRight size={17} />
-          </button>
         </section>
 
         <section className="hub-workspace" aria-label="Investigation workspace">
