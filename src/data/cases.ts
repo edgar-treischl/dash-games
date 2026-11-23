@@ -13,6 +13,8 @@ export interface InvestigationCase {
   title: string;
   subtitle: string;
   description: string;
+  taskDescription?: string;
+  learningGoals?: string[];
 
   status: CaseStatus;
   category: CaseCategory;
@@ -30,7 +32,16 @@ export const cases: InvestigationCase[] = [
     subtitle: "Entdecke eine mögliche Scheinkorrelation im schulischen Kontext",
 
     description:
-      "Missing description?",
+      "Schulen mit besserer digitaler Ausstattung erzielen bessere Mathematikergebnisse. Aber ist die Technologie wirklich die Ursache? Oder gibt es andere Faktoren, die beide Variablen erklären?",
+    
+    taskDescription:
+      "Deine Aufgabe ist es, die verfügbaren Daten und Hinweise zu untersuchen, um herauszufinden, ob die digitale Ausstattung die Mathematikleistung wirklich verursacht oder ob es sich um eine Scheinkorrelation handelt.",
+    
+    learningGoals: [
+      "Verstehe die Unterschied zwischen Korrelation und Kausalität",
+      "Erkenne Scheinkorrelationen und Störvariablen",
+      "Lerne, kritisch über Daten zu denken"
+    ],
 
     status: "available",
     category: "Korrelation",

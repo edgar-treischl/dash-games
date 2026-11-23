@@ -7,6 +7,7 @@ import {
 
 export type GameScreen =
   | "landing"
+  | "case-intro"
   | "headquarters"
   | "briefing"
   | "evidence"
@@ -37,6 +38,7 @@ interface GameState {
   progressByCase: Record<string, CaseProgress>;
 
   openCase: (id: string) => void;
+  openCaseIntro: (id: string) => void;
   goHome: () => void;
   returnToHeadquarters: () => void;
   openBriefing: () => void;
@@ -87,7 +89,18 @@ export const useGameStore = create<GameState>()(
       openCase: (id) => {
         set((state) => ({
           selectedCaseId: id,
-          currentScreen: "headquarters",
+          currentScreen: "case-intro",
+          progressByCase: {
+            ...state.progressByCase,
+            [id]: state.progressByCase[id] ?? createInitialProgress(id),
+          },
+        }));
+      },
+
+      openCaseIntro: (id) => {
+        set((state) => ({
+          selectedCaseId: id,
+          currentScreen: "case-intro",
           progressByCase: {
             ...state.progressByCase,
             [id]: state.progressByCase[id] ?? createInitialProgress(id),

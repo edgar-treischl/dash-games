@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
 
 import { Headquarters } from "./components/Headquarters";
+import { CaseIntroduction } from "./components/CaseIntroduction";
 import LandingPage from "./pages/LandingPage";
 import { EvidenceRoom } from "./components/EvidenceRoom";
 import { EvidenceWall } from "./components/EvidenceWall";
@@ -87,6 +88,10 @@ export default function App() {
       <AnimatePresence mode="wait">
         {currentScreen === "landing" && (
           <LandingPage key="landing" />
+        )}
+
+        {currentScreen === "case-intro" && (
+          <CaseIntroduction key="case-intro" />
         )}
 
         {currentScreen === "headquarters" && (
