@@ -5,6 +5,26 @@
   align-items: center;
   padding: clamp(28px, 5vw, 50px);
   min-height: 100vh;
+  gap: 20px;
+}
+
+.briefing-iframe {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 800px;
+  border: none;
+  box-shadow: 0 4px 12px #0002;
+}
+
+.briefing-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 400px;
+  color: #9c5148;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .briefing-paper {

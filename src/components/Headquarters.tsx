@@ -81,6 +81,10 @@ export function Headquarters() {
           <p className="hub-file-label">Current investigation</p>
           <h2 id="hub-case-title">{gameCase.title}</h2>
           <p className="hub-file-subtitle">{gameCase.subtitle}</p>
+          <h3>DEINE AUFGABE</h3>
+          <p>
+          Aufgabenbeschreibung. Must come from Meta data.
+          </p>
           <div className="hub-file-rule" />
           <p className="hub-file-description">{gameCase.description}</p>
           <button className="hub-file-button" onClick={openBriefing}>

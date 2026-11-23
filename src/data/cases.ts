@@ -16,6 +16,7 @@ export interface InvestigationCase {
 
   status: CaseStatus;
   category: CaseCategory;
+  briefingAsset?: string;
 
   evidenceIds: string[];
   datasetId?: string;
@@ -32,7 +33,8 @@ export const cases: InvestigationCase[] = [
       "Missing description?",
 
     status: "available",
-    category: "CORRELATION",
+    category: "Korrelation",
+    briefingAsset: "newspaper.html",
 
     evidenceIds: [
       "ice-cream",
@@ -54,7 +56,7 @@ export const cases: InvestigationCase[] = [
       "Schools with more digital devices achieve better results. But why? Investigate whether technology itself makes the difference.",
 
     status: "locked",
-    category: "CAUSALITY",
+    category: "Kausalität",
 
     evidenceIds: [],
 
@@ -70,7 +72,7 @@ export const cases: InvestigationCase[] = [
       "Students who read more achieve better results. But does reading improve performance, or do successful students simply read more?",
 
     status: "locked",
-    category: "REVERSE CAUSALITY",
+    category: "Umgekehrte Kausalität",
 
     evidenceIds: [],
   },
@@ -85,7 +87,7 @@ export const cases: InvestigationCase[] = [
       "Attendance and examination results seem connected. But what happens when important information is missing?",
 
     status: "locked",
-    category: "CONTEXT",
+    category: "Kontext",
 
     evidenceIds: [],
   },

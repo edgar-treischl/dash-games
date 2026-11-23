@@ -1,6 +1,6 @@
 
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowLeft, FileText, LockKeyhole } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { Headquarters } from "./components/Headquarters";
 import LandingPage from "./LandingPage";
@@ -10,35 +10,48 @@ import { DataExplorer } from "./components/investigation/DataExplorer";
 import { EffectExplorer } from "./components/investigation/EffectExplorer";
 
 import { cases } from "./data/cases";
+import { getBriefingAsset } from "./data/briefingAssets";
 import { useGameStore } from "./store/gameStore";
 
 function Briefing() {
-  const selectedCaseId = useGameStore(
-    (state) => state.selectedCaseId
-  );
-
-  const goHome = useGameStore((state) => state.goHome);
+  const selectedCaseId = useGameStore((state) => state.selectedCaseId);
   const returnToHeadquarters = useGameStore((state) => state.returnToHeadquarters);
 
-  const gameCase = cases.find(
-    (item) => item.id === selectedCaseId
-  );
+  const gameCase = cases.find((c) => c.id === selectedCaseId);
 
   if (!gameCase) {
     return (
-      <main className="briefing">
-        <button className="back-button" onClick={goHome}>
+      <motion.main
+        className="briefing"
+        initial={{ opacity: 0, x: 25 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -25 }}
+      >
+        <button className="back-button" onClick={returnToHeadquarters}>
           <ArrowLeft size={17} />
-          BACK TO CASE FILES
+          BACK TO HEADQUARTERS
         </button>
+        <div className="briefing-error">Case not found</div>
+      </motion.main>
+    );
+  }
 
-        <div className="briefing-paper">
-          <h2>CASE NOT FOUND</h2>
-          <p>
-            The selected investigation could not be found.
-          </p>
-        </div>
-      </main>
+  const assetContent = getBriefingAsset(gameCase.briefingAsset);
+
+  if (!assetContent) {
+    return (
+      <motion.main
+        className="briefing"
+        initial={{ opacity: 0, x: 25 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -25 }}
+      >
+        <button className="back-button" onClick={returnToHeadquarters}>
+          <ArrowLeft size={17} />
+          BACK TO HEADQUARTERS
+        </button>
+        <div className="briefing-error">No briefing asset configured for this case</div>
+      </motion.main>
     );
   }
 
@@ -54,43 +67,12 @@ function Briefing() {
         BACK TO HEADQUARTERS
       </button>
 
-      <div className="briefing-paper">
-        <div className="paper-top">
-          <FileText size={22} />
-          <span>CONFIDENTIAL CASE REPORT</span>
-          <LockKeyhole size={17} />
-        </div>
-
-        <span className="eyebrow">
-          CASE FILE #{gameCase.number}
-        </span>
-
-        <h1>{gameCase.title}</h1>
-        <h3>{gameCase.subtitle}</h3>
-
-        <h2>THE INCIDENT</h2>
-        <p>{gameCase.description}</p>
-
-        <div className="official-report">
-          <span>OFFICIAL REPORT</span>
-          <p>
-            "A suspicious statistical relationship
-            has been identified. Hard coded values, from App.tsx must come from meta data."
-          </p>
-        </div>
-        <div className="paper-divider" />
-        <h2>DEINE AUFGABE</h2>
-        <p>
-          Aufgabenbeschreibung. Must come from Meta data.
-        </p>
-
-        <button
-          className="primary-button"
-          onClick={returnToHeadquarters}
-        >
-          BACK TO HEADQUARTERS
-        </button>
-      </div>
+      <iframe
+        srcDoc={assetContent}
+        className="briefing-iframe"
+        title="Case Briefing"
+        sandbox="allow-same-origin"
+      />
     </motion.main>
   );
 }
