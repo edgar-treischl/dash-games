@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
 
 import { Headquarters } from "./components/Headquarters";
-import LandingPage from "./LandingPage";
+import LandingPage from "./pages/LandingPage";
 import { EvidenceRoom } from "./components/EvidenceRoom";
 import { EvidenceWall } from "./components/EvidenceWall";
 import { DataExplorer } from "./components/investigation/DataExplorer";

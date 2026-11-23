@@ -1,8 +1,9 @@
 import { motion } from "motion/react";
-import { Search, FolderOpen, Archive, Fingerprint } from "lucide-react";
+import { Search, FolderOpen, Archive } from "lucide-react";
 
-import { cases } from "./data/cases";
-import { CaseCard } from "./components/CaseCard";
+import { cases } from "../data/cases";
+import { CaseCard } from "../components/CaseCard";
+import Topbar from "../layout/Topbar";
 
 export default function LandingPage() {
   const availableCount = cases.filter((gameCase) => gameCase.status === "available").length;
@@ -14,14 +15,7 @@ export default function LandingPage() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <header className="topbar">
-        <div className="brand">
-          <Fingerprint size={27} />
-          <span>THE D-FILES</span>
-        </div>
-        <span className="division">ACTIVE INVESTIGATIONS</span>
-      </header>
-
+      <Topbar />
       <section className="hero">
         <div className="hero-copy">
           <span className="eyebrow">THE D-FILES</span>
