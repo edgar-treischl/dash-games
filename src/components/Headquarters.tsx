@@ -6,6 +6,7 @@ import {
   ChartScatter,
   FileSearch,
   Fingerprint,
+  HelpCircle,
   LayoutDashboard,
 } from "lucide-react";
 
@@ -22,6 +23,7 @@ export function Headquarters() {
   const openVariablePicker = useGameStore((state) => state.openVariablePicker);
   const openEvidenceWall = useGameStore((state) => state.openEvidenceWall);
   const openEffectExplorer = useGameStore((state) => state.openEffectExplorer);
+  const openDecisionRoom = useGameStore((state) => state.openDecisionRoom);
   const gameCase = cases.find((item) => item.id === selectedCaseId);
 
   if (!gameCase || !progress) {
@@ -138,6 +140,15 @@ export function Headquarters() {
             <span className="hub-destination-copy">
               <strong>Effect explorer</strong>
               <span>Compare variables and look for patterns.</span>
+            </span>
+            <ArrowUpRight className="hub-destination-arrow" size={20} />
+          </button>
+
+          <button className="hub-destination" onClick={openDecisionRoom}>
+            <span className="hub-destination-icon"><HelpCircle size={24} /></span>
+            <span className="hub-destination-copy">
+              <strong>Decision room</strong>
+              <span>Answer critical questions about your investigation.</span>
             </span>
             <ArrowUpRight className="hub-destination-arrow" size={20} />
           </button>

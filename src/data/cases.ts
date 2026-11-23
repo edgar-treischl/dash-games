@@ -7,6 +7,20 @@ export type CaseCategory =
   | "Umgekehrte Kausalität"
   | "Kontext";
 
+export interface DecisionQuestion {
+  id: string;
+  question: string;
+  options: Array<{
+    value: string;
+    label: string;
+    isCorrect?: boolean;
+  }>;
+  feedback?: string;
+  hint?: string;
+  correctMessage?: string;
+  incorrectMessage?: string;
+}
+
 export interface InvestigationCase {
   id: string;
   number: string;
@@ -22,6 +36,7 @@ export interface InvestigationCase {
 
   evidenceIds: string[];
   datasetId?: string;
+  decisionQuestions?: DecisionQuestion[];
 }
 
 export const cases: InvestigationCase[] = [
@@ -55,6 +70,39 @@ export const cases: InvestigationCase[] = [
     ],
 
     datasetId: "summer-dataset",
+
+    decisionQuestions: [
+      {
+        id: "q1-variable-importance",
+        question: "Welche Variable ist am wichtigsten für die Vorhersage von Mathematikleistung?",
+        options: [
+          { value: "devices", label: "Digitale Ausstattung", isCorrect: false },
+          { value: "funding", label: "Schulbudget", isCorrect: false },
+          { value: "teachers", label: "Lehrerqualifikation", isCorrect: false },
+          { value: "uncertain", label: "Das ist unklar", isCorrect: true },
+        ],
+        feedback:
+          "Basierend auf den Daten kann es schwierig sein, die wahre Ursache zu identifizieren. Achte darauf, dass Korrelation nicht gleich Kausalität ist.",
+        hint: "Reichen die vorliegenden Informationen aus, um die Vorhersagekraft dieser Variablen zu vergleichen?",
+        correctMessage: "Richtig! Die vorliegenden Informationen erlauben keinen Vergleich der Vorhersagekraft.",
+        incorrectMessage: "Die wichtigste Vorhersagevariable lässt sich hier nicht bestimmen.",
+      },
+      {
+        id: "q2-confounding-variable",
+        question: "Welche Variable könnte ein Störfaktor (Confounder) sein?",
+        options: [
+          { value: "weather", label: "Wetter", isCorrect: false },
+          { value: "school_location", label: "Schulstandort (urban vs. ländlich)", isCorrect: true },
+          { value: "time", label: "Zeit des Jahres", isCorrect: false },
+          { value: "none", label: "Es gibt keinen Störfaktor", isCorrect: false },
+        ],
+        feedback:
+          "Ein Störfaktor könnte erklären, warum digitale Ausstattung und Mathematikleistung korreliert sind, ohne dass eines das andere verursacht.",
+        hint: "Welcher Faktor könnte BEIDE Variablen beeinflussen - sowohl die Verfügbarkeit von digitaler Ausstattung als auch die Mathematikleistung?",
+        correctMessage: "Ausgezeichnet! Der Schulstandort könnte ein echter Störfaktor sein - städtische Schulen haben oft mehr Ressourcen.",
+        incorrectMessage: "Versuche es nochmal. Überlege, welcher Faktor BEIDE Variablen beeinflussen könnte.",
+      },
+    ],
   },
 
   {

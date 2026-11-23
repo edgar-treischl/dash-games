@@ -13,6 +13,7 @@ export type GameScreen =
   | "evidence"
   | "data-explorer"
   | "effect-explorer"
+  | "decision-room"
   | "evidence-wall";
 
 export type EvidenceCategory =
@@ -29,6 +30,7 @@ export interface CaseProgress {
   >;
 
   hypothesis: string;
+  decisionAnswers: Record<string, { answer: string; isCorrect: boolean; attempts: number }>;
 }
 
 interface GameState {
@@ -50,6 +52,7 @@ interface GameState {
   openVariablePicker: () => void;
   openEvidenceWall: () => void;
   openEffectExplorer: () => void;
+  openDecisionRoom: () => void;
 
   placeEvidence: (
     id: string,
@@ -59,6 +62,13 @@ interface GameState {
   removeEvidencePlacement: (id: string) => void;
 
   updateHypothesis: (value: string) => void;
+  
+  recordDecisionAnswer: (
+    questionId: string,
+    answer: string,
+    isCorrect: boolean
+  ) => void;
+  resetDecisionAnswers: () => void;
 }
 
 
@@ -73,6 +83,7 @@ const createInitialProgress = (
   collectedEvidence: [],
   evidencePlacements: {},
   hypothesis: "",
+  decisionAnswers: {},
 });
 
 
@@ -209,6 +220,12 @@ export const useGameStore = create<GameState>()(
         set({ currentScreen: "effect-explorer" });
       },
 
+      openDecisionRoom: () => {
+        if (!get().selectedCaseId) return;
+
+        set({ currentScreen: "decision-room" });
+      },
+
       placeEvidence: (id, category) => {
         const caseId = get().selectedCaseId;
         if (!caseId) return;
@@ -280,6 +297,54 @@ export const useGameStore = create<GameState>()(
                 ...progress,
                 hypothesis: value,
               },
+            },
+          };
+        });
+      },
+
+      recordDecisionAnswer: (questionId, answer, isCorrect) => {
+        const caseId = get().selectedCaseId;
+        if (!caseId) return;
+
+        set((state) => {
+          const progress =
+            state.progressByCase[caseId] ??
+            createInitialProgress(caseId);
+
+          const previousAnswer = progress.decisionAnswers?.[questionId];
+          const attempts = (previousAnswer?.attempts ?? 0) + 1;
+
+          return {
+            progressByCase: {
+              ...state.progressByCase,
+              [caseId]: {
+                ...progress,
+                decisionAnswers: {
+                  ...progress.decisionAnswers,
+                  [questionId]: {
+                    answer,
+                    isCorrect,
+                    attempts,
+                  },
+                },
+              },
+            },
+          };
+        });
+      },
+
+      resetDecisionAnswers: () => {
+        const caseId = get().selectedCaseId;
+        if (!caseId) return;
+
+        set((state) => {
+          const progress = state.progressByCase[caseId];
+          if (!progress) return state;
+
+          return {
+            progressByCase: {
+              ...state.progressByCase,
+              [caseId]: { ...progress, decisionAnswers: {} },
             },
           };
         });

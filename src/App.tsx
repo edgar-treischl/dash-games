@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 
 import { Headquarters } from "./components/Headquarters";
 import { CaseIntroduction } from "./components/CaseIntroduction";
+import { DecisionRoom } from "./components/DecisionRoom";
 import LandingPage from "./pages/LandingPage";
 import { EvidenceRoom } from "./components/EvidenceRoom";
 import { EvidenceWall } from "./components/EvidenceWall";
@@ -110,12 +111,16 @@ export default function App() {
           <DataExplorer key="data-explorer" />
         )}
 
-        {currentScreen === "evidence-wall" && (
-          <EvidenceWall key="evidence-wall" />
-        )}
-
         {currentScreen === "effect-explorer" && (
           <EffectExplorer key="effect-explorer" />
+        )}
+
+        {currentScreen === "decision-room" && (
+          <DecisionRoom key="decision-room" />
+        )}
+
+        {currentScreen === "evidence-wall" && (
+          <EvidenceWall key="evidence-wall" />
         )}
       </AnimatePresence>
     </div>
