@@ -43,7 +43,7 @@ export function BarChartComponent({
       role="img"
       aria-label={
         ariaLabel ||
-        `Bar chart showing ${dataLabel} over time. The observations are available in the data table below.`
+        `Bar chart showing ${dataLabel}. The observations are available in the data table below.`
       }
     >
       <ResponsiveContainer width="100%" height="100%">

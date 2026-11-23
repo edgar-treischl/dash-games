@@ -54,10 +54,10 @@ export function DataExplorer() {
       </button>
       <header className="evidence-heading">
         <span className="eyebrow">
-          CASE #{gameCase.number} / DATA EXPLORATION
+          CASE #{gameCase.number}
         </span>
         <h1>Data explorer</h1>
-        <p>Select a variable to examine its behavior over time.</p>
+        <p>Einzelne Variables und deren Ausprägungen erkunden.</p>
       </header>
 
       <section className="hypothesis-panel" aria-label="Variable explorer">
@@ -68,7 +68,7 @@ export function DataExplorer() {
         <div className="explorer-layout">
           <aside className="chart-controls" aria-label="Explorer controls">
             <fieldset className="explorer-choice">
-              <legend>Select a variable to analyze</legend>
+              <legend>Folgende Daten stehen zur Verfügung</legend>
               <div className="variable-options">
                 {variables.map((id) => (
                   <label key={id} className="explorer-option">
@@ -105,13 +105,13 @@ export function DataExplorer() {
             </p>
 
             <details className="chart-data">
-              <summary>View observations</summary>
+              <summary>Daten</summary>
               <div className="chart-table-scroll">
                 <table>
                   <caption>{dataset.title}: {variableLabels[selectedVariable]}</caption>
                   <thead>
                     <tr>
-                      <th scope="col">Month</th>
+                      <th scope="col">Hard coded Month</th>
                       <th scope="col">{variableLabels[selectedVariable]} ({variableUnits[selectedVariable]})</th>
                     </tr>
                   </thead>

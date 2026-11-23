@@ -2,10 +2,10 @@
 export type CaseStatus = "available" | "locked";
 
 export type CaseCategory =
-  | "CORRELATION"
-  | "CAUSALITY"
-  | "REVERSE CAUSALITY"
-  | "CONTEXT";
+  | "Korrelation"
+  | "Kausalität"
+  | "Umgekehrte Kausalität"
+  | "Kontext";
 
 export interface InvestigationCase {
   id: string;
@@ -23,13 +23,13 @@ export interface InvestigationCase {
 
 export const cases: InvestigationCase[] = [
   {
-    id: "summer-mystery",
+    id: "confounding_school_education",
     number: "001",
-    title: "The Summer Mystery",
-    subtitle: "A suspicious connection",
+    title: "Digitale Ausstattung und Mathematikleistung",
+    subtitle: "Entdecke eine mögliche Scheinkorrelation im schulischen Kontext",
 
     description:
-      "Ice cream sales and swimming accidents are rising together. Is there more to this story?",
+      "Missing description?",
 
     status: "available",
     category: "CORRELATION",

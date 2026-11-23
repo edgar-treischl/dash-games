@@ -65,9 +65,9 @@ export function Headquarters() {
 
       <div className="hub-heading">
         <div>
-          <span className="eyebrow">CASE #{gameCase.number} / HEADQUARTERS</span>
-          <h1>Your investigation desk</h1>
-          <p>Follow the evidence, revisit the report, and make sense of the connections.</p>
+          <span className="eyebrow">HEADQUARTERS</span>
+          <h1>Investigation desk</h1>
+          <p>All collected evidence in one place.</p>
         </div>
         <span className="hub-status">CASE OPEN</span>
       </div>
@@ -91,7 +91,6 @@ export function Headquarters() {
         <section className="hub-workspace" aria-label="Investigation workspace">
           <div className="hub-workspace-heading">
             <span>YOUR WORKSPACE</span>
-            <span>CASE #{gameCase.number}</span>
           </div>
 
           <button className="hub-destination" onClick={startInvestigation}>

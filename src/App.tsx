@@ -62,13 +62,11 @@ function Briefing() {
         </div>
 
         <span className="eyebrow">
-          INVESTIGATION FILE #{gameCase.number}
+          CASE FILE #{gameCase.number}
         </span>
 
         <h1>{gameCase.title}</h1>
         <h3>{gameCase.subtitle}</h3>
-
-        <div className="paper-divider" />
 
         <h2>THE INCIDENT</h2>
         <p>{gameCase.description}</p>
@@ -77,17 +75,13 @@ function Briefing() {
           <span>OFFICIAL REPORT</span>
           <p>
             "A suspicious statistical relationship
-            has been identified. Further investigation
-            is required."
+            has been identified. Hard coded values, from App.tsx must come from meta data."
           </p>
         </div>
-
-        <h2>YOUR ASSIGNMENT</h2>
-
+        <div className="paper-divider" />
+        <h2>DEINE AUFGABE</h2>
         <p>
-          Investigate the available evidence.
-          Examine the data and challenge the
-          assumptions behind the official report.
+          Aufgabenbeschreibung. Must come from Meta data.
         </p>
 
         <button
