@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tablets für alle? – DER BLICK</title>
+
+<style>
+/* =========================================
+   DESIGN SYSTEM
+========================================= */
+
+:root {
+  --noir-paper: #fffefa;
+  --noir-ink: #252a2d;
+  --noir-muted: #59676b;
+  --noir-accent: #0098D4;
+  --noir-line: #d9d5cb;
+  --noir-panel: #eceae2;
+
+  --noir-serif: Georgia, "Times New Roman", serif;
+  --noir-sans: Arial, Helvetica, sans-serif;
+
+  --page-width: 1120px;
+}
+
+/* =========================================
+   RESET & BASE
+========================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #e4e1d9;
+  color: var(--noir-ink);
+  font-family: var(--noir-serif);
+  line-height: 1.65;
+  padding: 35px 20px;
+}
+
+.newspaper {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 42px 65px;
+  background: var(--noir-paper);
+  box-shadow: 0 5px 35px #252a2d14;
+}
+
+/* =========================================
+   PUBLICATION HEADER
+========================================= */
+
+.topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--noir-ink);
+  padding-bottom: 9px;
+  font: 10px var(--noir-sans);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--noir-muted);
+}
+
+.masthead {
+  text-align: center;
+  font-family: var(--noir-serif);
+  font-size: 55px;
+  font-weight: 900;
+  letter-spacing: -3px;
+  line-height: 1.2;
+  padding: 17px 0 4px;
+}
+
+.edition {
+  text-align: center;
+  font: 10px var(--noir-sans);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--noir-muted);
+  padding: 5px 0 17px;
+  border-bottom: 4px double var(--noir-ink);
+}
+
+/* =========================================
+   ARTICLE HEADER
+========================================= */
+
+.article-header {
+  margin-top: 35px;
+}
+
+.category {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--noir-accent);
+  font: bold 11px var(--noir-sans);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.category::before {
+  content: "";
+  width: 22px;
+  height: 2px;
+  background: var(--noir-accent);
+}
+
+h1 {
+  font-family: var(--noir-serif);
+  font-size: clamp(38px, 5vw, 59px);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1.07;
+  margin: 15px 0 17px;
+  max-width: 950px;
+}
+
+.subtitle {
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--noir-muted);
+  max-width: 810px;
+  margin-bottom: 22px;
+}
+
+.author {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid var(--noir-line);
+  border-bottom: 1px solid var(--noir-line);
+  padding: 12px 0;
+  margin-bottom: 25px;
+  color: var(--noir-muted);
+  font: 11px var(--noir-sans);
+  letter-spacing: .3px;
+}
+
+.author strong {
+  color: var(--noir-ink);
+}
+
+/* =========================================
+   HERO IMAGE
+========================================= */
+
+.hero {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  background:
+    linear-gradient(0deg, #252a2d30, transparent 50%),
+    url("./newspaper_hero.jpeg") center 45% / cover;
+  margin-bottom: 8px;
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font: 10px var(--noir-sans);
+  color: var(--noir-muted);
+  margin-bottom: 32px;
+}
+
+/* =========================================
+   ARTICLE LAYOUT
+========================================= */
+
+.article-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(205px, .85fr);
+  gap: 45px;
+  align-items: start;
+}
+
+.article-body {
+  font-size: 16px;
+  line-height: 1.85;
+  text-align: justify;
+}
+
+.article-body p {
+  margin-bottom: 19px;
+}
+
+.article-body p:first-child:first-letter {
+  float: left;
+  font-size: 66px;
+  line-height: .85;
+  padding: 6px 9px 0 0;
+  color: var(--noir-accent);
+}
+
+.article-body h2 {
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -.5px;
+  text-align: left;
+  margin: 32px 0 13px;
+}
+
+.article-body h2::after {
+  content: "";
+  display: block;
+  width: 35px;
+  height: 2px;
+  background: var(--noir-accent);
+  margin-top: 10px;
+}
+
+/* =========================================
+   PULL QUOTE
+========================================= */
+
+blockquote {
+  border-left: 4px solid var(--noir-accent);
+  padding: 9px 20px;
+  margin: 30px 0;
+  font-size: 24px;
+  line-height: 1.4;
+  font-style: italic;
+  text-align: left;
+}
+
+blockquote cite {
+  display: block;
+  font: 10px var(--noir-sans);
+  color: var(--noir-muted);
+  font-style: normal;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+aside {
+  border-top: 3px solid var(--noir-accent);
+  padding-top: 14px;
+  font-family: var(--noir-sans);
+}
+
+aside h3 {
+  font: bold 19px var(--noir-serif);
+  margin-bottom: 12px;
+}
+
+.sidebar-label {
+  color: var(--noir-accent);
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.fact {
+  border-bottom: 1px solid var(--noir-line);
+  padding: 14px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--noir-muted);
+}
+
+.fact strong {
+  display: block;
+  font: bold 27px var(--noir-serif);
+  color: var(--noir-accent);
+  margin-bottom: 3px;
+}
+
+.related {
+  margin-top: 28px;
+  background: var(--noir-panel);
+  padding: 17px;
+  border-top: 2px solid var(--noir-line);
+}
+
+.related h3 {
+  font: bold 17px var(--noir-serif);
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.related p {
+  font-size: 11px;
+  line-height: 1.6;
+  padding-top: 10px;
+  border-top: 1px solid var(--noir-line);
+  margin-top: 10px;
+}
+
+.related strong {
+  color: var(--noir-ink);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+  margin-top: 45px;
+  border-top: 4px double var(--noir-ink);
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font: 10px var(--noir-sans);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--noir-muted);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 760px) {
+  body {
+    padding: 0;
+  }
+
+  .newspaper {
+    padding: 25px 22px;
+  }
+
+  .masthead {
+    font-size: 40px;
+  }
+
+  .article-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .hero {
+    aspect-ratio: 4 / 3;
+  }
+
+  h1 {
+    font-size: 40px;
+  }
+
+  .subtitle {
+    font-size: 18px;
+  }
+
+  .article-body {
+    font-size: 15px;
+  }
+
+  aside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 18px;
+  }
+
+  aside > h3,
+  aside > .sidebar-label,
+  aside > .related {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 420px) {
+  .topline {
+    font-size: 8px;
+    letter-spacing: .7px;
+  }
+
+  .masthead {
+    font-size: 34px;
+  }
+
+  h1 {
+    font-size: 35px;
+  }
+
+  .author {
+    flex-direction: column;
+  }
+
+  footer {
+    flex-direction: column;
+  }
+}
+
+/* =========================================
+   PRINT
+========================================= */
+
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+
+  .newspaper {
+    max-width: none;
+    box-shadow: none;
+    padding: 15mm;
+  }
+
+  .hero {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  aside {
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="newspaper">
+
+  <!-- PUBLICATION HEADER -->
+
+  <div class="topline">
+    <span>Gesellschaft & Bildung · Bayern</span>
+    <span>Montag, 23. November 2026 · Nr. 47</span>
+  </div>
+
+  <header>
+    <div class="masthead">Die Tageszeitung</div>
+    <div class="edition">
+      Perspektiven auf Gesellschaft, Bildung & Wissenschaft
+    </div>
+  </header>
+
+
+  <!-- ARTICLE -->
+
+  <article>
+
+    <header class="article-header">
+
+      <div class="category">
+        Schule & Digitalisierung
+      </div>
+
+      <h1>
+        Technische Ausstattung von Schülern und schulische Leistung:
+        Tablets für alle?
+      </h1>
+
+      <p class="subtitle">
+        Bayern investiert in digitale Bildung. Doch verbessert ein Tablet
+        tatsächlich den Lernerfolg – oder kommt es vor allem auf den
+        richtigen Einsatz im Unterricht an?
+      </p>
+
+      <div class="author">
+        <span>Von <strong>der Redaktion Bildung</strong></span>
+        <span>23. November 2026 · Lesedauer: 5 Minuten</span>
+      </div>
+
+    </header>
+
+
+    <!-- LOCAL HERO IMAGE -->
+
+    <figure>
+      <div class="hero"></div>
+
+      <figcaption class="caption">
+        <span>Digitale Endgeräte verändern den Schulalltag.</span>
+        <span>Foto: Symbolbild</span>
+      </figcaption>
+    </figure>
+
+
+    <!-- ARTICLE BODY + SIDEBAR -->
+
+    <div class="article-grid">
+
+      <div class="article-body">
+
+        <p>
+          Der Schulalltag verändert sich. Wo früher Schulbücher,
+          Hefte und Stifte den Unterricht bestimmten, gehören heute
+          digitale Geräte immer häufiger zur Ausstattung der
+          Klassenzimmer. Auch in Bayern wird intensiv darüber
+          diskutiert, wie Tablets das Lernen verändern können.
+        </p>
+
+        <p>
+          Die Idee klingt zunächst einfach: Jedes Kind erhält ein
+          eigenes Gerät, digitale Lernmaterialien stehen jederzeit
+          zur Verfügung und Unterrichtsinhalte können interaktiv
+          vermittelt werden. Doch die technische Ausstattung allein
+          garantiert noch keinen besseren Lernerfolg.
+        </p>
+
+
+        <h2>Ein Klassenzimmer im digitalen Wandel</h2>
+
+        <p>
+          In vielen Schulen ergänzen Tablets inzwischen klassische
+          Unterrichtsmaterialien. Schülerinnen und Schüler können
+          Rechercheaufgaben bearbeiten, Präsentationen erstellen
+          und gemeinsam an digitalen Dokumenten arbeiten.
+        </p>
+
+        <p>
+          Lehrkräfte erhalten gleichzeitig neue Möglichkeiten,
+          Lerninhalte individuell anzupassen und den Lernfortschritt
+          ihrer Klassen zu beobachten. Voraussetzung dafür sind
+          allerdings eine zuverlässige technische Infrastruktur
+          und entsprechende pädagogische Konzepte.
+        </p>
+
+
+        <blockquote>
+          „Nicht das Tablet entscheidet über den Lernerfolg,
+          sondern die Art, wie wir damit lernen.“
+
+          <cite>Eine pädagogische Perspektive</cite>
+        </blockquote>
+
+
+        <h2>Technik ist kein Selbstzweck</h2>
+
+        <p>
+          Kritiker warnen vor Ablenkung, Bildschirmzeit und einer
+          zunehmenden Abhängigkeit von digitalen Medien. Auch die
+          Frage nach Datenschutz und gleichen Bildungschancen
+          bleibt zentral.
+        </p>
+
+        <p>
+          Entscheidend wird deshalb sein, digitale und klassische
+          Unterrichtsmethoden sinnvoll miteinander zu verbinden.
+          Ein Tablet kann ein Schulbuch ergänzen, aber nicht
+          automatisch eine gute Unterrichtsstunde ersetzen.
+        </p>
+
+
+        <h2>Eine Investition in die Zukunft?</h2>
+
+        <p>
+          Die Digitalisierung der Schulen ist weniger eine Frage
+          einzelner Geräte als vielmehr eine langfristige Aufgabe.
+          Neben der Hardware braucht es Fortbildungen,
+          Wartung, digitale Kompetenzen und klare pädagogische
+          Leitlinien.
+        </p>
+
+        <p>
+          Ob Tablets für alle tatsächlich zu besseren schulischen
+          Leistungen führen, wird sich letztlich daran zeigen,
+          wie sinnvoll sie in den Unterricht integriert werden.
+        </p>
+
+      </div>
+
+
+      <!-- SIDEBAR -->
+
+      <aside>
+
+        <div class="sidebar-label">
+          Hintergrund
+        </div>
+
+        <h3>Digitalisierung in der Schule</h3>
+
+        <div class="fact">
+          <strong>01</strong>
+          Digitale Lernmaterialien ergänzen klassische Schulbücher.
+        </div>
+
+        <div class="fact">
+          <strong>02</strong>
+          Lehrkräfte benötigen digitale Weiterbildung.
+        </div>
+
+        <div class="fact">
+          <strong>03</strong>
+          Datenschutz und Chancengleichheit bleiben wichtig.
+        </div>
+
+        <div class="related">
+
+          <div class="sidebar-label">
+            Weiterführende Themen
+          </div>
+
+          <h3>Das könnte Sie auch interessieren</h3>
+
+          <p>
+            <strong>Digitale Schule von Morgen:</strong>
+            Wie verändert der Einsatz von KI den Schulalltag?
+          </p>
+
+          <p>
+            <strong>Geburtstag von Markus Söder:</strong>
+            Feiern Sie mit wenn Markus Söder eine fetzen Party feiert!
+          </p>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </article>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+    <span>DER BLICK · Bildung & Gesellschaft</span>
+    <span>Eine journalistische Designstudie · 2026</span>
+  </footer>
+
+</main>
+
+</body>
+</html>
