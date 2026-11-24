@@ -15,8 +15,7 @@
 .case-intro-hero {
   display: flex;
   flex-direction: column;
-  padding-bottom: clamp(40px, 6vw, 72px);
-  border-bottom: 1px solid var(--noir-border);
+  padding-bottom: clamp(12px, 6vw, 72px);
 }
 
 .case-intro-heading {
@@ -71,7 +70,7 @@
 }
 
 .case-intro-preview-frame {
-  --clipping-height: 300px;
+  --clipping-height: 100px;
   position: relative;
   border: 1px solid var(--noir-border);
   border-radius: 4px;
@@ -184,9 +183,9 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  margin: 28px 0 clamp(32px, 5vw, 56px);
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--noir-border);
+  margin: 14px 0 clamp(32px, 5vw, 56px);
+  padding-bottom: 10px;
+  border: 0;
   gap: 20px;
 }
 

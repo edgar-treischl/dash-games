@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { motion } from "motion/react";
-import { ArrowLeft, ArrowUpRight, AlertCircle, Fingerprint, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Fingerprint, X, Luggage, CircleCheckBig, FileText } from "lucide-react";
 
 import { cases } from "../data/cases";
 import { getBriefingAsset } from "../data/briefingAssets";
@@ -69,12 +69,12 @@ export function CaseIntroduction() {
         <div className="case-intro-container">
           <div className="case-intro-details">
             <section className="case-intro-section">
-              <h2>THE SITUATION</h2>
+              <h2><Luggage /> THE CASE</h2>
               <p className="case-intro-description">{gameCase.description}</p>
             </section>
 
             <section className="case-intro-section">
-              <h2>YOUR TASK</h2>
+              <h2><CircleCheckBig /> YOUR TASK</h2>
               <p className="case-intro-description">
                 {gameCase.taskDescription || "Investigate this case to uncover the truth about the correlation."}
               </p>
@@ -83,7 +83,7 @@ export function CaseIntroduction() {
             {gameCase.learningGoals && gameCase.learningGoals.length > 0 && (
               <section className="case-intro-section">
                 <div className="case-intro-learning">
-                  <AlertCircle size={20} />
+                  <CircleCheckBig size={20} />
                   <div>
                     <h3>WHAT YOU'LL LEARN</h3>
                     <ul className="case-intro-goals">
@@ -107,8 +107,7 @@ export function CaseIntroduction() {
           {briefingAsset && (
             <aside className="case-intro-preview">
               <div className="case-intro-preview-copy">
-                <h2>Case briefing</h2>
-                <p>Take a closer look at the article behind this case.</p>
+                <h2><FileText /> Case briefing</h2>
               </div>
               <div className="case-intro-preview-frame">
                 <span className="case-intro-preview-clipping" aria-hidden="true">
