@@ -1,13 +1,5 @@
 import { motion } from "motion/react";
-import {
-  ArrowLeft,
-  ArrowUpRight,
-  BookOpen,
-  ChartBar,
-  ChartScatter,
-  HelpCircle,
-  Fingerprint,
-} from "lucide-react";
+import { ArrowLeft, Fingerprint } from "lucide-react";
 
 import { cases } from "../data/cases";
 import { useGameStore } from "../store/gameStore";
@@ -68,37 +60,37 @@ export function Headquarters() {
           <h2 id="hub-case-tasks-title">{gameCase.title}</h2>
 
           <div className="hub-tasks-list">
-            <div className="hub-task-item">
+            <button className="hub-task-item" onClick={openFactSheet}>
               <span className="hub-task-number">1</span>
               <div className="hub-task-content">
                 <h3>Read the fact sheet</h3>
                 <p>Understand the scenario with visualizations and explanations.</p>
               </div>
-            </div>
+            </button>
 
-            <div className="hub-task-item">
+            <button className="hub-task-item" onClick={openVariablePicker}>
               <span className="hub-task-number">2</span>
               <div className="hub-task-content">
                 <h3>Explore the data</h3>
                 <p>Use the data explorer to examine variables and patterns.</p>
               </div>
-            </div>
+            </button>
 
-            <div className="hub-task-item">
+            <button className="hub-task-item" onClick={openEffectExplorer}>
               <span className="hub-task-number">3</span>
               <div className="hub-task-content">
                 <h3>Analyze relationships</h3>
                 <p>Use the effect explorer to compare variables and spot correlations.</p>
               </div>
-            </div>
+            </button>
 
-            <div className="hub-task-item">
+            <button className="hub-task-item" onClick={openDecisionRoom}>
               <span className="hub-task-number">4</span>
               <div className="hub-task-content">
                 <h3>Make your decision</h3>
                 <p>Answer the critical questions and form your conclusions.</p>
               </div>
-            </div>
+            </button>
           </div>
         </section>
 
@@ -112,53 +104,6 @@ export function Headquarters() {
         )}
       </div>
 
-      <section className="hub-workspace" aria-label="Investigation workspace">
-        <div className="hub-workspace-heading">
-          <span>YOUR WORKSPACE</span>
-        </div>
-
-        <button className="hub-destination" onClick={openFactSheet}>
-          <span className="hub-destination-icon"><BookOpen size={24} /></span>
-          <span className="hub-destination-copy">
-            <strong>Fact sheet</strong>
-            <span>Learn about the case with graphs and explanations.</span>
-          </span>
-          <ArrowUpRight className="hub-destination-arrow" size={20} />
-        </button>
-
-        <button className="hub-destination" onClick={openVariablePicker}>
-          <span className="hub-destination-icon"><ChartBar size={24} /></span>
-          <span className="hub-destination-copy">
-            <strong>Data explorer</strong>
-            <span>Explore individual variables and their patterns.</span>
-          </span>
-          <ArrowUpRight className="hub-destination-arrow" size={20} />
-        </button>
-
-        <button className="hub-destination" onClick={openEffectExplorer}>
-          <span className="hub-destination-icon"><ChartScatter size={24} /></span>
-          <span className="hub-destination-copy">
-            <strong>Effect explorer</strong>
-            <span>Compare variables and look for patterns.</span>
-          </span>
-          <ArrowUpRight className="hub-destination-arrow" size={20} />
-        </button>
-
-        <button className="hub-destination" onClick={openDecisionRoom}>
-          <span className="hub-destination-icon"><HelpCircle size={24} /></span>
-          <span className="hub-destination-copy">
-            <strong>Decision room</strong>
-            <span>Answer critical questions about your investigation.</span>
-          </span>
-          <ArrowUpRight className="hub-destination-arrow" size={20} />
-        </button>
-
-        <p className="hub-note">
-          {progress.hypothesis.trim()
-            ? "Your working hypothesis has been saved."
-            : "Your investigation is saved as you go."}
-        </p>
-      </section>
     </motion.main>
   );
 }
