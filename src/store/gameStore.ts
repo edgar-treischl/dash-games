@@ -10,25 +10,12 @@ export type GameScreen =
   | "case-intro"
   | "headquarters"
   | "briefing"
-  | "evidence"
+  | "fact-sheet"
   | "data-explorer"
   | "effect-explorer"
-  | "decision-room"
-  | "evidence-wall";
-
-export type EvidenceCategory =
-  | "supports"
-  | "context"
-  | "unclear";
+  | "decision-room";
 
 export interface CaseProgress {
-  discoveredEvidence: string[];
-  collectedEvidence: string[];
-
-  evidencePlacements: Partial<
-    Record<string, EvidenceCategory>
-  >;
-
   hypothesis: string;
   decisionAnswers: Record<string, { answer: string; isCorrect: boolean; attempts: number }>;
 }
@@ -44,22 +31,11 @@ interface GameState {
   goHome: () => void;
   returnToHeadquarters: () => void;
   openBriefing: () => void;
-  startInvestigation: () => void;
-
-  discoverEvidence: (id: string) => void;
-  collectEvidence: (id: string) => void;
+  openFactSheet: () => void;
 
   openVariablePicker: () => void;
-  openEvidenceWall: () => void;
   openEffectExplorer: () => void;
   openDecisionRoom: () => void;
-
-  placeEvidence: (
-    id: string,
-    category: EvidenceCategory
-  ) => void;
-
-  removeEvidencePlacement: (id: string) => void;
 
   updateHypothesis: (value: string) => void;
   
@@ -72,16 +48,7 @@ interface GameState {
 }
 
 
-const createInitialProgress = (
-  caseId: string
-): CaseProgress => ({
-  discoveredEvidence:
-    caseId === "summer-mystery"
-      ? ["ice-cream", "accidents"]
-      : [],
-
-  collectedEvidence: [],
-  evidencePlacements: {},
+const createInitialProgress = (): CaseProgress => ({
   hypothesis: "",
   decisionAnswers: {},
 });
@@ -94,7 +61,7 @@ export const useGameStore = create<GameState>()(
       currentScreen: "landing",
 
       progressByCase: {
-        "summer-mystery": createInitialProgress("summer-mystery"),
+        "confounding_school_education": createInitialProgress(),
       },
 
       openCase: (id) => {
@@ -103,7 +70,7 @@ export const useGameStore = create<GameState>()(
           currentScreen: "case-intro",
           progressByCase: {
             ...state.progressByCase,
-            [id]: state.progressByCase[id] ?? createInitialProgress(id),
+            [id]: state.progressByCase[id] ?? createInitialProgress(),
           },
         }));
       },
@@ -114,7 +81,7 @@ export const useGameStore = create<GameState>()(
           currentScreen: "case-intro",
           progressByCase: {
             ...state.progressByCase,
-            [id]: state.progressByCase[id] ?? createInitialProgress(id),
+            [id]: state.progressByCase[id] ?? createInitialProgress(),
           },
         }));
       },
@@ -137,75 +104,10 @@ export const useGameStore = create<GameState>()(
         set({ currentScreen: "briefing" });
       },
 
-      startInvestigation: () => {
+      openFactSheet: () => {
         if (!get().selectedCaseId) return;
 
-        set({ currentScreen: "evidence" });
-      },
-
-      discoverEvidence: (id) => {
-        const caseId = get().selectedCaseId;
-        if (!caseId) return;
-
-        set((state) => {
-          const progress =
-            state.progressByCase[caseId] ??
-            createInitialProgress(caseId);
-
-          if (progress.discoveredEvidence.includes(id)) {
-            return state;
-          }
-
-          return {
-            progressByCase: {
-              ...state.progressByCase,
-              [caseId]: {
-                ...progress,
-                discoveredEvidence: [
-                  ...progress.discoveredEvidence,
-                  id,
-                ],
-              },
-            },
-          };
-        });
-      },
-
-      collectEvidence: (id) => {
-        const caseId = get().selectedCaseId;
-        if (!caseId) return;
-
-        set((state) => {
-          const progress =
-            state.progressByCase[caseId] ??
-            createInitialProgress(caseId);
-
-          if (
-            !progress.discoveredEvidence.includes(id) ||
-            progress.collectedEvidence.includes(id)
-          ) {
-            return state;
-          }
-
-          return {
-            progressByCase: {
-              ...state.progressByCase,
-              [caseId]: {
-                ...progress,
-                collectedEvidence: [
-                  ...progress.collectedEvidence,
-                  id,
-                ],
-              },
-            },
-          };
-        });
-      },
-
-      openEvidenceWall: () => {
-        if (!get().selectedCaseId) return;
-
-        set({ currentScreen: "evidence-wall" });
+        set({ currentScreen: "fact-sheet" });
       },
 
       openVariablePicker: () => {
@@ -226,61 +128,6 @@ export const useGameStore = create<GameState>()(
         set({ currentScreen: "decision-room" });
       },
 
-      placeEvidence: (id, category) => {
-        const caseId = get().selectedCaseId;
-        if (!caseId) return;
-
-        set((state) => {
-          const progress =
-            state.progressByCase[caseId] ??
-            createInitialProgress(caseId);
-
-          if (!progress.collectedEvidence.includes(id)) {
-            return state;
-          }
-
-          return {
-            progressByCase: {
-              ...state.progressByCase,
-              [caseId]: {
-                ...progress,
-                evidencePlacements: {
-                  ...progress.evidencePlacements,
-                  [id]: category,
-                },
-              },
-            },
-          };
-        });
-      },
-
-      removeEvidencePlacement: (id) => {
-        const caseId = get().selectedCaseId;
-        if (!caseId) return;
-
-        set((state) => {
-          const progress =
-            state.progressByCase[caseId] ??
-            createInitialProgress(caseId);
-
-          const placements = {
-            ...progress.evidencePlacements,
-          };
-
-          delete placements[id];
-
-          return {
-            progressByCase: {
-              ...state.progressByCase,
-              [caseId]: {
-                ...progress,
-                evidencePlacements: placements,
-              },
-            },
-          };
-        });
-      },
-
       updateHypothesis: (value) => {
         const caseId = get().selectedCaseId;
         if (!caseId) return;
@@ -288,7 +135,7 @@ export const useGameStore = create<GameState>()(
         set((state) => {
           const progress =
             state.progressByCase[caseId] ??
-            createInitialProgress(caseId);
+            createInitialProgress();
 
           return {
             progressByCase: {
@@ -309,7 +156,7 @@ export const useGameStore = create<GameState>()(
         set((state) => {
           const progress =
             state.progressByCase[caseId] ??
-            createInitialProgress(caseId);
+            createInitialProgress();
 
           const previousAnswer = progress.decisionAnswers?.[questionId];
           const attempts = (previousAnswer?.attempts ?? 0) + 1;
@@ -352,7 +199,7 @@ export const useGameStore = create<GameState>()(
     }),
     {
       name: "correlation-files-save",
-      version: 3,
+      version: 4,
       storage: createJSONStorage(() => localStorage),
 
       migrate: (persistedState) => {
@@ -360,7 +207,6 @@ export const useGameStore = create<GameState>()(
           GameState,
           "selectedCaseId" | "currentScreen" | "progressByCase"
         >;
-        const progress = saved.progressByCase?.["summer-mystery"];
 
         const migrated = {
           ...saved,
@@ -369,23 +215,7 @@ export const useGameStore = create<GameState>()(
             : saved.currentScreen,
         };
 
-        if (!progress) return migrated;
-
-        return {
-          ...migrated,
-          progressByCase: {
-            ...saved.progressByCase,
-            "summer-mystery": {
-              ...progress,
-              discoveredEvidence: [
-                ...new Set([
-                  ...createInitialProgress("summer-mystery").discoveredEvidence,
-                  ...progress.discoveredEvidence,
-                ]),
-              ],
-            },
-          },
-        };
+        return migrated;
       },
 
       partialize: (state) => ({

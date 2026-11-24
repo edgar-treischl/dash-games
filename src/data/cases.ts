@@ -21,6 +21,13 @@ export interface DecisionQuestion {
   incorrectMessage?: string;
 }
 
+export interface FactSheet {
+  introduction: string;
+  mainExplanation: string;
+  keyTakeaway: string;
+  methodologicalNote: string;
+}
+
 export interface InvestigationCase {
   id: string;
   number: string;
@@ -34,6 +41,7 @@ export interface InvestigationCase {
   category: CaseCategory;
   briefingAsset?: string;
 
+  factSheet?: FactSheet;
   evidenceIds: string[];
   datasetId?: string;
   decisionQuestions?: DecisionQuestion[];
@@ -61,6 +69,16 @@ export const cases: InvestigationCase[] = [
     status: "available",
     category: "Korrelation",
     briefingAsset: "newspaper.html",
+
+    factSheet: {
+      introduction: `Imagine observing a dataset in which people with larger shoe sizes tend to have higher incomes. At first glance, this might suggest that shoe size and income are somehow related. However, consider whether either variable could plausibly cause the other. It is difficult to argue that wearing larger shoes increases one's earning potential, or that earning more money causes one's feet to grow.`,
+      
+      mainExplanation: `The apparent relationship has a different explanation: sex. In this simplified example, men tend to have larger shoe sizes and higher average incomes than women. When both groups are considered together, these differences create an apparent association between shoe size and income. Once we distinguish between men and women, the relationship largely disappears. The association was therefore not evidence of a causal relationship between shoe size and income. Instead, it was a spurious association arising because both variables were related to a third variable.`,
+      
+      keyTakeaway: `Two variables can be statistically associated without one causing the other. A third variable may explain why they appear to be related.`,
+      
+      methodologicalNote: `This is a deliberately simplified teaching example. The simulation assumes that shoe size and income are independently generated within each sex. Therefore, there is no causal effect of shoe size on income, and no causal effect of income on shoe size. The overall association arises entirely from differences between the two groups. This illustrates why observing a statistical association alone is insufficient to establish causality.`
+    },
 
     evidenceIds: [
       "ice-cream",

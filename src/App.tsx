@@ -5,9 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import { Headquarters } from "./components/Headquarters";
 import { CaseIntroduction } from "./components/CaseIntroduction";
 import { DecisionRoom } from "./components/DecisionRoom";
+import { FactSheet } from "./components/FactSheetPage";
 import LandingPage from "./pages/LandingPage";
-import { EvidenceRoom } from "./components/EvidenceRoom";
-import { EvidenceWall } from "./components/EvidenceWall";
 import { DataExplorer } from "./components/investigation/DataExplorer";
 import { EffectExplorer } from "./components/investigation/EffectExplorer";
 
@@ -103,8 +102,8 @@ export default function App() {
           <Briefing key="briefing" />
         )}
 
-        {currentScreen === "evidence" && (
-          <EvidenceRoom key="evidence" />
+        {currentScreen === "fact-sheet" && (
+          <FactSheet key="fact-sheet" />
         )}
 
         {currentScreen === "data-explorer" && (
@@ -117,10 +116,6 @@ export default function App() {
 
         {currentScreen === "decision-room" && (
           <DecisionRoom key="decision-room" />
-        )}
-
-        {currentScreen === "evidence-wall" && (
-          <EvidenceWall key="evidence-wall" />
         )}
       </AnimatePresence>
     </div>

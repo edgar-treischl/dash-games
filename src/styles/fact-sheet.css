@@ -1,0 +1,331 @@
+.fact-sheet {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--noir-bg) !important;
+  color: var(--noir-ink) !important;
+  font-family: "DM Sans", sans-serif;
+}
+
+.fact-sheet-heading {
+  margin: 2rem 0 3rem 0;
+  text-align: left;
+}
+
+.fact-sheet-heading .eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #d68b48;
+  margin-bottom: 0.5rem;
+}
+
+.fact-sheet-heading h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--noir-ink) !important;
+  margin: 0.5rem 0;
+  line-height: 1.2;
+}
+
+.fact-sheet-heading p {
+  font-size: 1.1rem;
+  color: var(--noir-muted) !important;
+  margin: 0.5rem 0;
+}
+
+.fact-sheet-section {
+  margin: 3rem 0;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fact-sheet-section h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #d68b48;
+  margin: 0 0 1.5rem 0;
+  border-bottom: 2px solid #d68b48;
+  padding-bottom: 0.75rem;
+}
+
+.fact-sheet-content {
+  background-color: var(--noir-panel) !important;
+  padding: 2rem;
+  border-left: 4px solid #d68b48;
+  border-radius: 4px;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.fact-sheet-content p {
+  margin: 1rem 0;
+  color: var(--noir-ink) !important;
+}
+
+.fact-sheet-chart {
+  background-color: var(--noir-panel) !important;
+  padding: 2rem;
+  border-radius: 4px;
+  border: 1px solid var(--noir-border) !important;
+}
+
+.chart-subtitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #d68b48;
+  margin-bottom: 0.5rem;
+}
+
+.chart-subtitle strong {
+  font-weight: 700;
+}
+
+.chart-caption {
+  font-size: 0.9rem;
+  color: var(--noir-muted) !important;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.causal-diagram h3 {
+  margin: 0 0 0.5rem;
+  color: var(--noir-ink);
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+}
+
+.causal-diagram-graphic {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 240px;
+  overflow: visible;
+}
+
+.causal-arrow {
+  fill: none;
+  stroke: var(--noir-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.causal-node rect {
+  stroke-width: 2;
+}
+
+.causal-node text {
+  dominant-baseline: middle;
+  text-anchor: middle;
+  font-family: "DM Sans", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.causal-node--cause rect {
+  fill: var(--noir-accent);
+  stroke: var(--noir-accent-dark);
+}
+
+.causal-node--cause text {
+  fill: #ffffff;
+}
+
+.causal-node--outcome rect {
+  fill: var(--noir-paper);
+  stroke: var(--noir-border);
+}
+
+.causal-node--outcome text {
+  fill: var(--noir-ink);
+}
+
+.causal-diagram-note {
+  max-width: 34rem;
+  margin: 0.25rem auto 0;
+  color: var(--noir-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.fact-sheet-plot {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart-note,
+.chart-legend {
+  color: var(--noir-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.chart-note {
+  margin: 0.5rem 0;
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.chart-legend i {
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  margin-right: 0.3rem;
+  border-radius: 50%;
+}
+
+.chart-legend-women {
+  background: #d66ba0;
+}
+
+.chart-legend-men {
+  background: #3677b8;
+}
+
+.fact-sheet-table {
+  background-color: var(--noir-panel) !important;
+  padding: 2rem;
+  border-radius: 4px;
+  border: 1px solid var(--noir-border) !important;
+  overflow-x: auto;
+}
+
+.fact-sheet-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.fact-sheet-table thead {
+  background-color: var(--noir-surface) !important;
+  border-bottom: 2px solid #d68b48;
+}
+
+.fact-sheet-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #d68b48;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fact-sheet-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--noir-border) !important;
+  color: var(--noir-ink) !important;
+  font-size: 0.95rem;
+}
+
+.fact-sheet-table tbody tr:hover {
+  background-color: var(--noir-panel) !important;
+}
+
+.fact-sheet-highlight {
+  background-color: var(--noir-panel) !important;
+  border-left: 4px solid #9c5148;
+}
+
+.highlight-box {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 2rem;
+  background-color: var(--noir-surface) !important;
+  border-radius: 4px;
+  border: 1px solid #9c5148;
+}
+
+.highlight-box svg {
+  color: #d68b48;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.highlight-box h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.3rem;
+  color: var(--noir-ink) !important;
+  margin: 0 0 0.75rem 0;
+}
+
+.highlight-box p {
+  margin: 0;
+  color: var(--noir-ink) !important;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.fact-sheet-actions {
+  margin: 4rem 0;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fact-sheet-actions .primary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background-color: #d68b48;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+
+.fact-sheet-actions .primary-button:hover {
+  background-color: #e59d5a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(214, 139, 72, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fact-sheet {
+    padding: 1rem;
+  }
+
+  .fact-sheet-heading h1 {
+    font-size: 2rem;
+  }
+
+  .fact-sheet-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .fact-sheet-content,
+  .fact-sheet-chart,
+  .fact-sheet-table {
+    padding: 1.5rem;
+  }
+
+  .highlight-box {
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .chart-subtitle {
+    font-size: 0.85rem;
+  }
+}

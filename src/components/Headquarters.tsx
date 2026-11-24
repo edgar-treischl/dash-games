@@ -2,12 +2,11 @@ import { motion } from "motion/react";
 import {
   ArrowLeft,
   ArrowUpRight,
+  BookOpen,
   ChartBar,
   ChartScatter,
-  FileSearch,
-  Fingerprint,
   HelpCircle,
-  LayoutDashboard,
+  Fingerprint,
 } from "lucide-react";
 
 import { cases } from "../data/cases";
@@ -19,9 +18,8 @@ export function Headquarters() {
     selectedCaseId ? state.progressByCase[selectedCaseId] : undefined
   );
   const goHome = useGameStore((state) => state.goHome);
-  const startInvestigation = useGameStore((state) => state.startInvestigation);
+  const openFactSheet = useGameStore((state) => state.openFactSheet);
   const openVariablePicker = useGameStore((state) => state.openVariablePicker);
-  const openEvidenceWall = useGameStore((state) => state.openEvidenceWall);
   const openEffectExplorer = useGameStore((state) => state.openEffectExplorer);
   const openDecisionRoom = useGameStore((state) => state.openDecisionRoom);
   const gameCase = cases.find((item) => item.id === selectedCaseId);
@@ -36,13 +34,6 @@ export function Headquarters() {
       </main>
     );
   }
-
-  const collectedCount = gameCase.evidenceIds.filter((id) =>
-    progress.collectedEvidence.includes(id)
-  ).length;
-  const placedCount = gameCase.evidenceIds.filter((id) =>
-    progress.collectedEvidence.includes(id) && progress.evidencePlacements[id]
-  ).length;
 
   return (
     <motion.main
@@ -67,7 +58,7 @@ export function Headquarters() {
         <div>
           <span className="eyebrow">HEADQUARTERS</span>
           <h1>Investigation desk</h1>
-          <p>All collected evidence in one place.</p>
+          <p>Learn about the case and analyze the data.</p>
         </div>
         <span className="hub-status">CASE OPEN</span>
       </div>
@@ -80,32 +71,32 @@ export function Headquarters() {
             <div className="hub-task-item">
               <span className="hub-task-number">1</span>
               <div className="hub-task-content">
-                <h3>Read the case report</h3>
-                <p>Understand the situation and what you need to investigate.</p>
+                <h3>Read the fact sheet</h3>
+                <p>Understand the scenario with visualizations and explanations.</p>
               </div>
             </div>
 
             <div className="hub-task-item">
               <span className="hub-task-number">2</span>
               <div className="hub-task-content">
-                <h3>Collect evidence</h3>
-                <p>Visit the evidence room and discover all available clues.</p>
+                <h3>Explore the data</h3>
+                <p>Use the data explorer to examine variables and patterns.</p>
               </div>
             </div>
 
             <div className="hub-task-item">
               <span className="hub-task-number">3</span>
               <div className="hub-task-content">
-                <h3>Analyze the data</h3>
-                <p>Use the data explorer and effect explorer to identify patterns.</p>
+                <h3>Analyze relationships</h3>
+                <p>Use the effect explorer to compare variables and spot correlations.</p>
               </div>
             </div>
 
             <div className="hub-task-item">
               <span className="hub-task-number">4</span>
               <div className="hub-task-content">
-                <h3>Build your hypothesis</h3>
-                <p>Organize your findings on the evidence wall and form conclusions.</p>
+                <h3>Make your decision</h3>
+                <p>Answer the critical questions and form your conclusions.</p>
               </div>
             </div>
           </div>
@@ -116,12 +107,11 @@ export function Headquarters() {
             <span>YOUR WORKSPACE</span>
           </div>
 
-          <button className="hub-destination" onClick={startInvestigation}>
-            <span className="hub-destination-icon"><FileSearch size={24} /></span>
+          <button className="hub-destination" onClick={openFactSheet}>
+            <span className="hub-destination-icon"><BookOpen size={24} /></span>
             <span className="hub-destination-copy">
-              <strong>Evidence room</strong>
-              <span>Discover and collect the clues.</span>
-              <small>{collectedCount} of {gameCase.evidenceIds.length} evidence collected</small>
+              <strong>Fact sheet</strong>
+              <span>Learn about the case with graphs and explanations.</span>
             </span>
             <ArrowUpRight className="hub-destination-arrow" size={20} />
           </button>
@@ -153,19 +143,9 @@ export function Headquarters() {
             <ArrowUpRight className="hub-destination-arrow" size={20} />
           </button>
 
-          <button className="hub-destination" onClick={openEvidenceWall}>
-            <span className="hub-destination-icon"><LayoutDashboard size={24} /></span>
-            <span className="hub-destination-copy">
-              <strong>Evidence wall</strong>
-              <span>Organize your findings and develop a hypothesis.</span>
-              <small>{placedCount} evidence placed</small>
-            </span>
-            <ArrowUpRight className="hub-destination-arrow" size={20} />
-          </button>
-
           <p className="hub-note">
             {progress.hypothesis.trim()
-              ? "Your working hypothesis is saved on the evidence wall."
+              ? "Your working hypothesis has been saved."
               : "Your investigation is saved as you go."}
           </p>
         </section>
