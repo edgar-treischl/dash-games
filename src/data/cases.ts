@@ -36,11 +36,10 @@ export interface InvestigationCase {
   description: string;
   taskDescription?: string;
   learningGoals?: string[];
-
   status: CaseStatus;
   category: CaseCategory;
   briefingAsset?: string;
-
+  caseImage: string;
   factSheet?: FactSheet;
   evidenceIds: string[];
   datasetId?: string;
@@ -69,6 +68,7 @@ export const cases: InvestigationCase[] = [
     status: "available",
     category: "Korrelation",
     briefingAsset: "newspaper.html",
+    caseImage: "plot.svg",
 
     factSheet: {
       introduction: `Imagine observing a dataset in which people with larger shoe sizes tend to have higher incomes. At first glance, this might suggest that shoe size and income are somehow related. However, consider whether either variable could plausibly cause the other. It is difficult to argue that wearing larger shoes increases one's earning potential, or that earning more money causes one's feet to grow.`,
@@ -134,6 +134,7 @@ export const cases: InvestigationCase[] = [
 
     status: "locked",
     category: "Kausalität",
+    caseImage: "plot.svg",
 
     evidenceIds: [],
 
@@ -150,6 +151,7 @@ export const cases: InvestigationCase[] = [
 
     status: "locked",
     category: "Umgekehrte Kausalität",
+    caseImage: "plot.svg",
 
     evidenceIds: [],
   },
@@ -165,6 +167,7 @@ export const cases: InvestigationCase[] = [
 
     status: "locked",
     category: "Kontext",
+    caseImage: "plot.svg",
 
     evidenceIds: [],
   },
