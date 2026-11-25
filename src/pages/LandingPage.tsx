@@ -1,12 +1,11 @@
 import { motion } from "motion/react";
 import { Search, FolderOpen, Archive } from "lucide-react";
 
-import { cases } from "../data/cases";
-import { CaseCard } from "../components/CaseCard";
+import { useGameStore } from "../store/gameStore";
 import Topbar from "../layout/Topbar";
 
 export default function LandingPage() {
-  const availableCount = cases.filter((gameCase) => gameCase.status === "available").length;
+  const openCaseFiles = useGameStore((state) => state.openCaseFiles);
 
   return (
     <motion.main
@@ -24,6 +23,9 @@ export default function LandingPage() {
             Suspicious news. Hidden connections. Your mission: find out
             what the data is really telling us.
           </p>
+          <button className="cta-button" onClick={openCaseFiles}>
+            Start Investigation
+          </button>
         </div>
         <div className="hero-stamp">
           <Search size={32} />
@@ -32,25 +34,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="case-section">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">INVESTIGATION ARCHIVE</span>
-            <h2>Open Case Files</h2>
-          </div>
-          <span className="case-count">
-            {String(availableCount).padStart(2, "0")} / {String(cases.length).padStart(2, "0")} AVAILABLE
-          </span>
-        </div>
-        <div className="case-grid">
-          {cases.map((gameCase, index) => (
-            <CaseCard key={gameCase.id} gameCase={gameCase} index={index} />
-          ))}
-        </div>
-      </section>
-
       <footer className="bottom-nav">
-        <span><FolderOpen size={15} /> CASE FILES</span>
+        <button onClick={openCaseFiles}><FolderOpen size={15} /> CASE FILES</button>
         <span><Search size={15} /> INVESTIGATIONS</span>
         <span><Archive size={15} /> ARCHIVE</span>
       </footer>

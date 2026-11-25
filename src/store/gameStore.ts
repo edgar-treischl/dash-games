@@ -8,6 +8,7 @@ import {
 export type GameScreen =
   | "landing"
   | "case-intro"
+  | "case-files"
   | "headquarters"
   | "briefing"
   | "fact-sheet"
@@ -28,6 +29,7 @@ interface GameState {
 
   openCase: (id: string) => void;
   openCaseIntro: (id: string) => void;
+  openCaseFiles: () => void;
   goHome: () => void;
   returnToHeadquarters: () => void;
   openBriefing: () => void;
@@ -86,6 +88,12 @@ export const useGameStore = create<GameState>()(
         }));
       },
 
+      openCaseFiles: () => {
+        set({
+          selectedCaseId: null,
+          currentScreen: "case-files",
+        });
+      },
 
       goHome: () => {
         set({

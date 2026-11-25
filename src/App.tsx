@@ -7,6 +7,7 @@ import { CaseIntroduction } from "./components/CaseIntroduction";
 import { DecisionRoom } from "./components/DecisionRoom";
 import { FactSheet } from "./components/FactSheetPage";
 import LandingPage from "./pages/LandingPage";
+import CaseFilesPage from "./pages/CaseFilesPage";
 import { DataExplorer } from "./components/investigation/DataExplorer";
 import { EffectExplorer } from "./components/investigation/EffectExplorer";
 
@@ -88,6 +89,10 @@ export default function App() {
       <AnimatePresence mode="wait">
         {currentScreen === "landing" && (
           <LandingPage key="landing" />
+        )}
+
+        {currentScreen === "case-files" && (
+          <CaseFilesPage key="case-files" />
         )}
 
         {currentScreen === "case-intro" && (

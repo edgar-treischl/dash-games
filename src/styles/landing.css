@@ -22,6 +22,25 @@
   line-height: 1.8;
 }
 
+.cta-button {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 28px;
+  background: var(--noir-accent);
+  color: var(--noir-bg);
+  border: none;
+  border-radius: 4px;
+  font: 11px var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  cursor: pointer;
+  transition: background 200ms;
+}
+
+.cta-button:hover {
+  background: var(--noir-accent-dark);
+}
+
 .hero-stamp {
   display: flex;
   flex-direction: column;
@@ -127,10 +146,22 @@
   font: 10px var(--font-mono);
 }
 
-.bottom-nav span {
+.bottom-nav span,
+.bottom-nav button {
   display: flex;
   align-items: center;
   gap: 8px;
+  background: none;
+  border: none;
+  color: var(--noir-muted);
+  font: 10px var(--font-mono);
+  cursor: pointer;
+  transition: color 200ms;
+  padding: 0;
+}
+
+.bottom-nav button:hover {
+  color: var(--noir-accent);
 }
 
 @media (max-width: 650px) {
