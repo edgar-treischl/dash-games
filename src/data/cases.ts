@@ -87,7 +87,7 @@ export const cases: InvestigationCase[] = [
       "visitors",
     ],
 
-    datasetId: "summer-dataset",
+    datasetId: "confounder-dataset",
 
     decisionQuestions: [
       {

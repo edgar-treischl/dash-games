@@ -52,7 +52,7 @@ export function BarChartComponent({
           margin={{ top: 20, right: 15, bottom: 10, left: 0 }}
         >
           <CartesianGrid stroke="var(--noir-border)" strokeDasharray="3 3" />
-          <XAxis dataKey="month" stroke="var(--noir-muted)" tick={tickStyle} />
+          <XAxis dataKey="school_id" stroke="var(--noir-muted)" tick={tickStyle} />
           <YAxis stroke="var(--noir-muted)" tick={tickStyle} width={50} />
           <Tooltip
             contentStyle={tooltipStyle}

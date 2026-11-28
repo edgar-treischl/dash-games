@@ -1,0 +1,50 @@
+[
+  {
+    "id": "digital_devices",
+    "label": "Digitale Ausstattung",
+    "description": "Anzahl digitaler Endgeräte pro 100 Schüler",
+    "type": "numeric",
+    "unit": "Geräte pro 100 Schüler",
+    "dataset_version": "1.0.0"
+  },
+  {
+    "id": "math_performance",
+    "label": "Mathematikleistung",
+    "description": "Durchschnittlicher Mathematik-Score einer Schule",
+    "type": "numeric",
+    "unit": "Punkte",
+    "dataset_version": "1.0.0"
+  },
+  {
+    "id": "social_index",
+    "label": "Sozialindex",
+    "description": "Soziale Ausgangslage der Schülerschaft",
+    "type": "numeric",
+    "unit": "Indexpunkte",
+    "dataset_version": "1.0.0"
+  },
+  {
+    "id": "school_size",
+    "label": "Schulgröße",
+    "description": "Anzahl der Schüler einer Schule",
+    "type": "numeric",
+    "unit": "Schüler",
+    "dataset_version": "1.0.0"
+  },
+  {
+    "id": "teacher_experience",
+    "label": "Lehrerfahrung",
+    "description": "Durchschnittliche Berufserfahrung der Lehrkräfte",
+    "type": "numeric",
+    "unit": "Jahre",
+    "dataset_version": "1.0.0"
+  },
+  {
+    "id": "school_type",
+    "label": "Schulart",
+    "description": "Schulform der jeweiligen Schule",
+    "type": "categorical",
+    "unit": "Kategorie",
+    "dataset_version": "1.0.0"
+  }
+]

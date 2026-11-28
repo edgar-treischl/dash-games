@@ -16,8 +16,8 @@ export function EffectExplorer() {
   const gameCase = cases.find((item) => item.id === selectedCaseId);
   const dataset = datasets.find((item) => item.id === gameCase?.datasetId);
 
-  const [xKey, setXKey] = useState<VariableId>("iceCreamSales");
-  const [yKey, setYKey] = useState<VariableId>("swimmingAccidents");
+  const [xKey, setXKey] = useState<VariableId>("digital_devices");
+  const [yKey, setYKey] = useState<VariableId>("math_performance");
   const [showRegression, setShowRegression] = useState(false);
 
   if (!gameCase || !selectedCaseId) {
@@ -163,8 +163,8 @@ export function EffectExplorer() {
                   </thead>
                   <tbody>
                     {dataset.observations.map((observation) => (
-                      <tr key={observation.month}>
-                        <th scope="row">{observation.month}</th>
+                      <tr key={observation.school_id}>
+                        <th scope="row">{observation.school_id}</th>
                         {variables.map((id) => <td key={id}>{observation[id]}</td>)}
                       </tr>
                     ))}

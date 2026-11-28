@@ -2,7 +2,8 @@ import { useState } from "react";
 import { ArrowLeft, ChartBar } from "lucide-react";
 import { motion } from "motion/react";
 
-import { BarChartComponent } from "./BarChartComponent";
+import { HistogramComponent } from "./HistogramComponent";
+import { BoxplotComponent } from "./BoxplotComponent";
 import { variables, variableLabels, variableUnits, type VariableId } from "./variables";
 import { datasets } from "../../data/datasets";
 import { cases } from "../../data/cases";
@@ -15,7 +16,7 @@ export function DataExplorer() {
   const gameCase = cases.find((item) => item.id === selectedCaseId);
   const dataset = datasets.find((item) => item.id === gameCase?.datasetId);
 
-  const [selectedVariable, setSelectedVariable] = useState<VariableId>("iceCreamSales");
+  const [selectedVariable, setSelectedVariable] = useState<VariableId>("digital_devices");
 
   if (!gameCase || !selectedCaseId) {
     return (
@@ -57,7 +58,7 @@ export function DataExplorer() {
           CASE #{gameCase.number}
         </span>
         <h1>Data explorer</h1>
-        <p>Einzelne Variables und deren Ausprägungen erkunden.</p>
+        <p>Einzelne Variablen und deren Ausprägungen erkunden.</p>
       </header>
 
       <section className="hypothesis-panel" aria-label="Variable explorer">
@@ -87,22 +88,31 @@ export function DataExplorer() {
           </aside>
 
           <div className="explorer-results">
-            <div
-              className="chart-heading"
-            >
-              <h2>{variableLabels[selectedVariable]} by month</h2>
-              <p>Vertical axis: {variableLabels[selectedVariable]} ({variableUnits[selectedVariable]})</p>
+            <div className="chart-heading">
+              <h2>{variableLabels[selectedVariable]}</h2>
+              <p>Verteilung in {variableUnits[selectedVariable]}</p>
             </div>
-            <BarChartComponent
+            <HistogramComponent
               data={chartData}
               dataKey={selectedVariable}
               dataLabel={variableLabels[selectedVariable]}
               dataUnit={variableUnits[selectedVariable]}
-              ariaLabel={`Bar chart showing ${variableLabels[selectedVariable]} over time. The observations are available in the data table below.`}
+              ariaLabel={`Histogram showing distribution of ${variableLabels[selectedVariable]}. The observations are available in the data table below.`}
+              bins={20}
             />
             <p className="chart-months">
-              {chartData.length} monthly observations
+              {chartData.length} Schulbeobachtungen
             </p>
+
+            <div className="stats-section">
+              <h3>Deskriptive Statistiken</h3>
+              <BoxplotComponent
+                data={chartData}
+                dataKey={selectedVariable}
+                dataLabel={variableLabels[selectedVariable]}
+                dataUnit={variableUnits[selectedVariable]}
+              />
+            </div>
 
             <details className="chart-data">
               <summary>Daten</summary>
@@ -111,14 +121,14 @@ export function DataExplorer() {
                   <caption>{dataset.title}: {variableLabels[selectedVariable]}</caption>
                   <thead>
                     <tr>
-                      <th scope="col">Hard coded Month</th>
+                      <th scope="col">Schule</th>
                       <th scope="col">{variableLabels[selectedVariable]} ({variableUnits[selectedVariable]})</th>
                     </tr>
                   </thead>
                   <tbody>
                     {dataset.observations.map((observation) => (
-                      <tr key={observation.month}>
-                        <th scope="row">{observation.month}</th>
+                      <tr key={observation.school_id}>
+                        <th scope="row">{observation.school_id}</th>
                         <td>{observation[selectedVariable]}</td>
                       </tr>
                     ))}
