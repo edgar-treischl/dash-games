@@ -3,6 +3,7 @@ import { ArrowLeft, ChartScatter } from "lucide-react";
 import { motion } from "motion/react";
 
 import { Scatterplot } from "./Scatterplot";
+import { StratifiedScatterplot } from "./StratifiedScatterplot";
 import { variables, variableLabels, variableUnits, type VariableId } from "./variables";
 import { datasets } from "../../data/datasets";
 import { cases } from "../../data/cases";
@@ -18,7 +19,9 @@ export function EffectExplorer() {
 
   const [xKey, setXKey] = useState<VariableId>("digital_devices");
   const [yKey, setYKey] = useState<VariableId>("math_performance");
+  const [colorKey, setColorKey] = useState<VariableId | undefined>("social_index");
   const [showRegression, setShowRegression] = useState(false);
+  const [viewMode, setViewMode] = useState<"colored" | "stratified">("colored");
 
   if (!gameCase || !selectedCaseId) {
     return (
@@ -98,6 +101,19 @@ export function EffectExplorer() {
                   ))}
                 </select>
               </div>
+              <div>
+                <label htmlFor="color-variable">Color by (optional)</label>
+                <select
+                  id="color-variable"
+                  value={colorKey || ""}
+                  onChange={(event) => setColorKey(event.target.value ? (event.target.value as VariableId) : undefined)}
+                >
+                  <option value="">None</option>
+                  {variables.map((id) => (
+                    <option key={id} value={id}>{variableLabels[id]}</option>
+                  ))}
+                </select>
+              </div>
               <div className="explorer-regression-toggle">
                 <label htmlFor="show-regression">
                   <input
@@ -109,69 +125,96 @@ export function EffectExplorer() {
                   Show linear regression with 95% confidence band
                 </label>
               </div>
+              <div className="explorer-view-mode">
+                <label>Visualization mode</label>
+                <div className="view-mode-buttons">
+                  <button
+                    className={`view-mode-btn ${viewMode === "colored" ? "active" : ""}`}
+                    onClick={() => setViewMode("colored")}
+                  >
+                    Colored Points
+                  </button>
+                  <button
+                    className={`view-mode-btn ${viewMode === "stratified" ? "active" : ""}`}
+                    onClick={() => setViewMode("stratified")}
+                    disabled={!colorKey}
+                  >
+                    Stratified View
+                  </button>
+                </div>
+              </div>
             </div>
           </aside>
 
           <div className="explorer-results">
             <div className="chart-heading">
-              <h2>{chartDescription}</h2>
-              <p>Vertical axis: {variableLabels[yKey]} ({variableUnits[yKey]})</p>
+              <div className="chart-heading-top">
+                <div>
+                  <h2>{chartDescription}</h2>
+                  <p>Vertical axis: {variableLabels[yKey]} ({variableUnits[yKey]})</p>
+                  {viewMode === "stratified" && colorKey && (
+                    <p className="chart-subheading">
+                      Split by {variableLabels[colorKey]} groups to compare associations
+                    </p>
+                  )}
+                </div>
+                <section className="chart-correlation" aria-label="Pearson correlation">
+                  <p className="chart-correlation-label">Pearson correlation (r)</p>
+                  <p className={correlation === null ? "chart-correlation-unavailable" : "chart-correlation-value"}>
+                    {correlation === null ? "—" : correlation.toFixed(2)}
+                  </p>
+                  {correlation === null && (
+                    <p className="chart-correlation-note">
+                      Requires at least two valid observations and variation in both variables.
+                    </p>
+                  )}
+                </section>
+              </div>
             </div>
-            <Scatterplot
-              data={chartData}
-              xKey={xKey}
-              yKey={yKey}
-              xLabel={variableLabels[xKey]}
-              yLabel={variableLabels[yKey]}
-              xUnit={variableUnits[xKey]}
-              yUnit={variableUnits[yKey]}
-              showRegression={showRegression}
-              ariaLabel={`Scatterplot showing ${chartDescription}${
-                showRegression
-                  ? " with linear regression line and 95% confidence band"
-                  : ""
-              }. The observations are available in the data table below.`}
-            />
+            {viewMode === "colored" ? (
+              <Scatterplot
+                data={chartData}
+                xKey={xKey}
+                yKey={yKey}
+                xLabel={variableLabels[xKey]}
+                yLabel={variableLabels[yKey]}
+                xUnit={variableUnits[xKey]}
+                yUnit={variableUnits[yKey]}
+                showRegression={showRegression}
+                colorKey={colorKey}
+                colorLabel={colorKey ? variableLabels[colorKey] : undefined}
+                ariaLabel={`Scatterplot showing ${chartDescription}${
+                  showRegression
+                    ? " with linear regression line and 95% confidence band"
+                    : ""
+                }${colorKey ? ` colored by ${variableLabels[colorKey]}` : ""}. The observations are available in the data table below.`}
+              />
+            ) : colorKey ? (
+              <StratifiedScatterplot
+                data={chartData}
+                xKey={xKey}
+                yKey={yKey}
+                stratifyKey={colorKey}
+                xLabel={variableLabels[xKey]}
+                yLabel={variableLabels[yKey]}
+                stratifyLabel={variableLabels[colorKey]}
+                xUnit={variableUnits[xKey]}
+                yUnit={variableUnits[yKey]}
+                showRegression={showRegression}
+                ariaLabel={`Stratified scatterplots showing ${chartDescription}, split by ${
+                  variableLabels[colorKey]
+                }${
+                  showRegression
+                    ? " with linear regression lines and 95% confidence bands"
+                    : ""
+                }`}
+              />
+            ) : (
+              <p className="explorer-info">Select a variable to color by to use Stratified View</p>
+            )}
             <p className="chart-months">
               {chartData.length} monthly observations · Each point represents one month
             </p>
-
-            <section className="chart-correlation" aria-label="Pearson correlation">
-              <p className="chart-correlation-label">Pearson correlation (r)</p>
-              <p className={correlation === null ? "chart-correlation-unavailable" : "chart-correlation-value"}>
-                {correlation === null ? "Unavailable" : correlation.toFixed(2)}
-              </p>
-              {correlation === null && (
-                <p className="chart-correlation-note">
-                  Requires at least two valid observations and variation in both variables.
-                </p>
-              )}
-            </section>
-
-            <details className="chart-data">
-              <summary>View observations</summary>
-              <div className="chart-table-scroll">
-                <table>
-                  <caption>{dataset.title}: monthly observations</caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Month</th>
-                      {variables.map((id) => (
-                        <th scope="col" key={id}>{variableLabels[id]} ({variableUnits[id]})</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataset.observations.map((observation) => (
-                      <tr key={observation.school_id}>
-                        <th scope="row">{observation.school_id}</th>
-                        {variables.map((id) => <td key={id}>{observation[id]}</td>)}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </details>
           </div>
         </div>
       </section>
